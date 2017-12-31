@@ -4,16 +4,16 @@
  *
  * Copyright (C) 2017 Pierre M
  */
-Reveal.addEventListener('ready', function(){
-	var Storyrevealer = window.Storyrevealer || (function() {
-		var config = Reveal.getConfig().storyrevealer || {};
-		if (!config.url) {
-			console.log("storyrevealer: no url");
-			return;
-		}
-	})();
-
+var Storyrevealer = window.Storyrevealer || (function() {
+	var config = Reveal.getConfig().storyrevealer || {};
+	if (!config.url) { // should default to story.json?
+		console.log("storyrevealer: no url");
+		return;
+	}
 	console.log("storyrevealer: doing "+config.url);
-
 	Storyrevealer.generate(config)
+})();
+
+Reveal.addEventListener('ready', function() {
+	console.log("storyrevealer ready");
 });

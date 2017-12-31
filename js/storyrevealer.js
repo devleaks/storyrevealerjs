@@ -8,24 +8,24 @@
 	if( typeof define === 'function' && define.amd ) {
 		// AMD. Register as an anonymous module.
 		define( function() {
-			root.Storyrevealer = factory();
-			return root.Storyrevealer;
-		} );
+			root.Storyrevealer = factory()
+			return root.Storyrevealer
+		} )
 	} else if( typeof exports === 'object' ) {
 		// Node. Does not work with strict CommonJS.
-		module.exports = factory();
+		module.exports = factory()
 	} else {
 		// Browser globals.
-		root.Storyrevealer = factory();
+		root.Storyrevealer = factory()
 	}
 }( this, function() {
 
-	'use strict';
+	'use strict'
 
-	var Storyrevealer;
+	var Storyrevealer
 
 	// The reveal.js version
-	var VERSION = '1.0.0';
+	var VERSION = '1.0.0'
 	
 	var CONTENT_TYPE_ELEM = {
 		"above-title": "h2",
@@ -51,7 +51,7 @@
 	 *
 	 */
 	function init() {
-		if(_inited) return;
+		if(_inited) return
 		function hexToRgb(hex) {
 		    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 		    return result ? {
@@ -60,14 +60,17 @@
 		        b: parseInt(result[3], 16)
 		    } : null
 		}
-		var scheme = new ColorScheme;
+		var scheme = new ColorScheme
 		scheme.from_hue(360 * Math.random())   
 			  .scheme('analogic')
 			  .variation('hard')
 		colors = scheme.colors()
-		colors = colors.map(function(hex){ var c = hexToRgb(hex); return "rgba("+c.r+","+c.g+","+c.b+","+transparency+")" })
+		colors = colors.map(function(hex){
+			var c = hexToRgb(hex)
+			return "rgba("+c.r+","+c.g+","+c.b+","+transparency+")"
+		})
 		console.log(colors)
-		_inited = true;
+		_inited = true
 	}
 	
 	/*
@@ -86,8 +89,8 @@
 	 *
 	 */
 	function generateTable(table, table_data) {
-		var options = table_data.options || {};
-		var data = table_data.data;
+		var options = table_data.options || {}
+		var data = table_data.data
 		
 		for(var row = 0; row < data.length; row++) {
 			var rowcontainer = table
@@ -99,13 +102,13 @@
 			rowcontainer = rowcontainer.append("tr")
 			
 			for(var col = 0; col < data[row].length; col++) {
-				var colcontainer = rowcontainer.append('td');
+				var colcontainer = rowcontainer.append('td')
 				if(col == 0 && options.rowheader) {
 					colcontainer.classed("rowheader", true)				
 				} else if ((col == (data[row].length - 1)) && options.rowfooter) {
 					colcontainer.classed("rowfooter", true)				
 				}
-				colcontainer.text(data[row][col]);
+				colcontainer.text(data[row][col])
 			}			
 		}
 	}
@@ -114,7 +117,7 @@
 	 *
 	 */
 	function generateChart(container, chart_data) {
-		init();
+		init()
 		var counter = 0
 		var data = chart_data.data
 
@@ -137,17 +140,29 @@
 		chart.data.labels = categories
 		chart.data.datasets = []
 		columns.forEach(function(column) {
-			chart.data.datasets.push({
+			var dataset = {
 				data: column,
-				backgroundColor: colors[(counter++) % colors.length]
-			})
+				label: 'R'+(counter+1)
+			}
+			switch(chart.type) {
+				case "bar":
+					dataset.backgroundColor = colors[(counter++) % colors.length]
+					break
+				case "pie":
+					dataset.backgroundColor = colors
+					break
+				case "line":
+					dataset.borderColor = colors[(counter++) % colors.length]
+					break
+			}
+			chart.data.datasets.push(dataset)
 		})
 		//console.log(chart_data, chart)
 
 		container
 			.append('canvas')
 			.attr('class', 'chart')
-			.html('<!-- '+JSON.stringify(chart)+' -->');
+			.html('<!-- '+JSON.stringify(chart)+' -->')
 	}
 	
 	/*	Append HTML formatted data content to supplied element
@@ -156,51 +171,81 @@
 	function addContent(elem, data) {
 		for (var content in data) {
 		    if (data.hasOwnProperty(content)) { // content type is in format title.bold.reverse
-				var p = content.split(".");
-				var content_type = p[0];
-				if(CONTENT_TYPE_ELEM[content_type]) {
-					var container = elem.append(CONTENT_TYPE_ELEM[content_type])
-						.attr("class", p.join(" "))
+			
+				var content_arr = content.split(".")
+				var content_type = content_arr.shift()
+				var addClasses = function (container) {
+					if(content_arr.length > 0) {
+						content_arr.forEach(function(c) { container.classed(c, true) })
+					}
+				}
 
-					if(p.indexOf("html") > 0) { // easy html injection possible here
+				if(CONTENT_TYPE_ELEM[content_type]) { // direct mapping first, eg: "title.class": "text"  ->  <h1 class="class">text</h1>
+
+					var container = elem.append(CONTENT_TYPE_ELEM[content_type])
+
+					addClasses(container)		
+
+					if(content_arr.indexOf("html") > -1) {
 						container.html(cleanHTML(data[content]))
 					} else {
 						container.text(data[content])
 					}
-				} else {
+
+				} else { // complex content
+
 					switch(content_type) {
+
+						case "class":
+							elem.classed(data[content], true)
+							break
+
+						case "transition":
+							elem.attr('data-transition', data[content])
+							break
+
+						case "background":
+							elem.attr('data-background', data[content])
+							break
+
+						case "video":
+							elem.attr('data-background-video', data[content])
+							break
+
 						case "notes":
 							elem.append("aside")
 								.html(cleanHTML(data[content]))
-							break;
-						case "video":
-							elem.attr('data-background-video', data[content])
-							break;
-						case "transition":
-							elem.attr('data-transition', data[content])
-							break;
-						case "class":
-							elem.classed(data[content], true);
-							break;
+							break
+
 						case "table":
 							var container = elem.append("div")
 								.attr("class", "table")
 								.append("table")
-							generateTable(container, data[content]);
-							break;
+							generateTable(container, data[content])
+							break
+
 						case "chart":								
 							generateChart(elem, data[content])
-							break;
+							break
+
 						case "mustache":
 							elem.attr("class", "mustache").html('<!-- '+JSON.stringify(data[content])+' -->')	
-							break;
-						/*
+							break
+
+						/* @todo
 						case "progressbar": (text, min, max, value, animated, show_value)
-						case "linecounter": (text, start, stop, time)
+						case "counter": (text, start, stop, time)
 						*/
-						default:
-							console.log("Storyrevealer.addContent", "no element for role " + content_type, data)
-							break;
+
+						default: // we add a generic div with class "content-type" for interception by anything plugin
+							var generic = elem.append("div")
+							    .classed(content_type, true)
+								.html('<!-- '+JSON.stringify(data[content])+' -->')
+							// we add extra classes if provided
+							addClasses(generic)	
+							
+							console.log("Storyrevealer.addContent", "no element for content-type " + content_type, data)
+							break
 					}
 				}
 		    }
@@ -212,16 +257,18 @@
 	 */
 	function addSection(elem, data, add_content) {
 		var s = elem.append("section")
-		if(data.background) {
-			s.attr("data-background", data.background)
+		if(data) {
+			if(data.background) {
+				s.attr("data-background", data.background)
+			}
+			if(data.class) {
+				s.classed(data.class, true)
+			}
+			if(add_content && data.content) {
+				addContent(s, data.content)
+			}
 		}
-		if(data.class) {
-			s.classed(data.class, true)
-		}
-		if(add_content && data.content) {
-			addContent(s, data.content)
-		}
-		return s;
+		return s
 	}
 	
 
@@ -229,7 +276,7 @@
 		VERSION: VERSION,
 
 		generate: function(options) {
-			var filename = options.url;
+			var filename = options.url
 
 			//console.log("Storyrevealer.show",filename)			
 			d3.json(filename, function(error, newspaper) {	// There should only be one newspaper element at the root/top
@@ -256,16 +303,16 @@
 				}				
 				
 				// Add newspaper cover page
-				var newspapercover_elem = addSection(newspaper_elem, newspaper, true)				
+				var newspapercover_elem = addSection(newspaper_elem, newspaper.cover ? newspaper.cover :  null, true)				
 				// @todo: Add copyright and publication info
 				
 				newspaper.stories.forEach(function(story) {	// For each news, news are navigated left to right
 
 					// Add news container section
-					var story_elem = addSection(newspaper_elem, story, false)
+					var story_elem = addSection(newspaper_elem, story.cover ? story.cover :  null, false)
 					
 					// Add story cover page
-					var storycover_elem = addSection(story_elem, story, true)
+					var storycover_elem = addSection(story_elem, story.cover, true)
 
 					// Add story pages
 					story.pages.forEach(function(fact) {	// For each fact in the story
@@ -289,12 +336,12 @@
 					})
 				})
 				
-			});			
+			})			
 		}
 		
 	}
 
 
-	return Storyrevealer;
+	return Storyrevealer
 
 }));

@@ -257,15 +257,16 @@
 	 */
 	function addSection(elem, data, add_content) {
 		var s = elem.append("section")
-		if(data) {
-			if(data.background) {
-				s.attr("data-background", data.background)
+		if(data) { // always adds background and class if present
+			var first = Array.isArray(data) ? data[0] : data;
+			if(first.background) {
+				s.attr("data-background", first.background)
 			}
-			if(data.class) {
-				s.classed(data.class, true)
+			if(first.class) {
+				s.classed(first.class, true)
 			}
-			if(add_content && data.content) {
-				addContent(s, data.content)
+			if(add_content) {
+				addContent(s, data)
 			}
 		}
 		return s
@@ -315,22 +316,21 @@
 					var storycover_elem = addSection(story_elem, story.cover, true)
 
 					// Add story pages
-					story.pages.forEach(function(fact) {	// For each fact in the story
-						var fact_elem = addSection(story_elem, fact, false)
+					story.pages.forEach(function(page) {	// For each page in the story
 						
-						if(Array.isArray(fact.content)) {
-							var column_elem = fact_elem.append("div")
+						if(Array.isArray(page)) { // more than one column
+							var page_elem = addSection(story_elem, page, false)
+							var column_elem = page_elem.append("div")
 								.attr("class", "container")
 								
-							fact.content.forEach(function(column) {
+							page.forEach(function(column) {
 								var container = column_elem.append("div")
 												.attr("class", "col")
 								addContent(container, column, false)
 								//console.log("column", column.title)
 							})
 						} else {
-							addContent(fact_elem, fact.content, false)
-							//console.log("fact", fact.content.title)
+							addSection(story_elem, page, true)
 						}	
 					
 					})

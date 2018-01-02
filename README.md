@@ -42,7 +42,7 @@ A newspaper is made of an optional cover page and Stories.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {
-    "cover": {{page-element}},
+    "cover": {{page}},
     "stories": [ {{story-element}}+ ]
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,8 +53,8 @@ A story is made of an optional cover page and Pages
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {
-    "cover": {{page-element}},
-    "pages": [ {{page-element}}+ ]
+    "cover": {{page}},
+    "pages": [ {{page}}+ ]
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -62,68 +62,70 @@ A story is made of an optional cover page and Pages
 
 A page is made of one or more page-element.
 
-When a page is made of more than one element (i.e. an array of page-elements),
-each element in that page is considered column content.
+ 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 page = {{page-element}}  ||  [ {{page-element}}{2,} ]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-page-element: [ {{content-element}}* ]
+page-element: { {{content-element}}* }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-A page-element is an object with content-element properties.
-
-If a page-element does not contain any property, it is a blank page.
 
  
 
-### Page Content Element
+When a page is made of more than one element (i.e. an array of page-elements),
+each element in that page is considered column content.
+
+When a page is made of more than one element, only decorating elements of the
+**first** page are taken into account for decorating the page (background image,
+video, or additional classes.)
+
+A page-element is an object with content-element properties.
+
+If a page-element does not contain any property, it is a blank page or column.
+
+ 
+
+### Content Element
 
 A content-element is a ( content-type, content-value ) pair.
+
+ 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 content-element: "content-type": {{content-value}}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+ 
+
 Content-value is a valid JSON object and its form varies depending on the
 content-type.
-
-Storyrevealer provides a set of content-type element together with their
-reprensetation. (We will later allow new content types to be added dynamically.)
-
-The content-type name can contain additional CSS class names that must be added
-to its HTML parent element.
-
-The following class names have spacial meaning:
-
-| Class Name | Description                                                                                 |
-|------------|---------------------------------------------------------------------------------------------|
-| fragment   | Reveal.js Frament element                                                                   |
-| html       | The provided text is HTML formatted. It will be sanitized and sent directly to the browser. |
-
-The following class names are also provided and can be customized.
-
-darker, darkest, lighter, lightest, left, right.
-
- 
 
 If a page contains more than one content element, they are displayed in
 appearing order.
 
+Storyrevealer provides a set of content-type element together with their
+representation.   We make an artificial distinction between 2 types of
+content-type elements:
+
+1.  Decoration elements affect the page of column appearance, while
+
+2.  content elements add content to the page.
+
  
 
-### Decoration Content
+#### Decoration Element
 
 | Content Type | Value          | Note                                                                                                                  |
 |--------------|----------------|-----------------------------------------------------------------------------------------------------------------------|
 | background   | URL of image   | Displayed as background image                                                                                         |
+| video        | URL of video   | Displayed as background video. Plays automatically when page is shown                                                 |
 | class        | CSS class name | Single class name is added to the page’s parent element. A page-element may contain more than one class content type. |
 
  
 
-#### Text Content
+#### Text Content Element
 
 Text content is the simplest form of content laid over the background.
 
@@ -142,10 +144,61 @@ The following content keywords are accepted:
 
  
 
-Story revealer provides a few themes to display those text content but you can
-of course design your own theme.
+##### Text Content Element Styling 
+
+The content-type name can contain additional CSS class names that must be added
+to its HTML parent element.
+
+ 
+
+The following class names have spacial meaning:
+
+| Class Name | Description                                                                                 |
+|------------|---------------------------------------------------------------------------------------------|
+| fragment   | Reveal.js Frament element                                                                   |
+| html       | The provided text is HTML formatted. It will be sanitized and sent directly to the browser. |
+
+ 
+
+The following class names are also provided and can be customized.
+
+| Class Name   | Description                                                 |
+|--------------|-------------------------------------------------------------|
+| darker       | Places a transparent darker background under the text       |
+| darkest      | Places a less transparent darker background under the text  |
+| lighter      | Places a transparent lighter background under the text      |
+| lightest     | Places a less transparent lighter background under the text |
+| left         | Align text to the left of the page/column                   |
+| right        | Align text to the right of the page/column                  |
+| bottom-left  | Places text in bottom, left corner of page                  |
+| bottom-right | Places text in bottom, left corner of page                  |
+| top-left     | Places text in bottom, left corner of page                  |
+| top-right    | Places text in bottom, left corner of page                  |
+| allcaps      | Transform text to uppercase                                 |
+
+  Additional class names can be added and used in Storyrevealer
+
+ 
 
 #### Table
+
+The table structure contains two parts.
+
+ 
+
+The first part contains table options.
+
+The following options are accepted: rowheader, rowfooter, columnheader, column
+footer. They are all boolean and tells whether data contains such row or column
+header or footer.
+
+ 
+
+The second part contains the data. Table data is an Array; each element of the
+array represents a table row.
+
+Each row is represented by an Array; each element of the array is the table cell
+content.
 
  
 
@@ -156,55 +209,24 @@ straightforward, bold, graphs.
 
 Most graphs are animated but not interactive.
 
-Please refer to [Chart.js documentation](http://www.chartjs.org) for detailed
-information on chart object format.
+ 
 
-##### Bar charts
+There are two methods to create graphs.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[
-["A","B","C"],
-[1,2,3]
-]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
 
-###### Variants
+The first method uses the content-type bar chart, line chart, and pie chart to
+create standard bar, line and pie chart respectively. Data need to presented in
+a standard way. No option can be changed.
 
--   Multiple bars per category
+These types of graphs are suitable for simple graphs.
 
--   Stacked bars
+ 
 
-##### Horizontal Bar Charts
+The second method uses the content-type « chart ». Data need to be presented in
+the the way the graphing package expects it.
 
-##### Line Charts
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[
-["A", 1, 2, 3],
-["B", 4, 5, 6]
-]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-###### Variants
-
--   step charts
-
--   area charts
-
--   spline charts
-
-##### Pie Charts
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[
-["A",25],["B",50],["C",33]
-]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-###### Variants
-
--   donut charts
-
--   gauge charts
+This method allow to display any type of graph that the graphing package can
+display.
 
  

@@ -10,6 +10,7 @@
     "@bower_components/reveal.js-menu": "denehyg/reveal.js-menu#*",
     "@bower_components/reveal.js-plugins": "rajgoel/reveal.js-plugins#*",
     "chartist": "^0.11.0",
+    "chartist-plugin-legend": "^0.6.2",
     "d3-request": "^1.0.6",
     "d3-selection": "^1.2.0",
     "mustache": "^2.3.0",

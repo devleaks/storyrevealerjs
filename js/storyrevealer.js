@@ -28,7 +28,7 @@
 	var VERSION = '1.0.0'
 	
 	var CONTENT_TYPE_ELEM = {
-		"above-title": "h2",
+		"above-title": "h3.allcaps",
 		"below-title": "h4",
 		"byline": "h6",
 		"bytitle": "h3",
@@ -37,39 +37,19 @@
 		"headline": "h1",
 		"name": "h1",
 		"quote": "q",
-		"teaser": "h3",
-		"text": "p.red",
+		"teaser": "h3.red",
+		"text": "p",
 		"title": "h1",
 		"under-title": "h4",
 		"copyright": "small"
 	}
 	var _inited = false
-	var colors = []
-	var transparency = ".8"
 	
 	/*
 	 *
 	 */
 	function init() {
 		if(_inited) return
-		function hexToRgb(hex) {
-		    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-		    return result ? {
-		        r: parseInt(result[1], 16),
-		        g: parseInt(result[2], 16),
-		        b: parseInt(result[3], 16)
-		    } : null
-		}
-		var scheme = new ColorScheme
-		scheme.from_hue(360 * Math.random())   
-			  .scheme('analogic')
-			  .variation('hard')
-		colors = scheme.colors()
-		colors = colors.map(function(hex){
-			var c = hexToRgb(hex)
-			return "rgba("+c.r+","+c.g+","+c.b+","+transparency+")"
-		})
-		console.log(colors)
 		_inited = true
 	}
 	
@@ -116,55 +96,57 @@
 	/* 	Generate chart object for each chart type
 	 *
 	 */
-	function generateChart(container, chart_data) {
-		init()
-		var counter = 0
-		var data = chart_data.data
-
-		var chart = {}
-		chart.type = chart_data.type
-		chart.options = chart_data.options
-		chart.data = {}
-
-		var columns = []
-		var categories = []
-		data.forEach(function(line) {
-			categories.push(line[0])
-			for(var i = 1; i < data[0].length; i++) {
-				columns[i-1] = columns[i-1] || []
-				columns[i-1].push(line[i])
-			}
-		})
-		//console.log(categories, columns)
-
-		chart.data.labels = categories
-		chart.data.datasets = []
-		columns.forEach(function(column) {
-			var dataset = {
-				data: column,
-				label: 'R'+(counter+1)
-			}
-			switch(chart.type) {
-				case "bar":
-					dataset.backgroundColor = colors[(counter++) % colors.length]
-					break
-				case "pie":
-					dataset.backgroundColor = colors
-					break
-				case "line":
-					dataset.borderColor = colors[(counter++) % colors.length]
-					break
-			}
-			chart.data.datasets.push(dataset)
-		})
-		//console.log(chart_data, chart)
-
-		container
-			.append('canvas')
-			.attr('class', 'chart')
-			.html('<!-- '+JSON.stringify(chart)+' -->')
+	function generateChartist(chart_data, chart_type) {
+		//console.log("generateChartist::begin", chart_type, chart_data)
+		var ret = {}
+		ret.type = chart_type
+		ret.options = {}
+		var data = ret.data = {}
+		switch(chart_type) {
+			case "line":
+				data.labels = [];
+				data.legend = [];
+				data.series = [];
+				var i = 1
+				chart_data.data.forEach(function(d) {
+					data.legend.push(d.shift())
+					data.labels.push(i++)
+					data.series.push(d)
+				})
+				ret.options["st_legend_options"] = {
+					legendNames: data.legend
+				}
+				break
+			case "pie":
+				data.labels = [];
+				data.series = [];
+				chart_data.data.forEach(function(d) {
+					data.labels.push(d.shift())
+					data.series.push(d.shift())
+				})
+				break
+			case "bar":
+				data.labels = [];
+				data.series = [];
+				var columns = []
+				chart_data.data.forEach(function(line) {
+					data.labels.push(line.shift())
+					var i = 0
+					line.forEach(function(c) {
+						data.series[i] = data.series[i] || []
+						data.series[i].push(c)
+						i++
+					})
+				})
+				break
+		}
+		ret.options["chartPadding"] = 30
+		
+		//console.log("generateChartist::end", chart_type, ret)
+		return ret;
 	}
-	
+
+
 	/*	Append HTML formatted data content to supplied element
 	 *
 	 */
@@ -232,19 +214,22 @@
 							generateTable(container, data[content])
 							break
 
-						case "chart":								
-							generateChart(elem, data[content])
-							break
+						case "barchart":
+						case "piechart":
+						case "linechart":
+							var json = generateChartist(data[content], content_type.substr(0, content_type.indexOf("chart")))
+							var container = elem.append("div")
+							    .classed("chartist", true)
+								.html('<!-- '+JSON.stringify(json)+' -->')
 
-						case "mustache":
-							elem.attr("class", "mustache").html('<!-- '+JSON.stringify(data[content])+' -->')	
 							break
 
 						/* @todo
 						case "progressbar": (text, min, max, value, animated, show_value)
 						case "counter": (text, start, stop, time)
 						*/
-
+						case "chartist":
+						case "mustache":
 						default: // we add a generic div with class "content-type" for interception by anything plugin
 							var generic = elem.append("div")
 							    .classed(content_type, true)
@@ -252,7 +237,7 @@
 							// we add extra classes if provided
 							addClasses(generic)	
 							
-							console.log("Storyrevealer.addContent", "no element for content-type " + content_type, data)
+							console.log("Storyrevealer.addContent", "no element for content-type " + content_type + "; using default", data)
 							break
 					}
 				}

@@ -56,10 +56,8 @@
 
 		<script src="node_modules/sanitize-html/dist/sanitize-html.js"></script>
 		<script src="node_modules/mustache/mustache.js"></script>
-		<script src="node_modules/chart.js/dist/Chart.js"></script>
 		<script src="node_modules/chartist/dist/chartist.js"></script>
-		<script src="node_modules/color-scheme/lib/color-scheme.js"></script>
-		
+		<script src="node_modules/chartist-plugin-legend/chartist-plugin-legend.js"></script>
 		
 
 		<script src="js/storyrevealer.js"></script>
@@ -80,7 +78,7 @@
 				
 				anything: [ 
 					{
-						className: "chart",  
+/*						className: "chart",  
 						initialize: (function(container, options){
 							function mergeRecursive(obj1, obj2) {
 							    for (var p in obj2) {
@@ -105,10 +103,10 @@
 							}
 						})
 					},
-					{
+					{*/
 						className: "mustache", 
 						initialize: (function(container, options){
-							console.log(options, container)
+							//console.log("anything mustache", options, container)
 							if(options) {
 								container.innerHTML = Mustache.render(options.template, options.data)
 							}
@@ -117,7 +115,7 @@
 					{
 						className: "chartist",
 						initialize: (function(container, options) {
-							console.log(options, container)
+							//console.log("anything chartist", options, container)
 							if(options) {
 								var f = null;
 								switch(options.type) {
@@ -126,6 +124,17 @@
 									case "line": f = Chartist.Line; break;
 								}
 								if(f) {
+									var o = options.options || {}
+									if(o["st_legend_options"]) {
+										o.plugins = o.plugins || []
+										if(o["st_legend_options"] === true) {
+											o.plugins.push(Chartist.plugins.legend())
+											console.log("chartist-plugin-legend installed")
+										} else {
+											o.plugins.push(Chartist.plugins.legend(o["st_legend_options"]))
+											console.log("chartist-plugin-legend installed", o["st_legend_options"])
+										}
+									}
 									new f(
 										container,
 										options.data,
@@ -152,7 +161,7 @@
 					{ src: 'node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
 					{ src: 'node_modules/@bower_components/reveal.js-menu/menu.js' },
 //					{ src: 'node_modules/@bower_components/reveal.js-elapsed-time-bar/plugin/elapsed-time-bar/elapsed-time-bar.js' },
-//					{ src: 'js/storyrevealer-plugin.js' },
+					{ src: 'js/storyrevealer-plugin.js' },
 					{ src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true }
 				]
 			});

@@ -10,10 +10,11 @@
     "@bower_components/reveal.js-menu": "denehyg/reveal.js-menu#*",
     "@bower_components/reveal.js-plugins": "rajgoel/reveal.js-plugins#*",
     "chart.js": "^2.7.1",
-    "node-vibrant": "^3.0.0",
+    "chartist": "^0.11.0",
     "d3-request": "^1.0.6",
     "d3-selection": "^1.2.0",
     "mustache": "^2.3.0",
+    "node-vibrant": "^3.0.0",
     "reveal.js": "^3.6.0",
     "sanitize-html": "^1.16.3"
   },

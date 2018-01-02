@@ -270,37 +270,54 @@ body {
 .col {
   flex: 1; }
 
-/* page text */
+/* text position */
 .left {
   text-align: left; }
 
 .right {
   text-align: right; }
 
+.bottom-left {
+  position: fixed;
+  bottom: 25%; }
+
+.bottom-right {
+  position: fixed;
+  bottom: 20%;
+  right: 10%; }
+
 /* generic classes */
 .lighter {
   background: rgba(255, 255, 255, 0.2); }
 
+.darkest {
+  background: rgba(0, 0, 0, 0.5); }
+
+.lightest {
+  background: rgba(255, 255, 255, 0.5); }
+
 .darker {
   background: rgba(0, 0, 0, 0.2); }
 
+/* fonts */
+.allcaps {
+  text-transform: uppercase; }
+
+.huge {
+  font-size: 150%; }
+
+.italic {
+  font-style: italic; }
+
+.red {
+  color: red; }
+
+/* tables */
 .rowheader {
   color: darkgreen; }
 
 .rowfooter {
   color: orange; }
-
-/* c3 graphs */
-.c3-line {
-  fill-opacity: 0;
-  stroke-width: 4; }
-
-.c3-axis,
-.c3-legend-item {
-  fill: #ffffff; }
-
-.c3-chart-arc text {
-  fill: #ffffff; }
 
 /* sample specific classes */
 .reveal h1.red {
@@ -308,5 +325,9 @@ body {
 
 .title.black {
   color: black; }
+
+/* chartist */
+.ct-label {
+  color: white; }
 
 /*# sourceMappingURL=storyrevealer.css.map */

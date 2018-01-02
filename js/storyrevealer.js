@@ -38,7 +38,7 @@
 		"name": "h1",
 		"quote": "q",
 		"teaser": "h3",
-		"text": "p",
+		"text": "p.red",
 		"title": "h1",
 		"under-title": "h4",
 		"copyright": "small"
@@ -181,8 +181,16 @@
 				}
 
 				if(CONTENT_TYPE_ELEM[content_type]) { // direct mapping first, eg: "title.class": "text"  ->  <h1 class="class">text</h1>
+				
+					var html_raw = CONTENT_TYPE_ELEM[content_type];
+					var html_arr = html_raw.split(".")
+					var html_elem = html_arr.shift()
+					
 
-					var container = elem.append(CONTENT_TYPE_ELEM[content_type])
+					var container = elem.append(html_elem)
+					if(html_arr.length > 0) {
+						html_arr.forEach(function(c) { container.classed(c, true) })
+					}
 
 					addClasses(container)		
 
@@ -252,6 +260,22 @@
 		}
 	}
 	
+	/*	Get first content-type of a page. Page can be single column or multi columns.
+	 *	In the latter case, the first occurence of content-type is returned.
+	 */
+	function getContent(content_type, data) {
+		var ret = null
+		if(Array.isArray(data)) {
+			data.forEach(function(c) {
+				if(!ret && c[content_type]) {
+					ret = c[content_type]
+				}
+			})
+		} else {
+			ret = data[content_type] ? data[content_type] : null
+		}
+		return ret
+	}
 	/*	Add <section> to <div class="reveal">.
 	 *
 	 */
@@ -327,7 +351,6 @@
 								var container = column_elem.append("div")
 												.attr("class", "col")
 								addContent(container, column, false)
-								//console.log("column", column.title)
 							})
 						} else {
 							addSection(story_elem, page, true)

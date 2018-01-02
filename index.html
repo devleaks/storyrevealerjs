@@ -28,6 +28,7 @@
 		</script>
 
 		<!-- Custom styling for "stories" -->
+		<link rel="stylesheet" href="node_modules/chartist/dist/chartist.css" id="theme">
 		<link rel="stylesheet" href="css/theme/storyrevealer.css" id="theme">
 
 		<!--[if lt IE 9]>
@@ -57,6 +58,7 @@
 		<script src="node_modules/sanitize-html/dist/sanitize-html.js"></script>
 		<script src="node_modules/mustache/mustache.js"></script>
 		<script src="node_modules/chart.js/dist/Chart.js"></script>
+		<script src="node_modules/chartist/dist/chartist.js"></script>
 		<script src="node_modules/color-scheme/lib/color-scheme.js"></script>
 		
 		
@@ -97,7 +99,7 @@
 							    }
 							    return obj1;
 							}
-							console.log(options)
+							//console.log(options, container)
 							
 							if(options) {
 								container.chart = new Chart(container.getContext("2d"), options)
@@ -107,8 +109,33 @@
 					{
 						className: "mustache", 
 						initialize: (function(container, options){
+							console.log(options, container)
 							if(options) {
 								container.innerHTML = Mustache.render(options.template, options.data)
+							}
+						})
+					},
+					{
+						className: "chartist",
+						initialize: (function(container, options) {
+							console.log(options, container)
+							if(options) {
+								var f = null;
+								switch(options.type) {
+									case "bar": f = Chartist.Bar; break;
+									case "pie": f = Chartist.Pie; break;
+									case "line": f = Chartist.Line; break;
+								}
+								if(f) {
+									new f(
+										container,
+										options.data,
+										options.options,
+										options.responsiveOptions
+									)
+								} else {
+									console.log("anything: chartists: no graph type "+options.type, options)
+								}
 							}
 						})
 					}

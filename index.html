@@ -28,8 +28,7 @@
 		</script>
 
 		<!-- Custom styling for "stories" -->
-		<link rel="stylesheet" href="node_modules/chartist/dist/chartist.css" id="theme">
-		<link rel="stylesheet" href="css/theme/storyrevealer.css" id="theme">
+		<link rel="stylesheet" href="css/storyrevealer.css" id="theme">
 
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -142,35 +141,6 @@
 
 				],
 
-				// A few chart.js default values
-				chart: {
-					defaults: { 
-						global: { 
-							title: { fontColor: "#fff" }, 
-							legend: {
-								labels: { fontColor: "#fff" },
-							},
-						},
-						scale: {
-							scaleLabel: { fontColor: "#fff" }, 
-							gridLines: { color: "#fff", zeroLineColor: "#fff" }, 
-							ticks: { fontColor: "#fff" }, 
-						} 
-					},
-					line: {
-						borderColor: ["rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ],
-						borderDash: [ [5,10], [0,0] ]}, 
-					bar: {
-						backgroundColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]
-					}, 
-					pie: {
-						backgroundColor: [ ["rgba(0,0,0,.8)" , "rgba(220,20,20,.8)", "rgba(20,220,20,.8)", "rgba(220,220,20,.8)", "rgba(20,20,220,.8)"] ]
-					},
-					radar: {
-						borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]
-					}
-				},
-					
 				// Storyrevealer options like URL to fetch stories from and themes
 				storyrevealer: {
 					url: 'data/data.json'

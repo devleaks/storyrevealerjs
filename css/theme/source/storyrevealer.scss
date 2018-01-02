@@ -12,14 +12,14 @@
 
 
 // Include theme-specific fonts
-@import url(../../lib/font/source-sans-pro/source-sans-pro.css);
+@import url(../../font/source-sans-pro/source-sans-pro.css);
 
 
 // Override theme settings (see ../template/settings.scss)
-$backgroundColor: #222;
+$backgroundColor: $sr-backgroundColor;
 
-$mainColor: #fff;
-$headingColor: #fff;
+$mainColor: $sr-color;
+$headingColor: $sr-color;
 
 $mainFontSize: 30px;
 $mainFont: 'Source Sans Pro', Helvetica, sans-serif;
@@ -28,7 +28,7 @@ $headingTextShadow: none;
 $headingLetterSpacing: normal;
 $headingTextTransform: uppercase;
 $headingFontWeight: 600;
-$linkColor: #42affa;
+$linkColor: $sr-linkColor;
 $linkColorHover: lighten( $linkColor, 15% );
 $selectionBackgroundColor: lighten( $linkColor, 25% );
 
@@ -48,70 +48,3 @@ section.has-light-background {
 @import "../template/theme";
 // ---------------------------------------------
 
-/* page structure */
-.container{
-    display: flex;
-}
-.col{
-    flex: 1;
-}
-/* text position */
-.left {
-	text-align: left;
-}
-.right {
-	text-align: right;
-}
-.bottom-left {
-	position: fixed;
-	bottom: 25%;
-}
-.bottom-right {
-	position: fixed;
-	bottom: 20%;
-	right: 10%;
-}
-/* generic classes */
-.lighter {
-	background: rgba(255, 255, 255, 0.2);
-}
-.darkest {
-	background: rgba(0, 0, 0, 0.5);
-}
-.lightest {
-	background: rgba(255, 255, 255, 0.5);
-}
-.darker {
-	background: rgba(0, 0, 0, 0.2);
-}
-/* fonts */
-.allcaps {
-	text-transform: uppercase;
-}
-.huge {
-	font-size: 150%;
-}
-.italic {
-	font-style: italic;
-}
-.red {
-	color: red;
-}
-/* tables */
-.rowheader {
-	color: darkgreen;
-}
-.rowfooter {
-	color: orange;
-}
-/* sample specific classes */
-.reveal h1.red{
-	color: red;
-}
-.title.black {
-	color: black;
-}
-/* chartist */
-.ct-label {
-	color: white;
-}

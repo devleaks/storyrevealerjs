@@ -226,8 +226,14 @@
 
 						/* @todo
 						case "progressbar": (text, min, max, value, animated, show_value)
-						case "counter": (text, start, stop, time)
 						*/
+						case "counter": // text, start, stop, time
+							elem.append("p")
+								.attr('class', 'fragment')
+								.attr("data-countup", JSON.stringify(data[content]))
+
+							break
+
 						case "chartist":
 						case "mustache":
 						default: // we add a generic div with class "content-type" for interception by anything plugin

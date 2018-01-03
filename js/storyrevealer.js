@@ -43,6 +43,9 @@
 		"under-title": "h4",
 		"copyright": "small"
 	}
+	var CONTENT_TYPE_DATA = [
+		"data-background-color"
+	]
 	var _inited = false
 	
 	/*
@@ -113,7 +116,7 @@
 					data.labels.push(i++)
 					data.series.push(d)
 				})
-				ret.options["st_legend_options"] = {
+				ret.options["sr_legend_options"] = {
 					legendNames: data.legend
 				}
 				break
@@ -152,122 +155,115 @@
 	 */
 	function addContent(elem, data) {
 		for (var content in data) {
-		    if (data.hasOwnProperty(content)) { // content type is in format title.bold.reverse
+		    if (data.hasOwnProperty(content)) {
 			
-				var content_arr = content.split(".")
-				var content_type = content_arr.shift()
-				var addClasses = function (container) {
-					if(content_arr.length > 0) {
-						content_arr.forEach(function(c) { container.classed(c, true) })
-					}
-				}
+				if( CONTENT_TYPE_DATA.indexOf(content) > -1 ) { // content type is in format data-attr and whitelisted in CONTENT_TYPE_DATA
 
-				if(CONTENT_TYPE_ELEM[content_type]) { // direct mapping first, eg: "title.class": "text"  ->  <h1 class="class">text</h1>
+					elem.attr(content, data[content])					
+
+				} else { // content type is in format title.bold.reverse
+			
+					var content_arr = content.split(".")
+					var content_type = content_arr.shift()
+					var addClasses = function (container) {
+						if(content_arr.length > 0) {
+							content_arr.forEach(function(c) { container.classed(c, true) })
+						}
+					}
+
+					if( CONTENT_TYPE_ELEM.hasOwnProperty(content_type) ) { // direct mapping first, eg: "title.class": "text"  ->  <h1 class="class">text</h1>
 				
-					var html_raw = CONTENT_TYPE_ELEM[content_type];
-					var html_arr = html_raw.split(".")
-					var html_elem = html_arr.shift()
+						var html_raw = CONTENT_TYPE_ELEM[content_type];
+						var html_arr = html_raw.split(".")
+						var html_elem = html_arr.shift()
 					
 
-					var container = elem.append(html_elem)
-					if(html_arr.length > 0) {
-						html_arr.forEach(function(c) { container.classed(c, true) })
-					}
+						var container = elem.append(html_elem)
+						if(html_arr.length > 0) {
+							html_arr.forEach(function(c) { container.classed(c, true) })
+						}
 
-					addClasses(container)		
+						addClasses(container)		
 
-					if(content_arr.indexOf("html") > -1) {
-						container.html(cleanHTML(data[content]))
-					} else {
-						container.text(data[content])
-					}
+						if(content_arr.indexOf("html") > -1) {
+							container.html(cleanHTML(data[content]))
+						} else {
+							container.text(data[content])
+						}
 
-				} else { // complex content
+					} else { // complex content
 
-					switch(content_type) {
+						switch(content_type) {
 
-						case "class":
-							elem.classed(data[content], true)
-							break
+							case "class":
+								elem.classed(data[content], true)
+								break
 
-						case "transition":
-							elem.attr('data-transition', data[content])
-							break
+							case "transition":
+								elem.attr('data-transition', data[content])
+								break
 
-						case "background":
-							elem.attr('data-background', data[content])
-							break
+							case "image":
+							case "background":
+								elem.attr('data-background', data[content])
+								break
 
-						case "video":
-							elem.attr('data-background-video', data[content])
-							break
+							case "video":
+								elem.attr('data-background-video', data[content])
+								break
 
-						case "notes":
-							elem.append("aside")
-								.html(cleanHTML(data[content]))
-							break
+							case "notes":
+								elem.append("aside")
+									.html(cleanHTML(data[content]))
+								break
 
-						case "table":
-							var container = elem.append("div")
-								.attr("class", "table")
-								.append("table")
-							generateTable(container, data[content])
-							break
+							case "table":
+								var container = elem.append("div")
+									.attr("class", "table")
+									.append("table")
+								generateTable(container, data[content])
+								break
 
-						case "barchart":
-						case "piechart":
-						case "linechart":
-							var json = generateChartist(data[content], content_type.substr(0, content_type.indexOf("chart")))
-							var container = elem.append("div")
-							    .classed("chartist", true)
-								.html('<!-- '+JSON.stringify(json)+' -->')
+							case "barchart":
+							case "piechart":
+							case "linechart":
+								var json = generateChartist(data[content], content_type.substr(0, content_type.indexOf("chart")))
+								var container = elem.append("div")
+								    .classed("chartist", true)
+									.html('<!-- '+JSON.stringify(json)+' -->')
 
-							break
+								break
 
-						/* @todo
-						case "progressbar": (text, min, max, value, animated, show_value)
-						*/
-						case "counter": // text, start, stop, time
-							elem.append("p")
-								.attr('class', 'fragment')
-								.attr("data-countup", JSON.stringify(data[content]))
+							/* @todo
+							case "progressbar": (text, min, max, value, animated, show_value)
+							*/
+							case "counter": // text, start, stop, time
+								elem.append("p")
+									.attr('class', 'fragment')
+									.attr("data-countup", data[content])
 
-							break
+								break
 
-						case "chartist":
-						case "mustache":
-						default: // we add a generic div with class "content-type" for interception by anything plugin
-							var generic = elem.append("div")
-							    .classed(content_type, true)
-								.html('<!-- '+JSON.stringify(data[content])+' -->')
-							// we add extra classes if provided
-							addClasses(generic)	
+							case "chartist":
+							case "mustache":
+							default: // we add a generic div with class "content-type" for interception by anything plugin
+								var generic = elem.append("div")
+								    .classed(content_type, true)
+									.html('<!-- '+JSON.stringify(data[content])+' -->')
+								// we add extra classes if provided
+								addClasses(generic)	
 							
-							console.log("Storyrevealer.addContent", "no element for content-type " + content_type + "; using default", data)
-							break
-					}
-				}
-		    }
-		}
+								console.log("Storyrevealer.addContent", "no element for content-type " + content_type + "; using default", data)
+								break
+						}
+						
+					} // CONTENT_TYPE_ELEM.indexOf
+				} // CONTENT_TYPE_DATA.indexOf
+		    } // data.hasOwnProperty
+		} // for
 	}
 	
-	/*	Get first content-type of a page. Page can be single column or multi columns.
-	 *	In the latter case, the first occurence of content-type is returned.
-	 */
-	function getContent(content_type, data) {
-		var ret = null
-		if(Array.isArray(data)) {
-			data.forEach(function(c) {
-				if(!ret && c[content_type]) {
-					ret = c[content_type]
-				}
-			})
-		} else {
-			ret = data[content_type] ? data[content_type] : null
-		}
-		return ret
-	}
-	/*	Add <section> to <div class="reveal">.
+	/*	Add <section> to elem. Add background image and classes if present in first supplied page
 	 *
 	 */
 	function addSection(elem, data, add_content) {
@@ -287,14 +283,33 @@
 		return s
 	}
 	
+	
+	/*	Add page content to elem. If page has multiple columns, add them in div.multicols/div.col flexbox
+	 *
+	 */
+	function addPage(page, elem) {
+		if(Array.isArray(page)) { // more than one column
+			var page_elem = addSection(elem, page, false)
+			var column_elem = page_elem.append("div")
+				                       .attr("class", "multicols")
+			page.forEach(function(column) {
+				var container = column_elem.append("div")
+								           .attr("class", "col")
+				addContent(container, column, false)
+			})
+		} else {
+			addSection(elem, page, true)
+		}	
+	}
 
 	Storyrevealer = {
 		VERSION: VERSION,
+		CONTENT_TYPE_DATA: CONTENT_TYPE_DATA,
+		CONTENT_TYPE_ELEM: CONTENT_TYPE_ELEM,
 
 		generate: function(options) {
 			var filename = options.url
 
-			//console.log("Storyrevealer.show",filename)			
 			d3.json(filename, function(error, newspaper) {	// There should only be one newspaper element at the root/top
 				var newspaper_elem = d3.select("div.slides")
 				
@@ -318,37 +333,40 @@
 					return
 				}				
 				
-				// Add newspaper cover page
-				var newspapercover_elem = addSection(newspaper_elem, newspaper.cover ? newspaper.cover :  null, true)				
-				// @todo: Add copyright and publication info
+				if(newspaper.cover) {	// Add newspaper cover page
+					addSection(newspaper_elem, newspaper.cover, true)				
+				}
 				
-				newspaper.stories.forEach(function(story) {	// For each news, news are navigated left to right
-
-					// Add news container section
-					var story_elem = addSection(newspaper_elem, story.cover ? story.cover :  null, false)
+				if(newspaper.stories) {	// multiple stories
 					
-					// Add story cover page
-					var storycover_elem = addSection(story_elem, story.cover, true)
+					newspaper.stories.forEach(function(story) {	// For each news, news are navigated left to right
 
-					// Add story pages
-					story.pages.forEach(function(page) {	// For each page in the story
-						
-						if(Array.isArray(page)) { // more than one column
-							var page_elem = addSection(story_elem, page, false)
-							var column_elem = page_elem.append("div")
-								.attr("class", "container")
-								
-							page.forEach(function(column) {
-								var container = column_elem.append("div")
-												.attr("class", "col")
-								addContent(container, column, false)
-							})
-						} else {
-							addSection(story_elem, page, true)
-						}	
-					
+						// Add empty story container section
+						var story_elem = addSection(newspaper_elem, story.cover, false)
+
+						if(story.cover) {	// Add story cover page
+							addSection(story_elem, story.cover, true)
+						}
+
+						story.pages.forEach(function(page) {	// Add story pages
+
+							addPage(page, story_elem)
+
+						})
 					})
-				})
+
+				} else {	// just one story
+
+					var story_elem = newspaper_elem // or shoud we create an empty containing section?
+					
+					newspaper.pages.forEach(function(page) {	// For each page in the story
+
+						addPage(page, newspaper_elem)
+
+					})
+
+				}
+				
 				
 			})			
 		}

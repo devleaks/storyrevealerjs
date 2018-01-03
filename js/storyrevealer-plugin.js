@@ -21,39 +21,12 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
 	console.log("storyrevealer new slide");
 });
 
-/*<p class="fragment" data-animate="animation" data-fragment-index="0">... like Beckham</p>
-
-
-	var bar = $(this).find(".st-statsbar");
-	var n = el.data("value");
-	
-	var i = 0;
-	var timer = 1000/Math.abs(n);
-	//n = parseInt(n);
-
-	if (n >= 0) {
-		var inv = setInterval(function(){  if (i<=n) {el.html(i++);} else {el.html(n); clearInterval(inv);} }, timer);
-	}
-	if (n < 0) {
-		var inv = setInterval(function(){  if (i>=n) {el.html(i--);} else {el.html(n); clearInterval(inv);} }, timer);
-	}
-	
-	var maxval = el.data("max");
-	var percval = Math.abs(n)/Math.abs(maxval) * 100;
-	bar.find("div").css("width", "0");
-	bar.find("div").animate({"width": percval+"%"}, 2000, "swing");
-	
-});
-
-
-
-*/
-
 Reveal.addEventListener( 'fragmentshown', function( event ) {
 	if ( event.fragment.dataset.countup != undefined ) {
-		var opts = JSON.parse(event.fragment.dataset.countup)
+		var opts = event.fragment.dataset.countup.split(",")
+		console.log("fragmentshown",opts)
 		
-		var numAnim = new CountUp(event.fragment, opts.start, opts.stop);
+		var numAnim = new CountUp(event.fragment, opts[0], opts[1],opts[2],opts[3]);
 		if (!numAnim.error) {
 		    numAnim.start();
 		} else {

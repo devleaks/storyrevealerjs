@@ -633,6 +633,10 @@ es6-promise@^3.0.2:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-3.3.1.tgz#a08cdde84ccdbf34d027a1451bc91d4bcd28a613"
 
+escape-html@~1.0.1:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
+
 escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
@@ -1143,6 +1147,12 @@ hoek@2.x.x:
 hoek@4.x.x:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.0.tgz#72d9d0754f7fe25ca2d01ad8f8f9a9449a89526d"
+
+holderjs@^2.9.4:
+  version "2.9.4"
+  resolved "https://registry.yarnpkg.com/holderjs/-/holderjs-2.9.4.tgz#a165dbc2532ebff975491312259d0c520c059898"
+  dependencies:
+    shaven "^0.8.1"
 
 homedir-polyfill@^1.0.1:
   version "1.0.1"
@@ -2300,6 +2310,10 @@ resolve@^1.1.6, resolve@^1.1.7:
   dependencies:
     path-parse "^1.0.5"
 
+reveal.js-toolbar@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/reveal.js-toolbar/-/reveal.js-toolbar-0.1.3.tgz#a8037e45477686dfc0d2ff464fec01691aaad43a"
+
 reveal.js@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/reveal.js/-/reveal.js-3.6.0.tgz#ce0e64f30cbebd6e5ce885c2f384085c5e5821e8"
@@ -2393,6 +2407,12 @@ set-value@^2.0.0:
     is-extendable "^0.1.1"
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
+
+shaven@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/shaven/-/shaven-0.8.1.tgz#0f42d4fb32c4048349ff9ee9c296f5effb2dcaaf"
+  dependencies:
+    escape-html "~1.0.1"
 
 sigmund@~1.0.0:
   version "1.0.1"

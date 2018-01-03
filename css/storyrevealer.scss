@@ -3,62 +3,72 @@
  *
  */
 
-/*
+// Default mixins and settings from Reveal.js --
+@import "theme/template/mixins";
+@import "theme/template/settings";
+// ---------------------------------------------
+
+
+/***********************************************
  * Storyrevealer Defaults
  */
+
+// Include theme-specific fonts
+@import url(font/source-sans-pro/source-sans-pro.css);
+
 $sr-backgroundColor: #222;
 $sr-color: #eee;
 $sr-highlightColor: #f00;
 $sr-graphTransparency: 0.8;
 $sr-linkColor: #42affa;
 
-/* this theme is redefined to use above defaults */
-@import "theme/source/storyrevealer.scss";
+
+
+// Override theme settings (see ../template/settings.scss)
+
+$backgroundColor: $sr-backgroundColor;
+
+$mainColor: $sr-color;
+$headingColor: $sr-color;
+
+$mainFontSize: 30px;
+$mainFont: 'Source Sans Pro', Helvetica, sans-serif;
+$headingFont: 'Source Sans Pro', Helvetica, sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: uppercase;
+$headingFontWeight: 600;
+$linkColor: $sr-linkColor;
+$linkColorHover: lighten( $linkColor, 15% );
+$selectionBackgroundColor: lighten( $linkColor, 25% );
+
+$heading1Size: 2.5em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+section.has-light-background {
+	&, h1, h2, h3, h4, h5, h6 {
+		color: $sr-backgroundColor;
+	}
+}
+
+
+// Theme template for Reveal.js ----------------
+@import "theme/template/theme";
+// ---------------------------------------------
 
 /* chartlist-setting is redefined to use above defaults */
 @import "chartist/chartist.scss";
 
-/* chartist-plugin-legend */
-.ct-legend {
-    position: relative;
-    z-index: 10;
 
-    li {
-        position: relative;
-        padding-left: 23px;
-        margin-bottom: 3px;
-    }
-
-    li:before {
-        width: 12px;
-        height: 12px;
-        position: absolute;
-        left: 0;
-        content: '';
-        border: 3px solid transparent;
-        border-radius: 2px;
-    }
-
-    li.inactive:before {
-        background: transparent;
-    }
-
-    &.ct-legend-inside {
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-
-    @for $i from 0 to length($ct-series-colors) {
-        .ct-series-#{$i}:before {
-            background-color: nth($ct-series-colors, $i + 1);
-            border-color: nth($ct-series-colors, $i + 1);
-        }
-    }
-}
+/***********************************************
+ *	Storyrevealer redefinition and custom classes
+ */
+@import "chartist-legend.scss";
 
 /* page structure */
-.container{
+.multicols{
     display: flex;
 }
 .col{
@@ -82,16 +92,19 @@ $sr-linkColor: #42affa;
 }
 /* generic classes */
 .lighter {
-	background: rgba(255, 255, 255, 0.2);
-}
-.darkest {
-	background: rgba(0, 0, 0, 0.5);
+	background: rgba($sr-color, 0.2);
 }
 .lightest {
-	background: rgba(255, 255, 255, 0.5);
+	background: rgba($sr-color, 0.5);
 }
 .darker {
-	background: rgba(0, 0, 0, 0.2);
+	background: rgba($sr-backgroundColor, 0.2);
+}
+.darkest {
+	background: rgba($sr-backgroundColor, 0.5);
+}
+.inverse {
+	color: $sr-backgroundColor;
 }
 /* fonts */
 .allcaps {

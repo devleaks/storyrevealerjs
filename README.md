@@ -11,11 +11,12 @@ examples
 [here](http://www.europeantour.com/sportteller/us-open-day-4-in-numbers.html),
 [here](http://www.gaa.ie/sportteller-content/stories/1/1/55b33bda-d289-41a6-ba6e-a3e094201f36/index.html#Slide_2),
 and
-[here](http://www.europeantour.com/sportteller/bmw-pga-championship-day-1-in-numbers.html)
-), I deciced to make a simpler, free, alternative.
+[here](http://www.europeantour.com/sportteller/bmw-pga-championship-day-1-in-numbers.html)),
+here is a simpler, free, alternative.
 
 Storyrevealer creates a single web page, called a newspaper, which contains
-stories. A story is a list of pages.
+stories. Stories in a newspaper are scrolled horizontally. A story is a list of
+pages. A single story is scrolled vertically.
 
 A page is a background image, animation, or video, with content laid over it.
 Content is a collection of information displayed as text, table, or graphics.
@@ -68,20 +69,21 @@ A page is made of one or more page-element.
 page = {{page-element}}  ||  [ {{page-element}}{2,} ]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+When a page is made of more than one element (i.e. an array of page-elements),
+each page-element in that page is a column on that page.
+
+When a page is made of more than one element, only decorating elements of the
+**first** page are taken into account for decorating the entire page (background image,
+video, or additional classes.)
+
+
+A page-element is an object with content-element properties.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 page-element: { {{content-element}}* }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
  
-
-When a page is made of more than one element (i.e. an array of page-elements),
-each element in that page is considered column content.
-
-When a page is made of more than one element, only decorating elements of the
-**first** page are taken into account for decorating the page (background image,
-video, or additional classes.)
-
-A page-element is an object with content-element properties.
 
 If a page-element does not contain any property, it is a blank page or column.
 
@@ -105,23 +107,39 @@ content-type.
 If a page contains more than one content element, they are displayed in
 appearing order.
 
-Storyrevealer provides a set of content-type element together with their
-representation.   We make an artificial distinction between 2 types of
-content-type elements:
+Storyrevealer provides a set of content-type element together with their representation.
+We make an artificial distinction between 3 types of content-type elements:
 
-1.  Decoration elements affect the page of column appearance, while
+1.  Decoration elements affect the page of column appearance,
 
-2.  content elements add content to the page.
+2.  «Data» elements, and
+
+3.  content elements add content to the page.
 
  
 
-#### Decoration Element
+#### Decoration Elements
 
-| Content Type | Value          | Note                                                                                                                  |
-|--------------|----------------|-----------------------------------------------------------------------------------------------------------------------|
-| background   | URL of image   | Displayed as background image                                                                                         |
-| video        | URL of video   | Displayed as background video. Plays automatically when page is shown                                                 |
-| class        | CSS class name | Single class name is added to the page’s parent element. A page-element may contain more than one class content type. |
+| Content Type        | Value          | Note                                                                                                                  |
+|---------------------|----------------|-----------------------------------------------------------------------------------------------------------------------|
+| background or image | URL of image   | Displayed as background image                                                                                         |
+| video               | URL of video   | Displayed as background video. Plays automatically when page is shown                                                 |
+| class               | CSS class name | Single class name is added to the page’s parent element. A page-element may contain more than one class content type. |
+
+### Data Elements
+
+| Content Type          | Value        | Note             |
+|-----------------------|--------------|------------------|
+| data-background-color | RGB(A) Color | Background color |
+
+Data elements are added to the parent element as data attributes.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<section data-background-color="#ddd">
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is possible to add Reveal.js specific data attributes to control transitions,
+background transitions, or any other data attribute.  
 
  
 
@@ -129,7 +147,7 @@ content-type elements:
 
 Text content is the simplest form of content laid over the background.
 
-The following content keywords are accepted:
+The following text content elements are accepted:
 
 | Text Content | Purpose                      | Display                              |
 |--------------|------------------------------|--------------------------------------|
@@ -141,6 +159,7 @@ The following content keywords are accepted:
 | credits      |                              |                                      |
 | copyright    |                              |                                      |
 | text         | Regular text                 |                                      |
+| quote        | Quoted text                  |                                      |
 
  
 
@@ -149,9 +168,18 @@ The following content keywords are accepted:
 The content-type name can contain additional CSS class names that must be added
 to its HTML parent element.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+title.huge.reverse: Hello
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+will become
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<h1 class="huge reverse">Hello</h1>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
 
-The following class names have spacial meaning:
+The following class names have special meaning:
 
 | Class Name | Description                                                                                 |
 |------------|---------------------------------------------------------------------------------------------|
@@ -175,10 +203,29 @@ The following class names are also provided and can be customized.
 | top-left     | Places text in bottom, left corner of page                  |
 | top-right    | Places text in bottom, left corner of page                  |
 | allcaps      | Transform text to uppercase                                 |
+| reverse      | Uses background color for text                              |
+| huge         | Increases font size to 150%                                 |
 
-  Additional class names can be added and used in Storyrevealer
+These classes are provided for your convenience
+but essentially show how you can add you styling to your newspaper stories.
 
- 
+Additional class names can be added and used in Storyrevealer.
+
+##### Text Content Element HTML Mapping 
+
+Each text content element is mapped to an HTML element.
+
+The mapped element can also contain additional classes.
+
+In the above exemple, if `title` is mapped to `h1.left`
+the generated HTML will be
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<h1 class="huge reverse left">Hello</h1>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Mapping of content element can be provided as a Storyrevealer option.
+
 
 #### Table
 
@@ -215,7 +262,7 @@ There are two methods to create graphs.
 
  
 
-The first method uses the content-type bar chart, line chart, and pie chart to
+The first method uses the content-type `barchart`, `linechart`, and `piechart` to
 create standard bar, line and pie chart respectively. Data need to presented in
 a standard way. No option can be changed.
 

@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@bower_components/Reveal.js-Title-Footer@e-gor/Reveal.js-Title-Footer#*":
+  version "0.0.0"
+  resolved "https://codeload.github.com/e-gor/Reveal.js-Title-Footer/tar.gz/a31d1441553a3de366099dc31578eacd146b9e4d"
+
 "@bower_components/reveal.js-elapsed-time-bar@tkrkt/reveal.js-elapsed-time-bar#*":
   version "0.0.0"
   resolved "https://codeload.github.com/tkrkt/reveal.js-elapsed-time-bar/tar.gz/6352d42fac335e77bd059fc5d6122e47cfcc1f01"

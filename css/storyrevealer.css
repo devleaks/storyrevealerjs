@@ -991,6 +991,13 @@ body {
 .inverse {
   color: #222; }
 
+/**/
+.rightsep {
+  border-right: 1px dashed #eee; }
+
+.col .leftsep {
+  border-left: 1px dashed #eee; }
+
 /* fonts */
 .allcaps {
   text-transform: uppercase; }

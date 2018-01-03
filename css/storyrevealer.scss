@@ -106,6 +106,13 @@ section.has-light-background {
 .inverse {
 	color: $sr-backgroundColor;
 }
+/**/
+.rightsep {
+	border-right: 1px dashed $sr-color;
+}
+.col .leftsep {
+	border-left: 1px dashed $sr-color;
+}
 /* fonts */
 .allcaps {
 	text-transform: uppercase;

@@ -1,8 +1,8 @@
 {
 	"cover": {
 		"background": "tests/g.png",
-		"class": "darker",
-		"teaser": "Development Data",
+		"class": "lighter",
+		"teaser": "Test Newspaper",
 		"name": "Storyrevealer",
 		"editor.html": "Created by <a href='https://github.com/devleaks'>Pierre M</a> and <a href='https://github.com/hakimel/reveal.js/graphs/contributors'>contributors</a>",
 		"date": "Since 2017",
@@ -32,7 +32,9 @@
 					"title.red": "Title Red 1B"
 				},
 				{
-					"title.darker": "..with overlay..",
+					"class": "darker",
+					"title": "MP4 Video with Overlay",
+					"under-title": "Plays automagically on reveal...",
 					"video": "tests/mp4.mp4",
 					"static": "tests/mp4.jpg"
 				}
@@ -71,23 +73,24 @@
 				[
 					{
 						"background": "tests/b.png",
-						"class": "left darker",
+						"class": "left lighter",
 						"above-title": "Slide 2CL Above Title",
 						"title": "Simple slide 2CL",
 						"under-title": "Slide 2CL Below Title",
 						"text.red": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut."
 					},
 					{
+						"class": "leftsep",
 						"above-title": "Slide 2CC Above Title",
 						"title.black": "Simple slide 2CC",
 						"under-title": "Slide 2CC Below Title",
 						"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut."
 					},
 					{
-						"class": "right darkest",
+						"class": "right lightest",
 						"above-title": "Slide 2CR Above Title",
 						"title": "Simple slide 2CR",
-						"under-title": "Slide 2CR Below Title",
+						"text.inverse": "Slide 2CR Below Title",
 						"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut."
 					}
 				]
@@ -144,7 +147,7 @@
 			"pages": [
 				{
 					"background": "tests/r.png",
-					"above-title": "Introducing the chart...",
+					"above-title": "Simple bar chart",
 					"barchart": {
 						"data": [
          			["Tiger", 70, 71, 68, 66],
@@ -158,7 +161,8 @@
 				},
 				{
 					"background": "tests/r.png",
-					"class": "darker",
+					"class": "lighter",
+					"above-title": "Simple pie chart",
 					"piechart": {
 						"data": [
          			["Tiger", 50],
@@ -182,7 +186,7 @@
 		},
 		{
 			"cover": {
-				"text.html": "<div class='holderjs' data-background-src='?holder.js/300x200'></div>",
+				"data-background-src.holderjs": "holder.js/300x200",
 				"headline": "Experimental Charts",
 				"bytitle": "Chartist"
 			},

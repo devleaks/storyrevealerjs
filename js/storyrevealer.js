@@ -24,7 +24,7 @@
 
 	var Storyrevealer
 
-	// The reveal.js version
+	// The Storyrevealer.js version
 	var VERSION = '1.0.0'
 	
 	var CONTENT_TYPE_ELEM = {
@@ -46,9 +46,16 @@
 	var CONTENT_TYPE_DATA = [
 		"data-background-color"
 	]
+	var CLEAN_HTML = {
+	  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'div' ],
+	  allowedAttributes: {
+	    'a': [ 'href' ],
+		'div': [ 'class', 'data-background-src' ]
+	  }
+	}
 	var _inited = false
 	
-	/*
+	/*	Used before. Will probably come back...
 	 *
 	 */
 	function init() {
@@ -60,12 +67,7 @@
 	 *
 	 */
 	function cleanHTML(str) {
-		return sanitizeHtml(str, {
-		  allowedTags: [ 'b', 'i', 'em', 'strong', 'a' ],
-		  allowedAttributes: {
-		    'a': [ 'href' ]
-		  }
-		})
+		return sanitizeHtml(str, CLEAN_HTML)
 	}
 	
 	/*	Generate <table> element and fill it 

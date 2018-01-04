@@ -1,0 +1,77 @@
+{
+	"cover": {
+		"background": "g.png",
+		"class": "lighter",
+		"teaser": "Single Story",
+		"name": "Storyrevealer",
+		"text": "Use left and right arrow or swipe to walk through your story",
+		"editor.html": "Created by <a href='https://github.com/devleaks'>Pierre M</a> and <a href='https://github.com/hakimel/reveal.js/graphs/contributors'>contributors</a>",
+		"date": "Since 2017",
+		"copyright": "© Pierre M"
+	},
+	"pages": [
+		{
+			"background": "r.png",
+			"above-title": "Slide 1A Above Title",
+			"title": "Simple slide 1A",
+			"under-title": "Slide 1A Below Title",
+			"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut."
+		},
+		{
+			"background": "r.png",
+			"transition": "convex",
+			"class": "lighter",
+			"byline": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.",
+			"title.red": "Title Red 1B"
+		},
+		[
+			{
+				"background": "b.png",
+				"above-title": "Slide 2BL Above Title",
+				"title": "Simple slide 2BL",
+				"under-title": "Slide 2BL Below Title",
+				"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut."
+			},
+			{
+				"above-title": "Slide 2BR Above Title",
+				"title": "Simple slide 2BR",
+				"under-title": "Slide 2BR Below Title",
+				"quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut."
+			}
+		],
+		{
+			"background": "g.png",
+			"class": "lighter",
+			"table": {
+				"options": {
+					"columnheader": true,
+					"rowheader": true,
+					"rowfooter": true
+				},
+				"data": [
+     						["", "R1", "R2", "R3", "R4", "TOT"],
+          			["Tiger", 70, 71, 68, 66, 275],
+		            ["Henrick", 72, 72, 66, 65, 275],
+		            ["Phil", 71, 69, 72, 64, 276],
+		            ["Sergio", 72, 71, 70, 68, 281],
+		            ["Justin", 72, 70, 68, 72, 282],
+		            ["Thomas", 66, 68, 76, 72, 282]
+		    ]
+			},
+			"under-title": "Text under table"
+		},
+		{
+			"background": "g.png",
+			"mustache": {
+				"template": "<p>{{text}}</p></br><p class='fragment visible current-fragment' data-countup='0,{{value}},0,2' data-fragment-index='0'></p>",
+				"data": {
+					"text": "Some statistics",
+					"value": 144,
+					"maxvalue": 200,
+					"below-text": "Some highlights..."
+				}
+			},
+			"under-title": "Text under table"
+		}
+  ]
+}

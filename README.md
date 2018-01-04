@@ -37,6 +37,16 @@ Pierre M. - December 2017
 JSON Data File Format
 ---------------------
 
+ 
+
+The JSON datafile handled by Storyrevealer may contain either
+
+-   a single story, or
+
+-   a collection of stories, called a newspaper.
+
+ 
+
 ### Newspaper
 
 A newspaper is made of an optional cover page and Stories.
@@ -47,6 +57,10 @@ A newspaper is made of an optional cover page and Stories.
     "stories": [ {{story-element}}+ ]
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The newspaper’s cover page is a regular, additional page.
+
+ 
 
 ### Story
 
@@ -59,44 +73,48 @@ A story is made of an optional cover page and Pages
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+The story’s cover page is a regular, additional page.
+
+ 
+
 ### Page
 
-A page is made of one or more page-element.
+A page is made of one or more columns.
 
  
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-page = {{page-element}}  ||  [ {{page-element}}{2,} ]
+"page": {{column}} || [ {{column}}{2,} ]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-When a page is made of more than one element (i.e. an array of page-elements),
-each page-element in that page is a column on that page.
-
-When a page is made of more than one element, only decorating elements of the
-**first** page are taken into account for decorating the entire page (background image,
-video, or additional classes.)
-
-
-A page-element is an object with content-element properties.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-page-element: { {{content-element}}* }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-
-If a page-element does not contain any property, it is a blank page or column.
 
  
 
-### Content Element
+When a page is made of more than one column, decorating elements of the
+**first** column are taken into account for decorating the entire page
+(background image, video, or additional classes.)
 
-A content-element is a ( content-type, content-value ) pair.
+ 
+
+A column is an object with content properties.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+column: { {{content}}* }
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ 
+
+If a column does not contain any content property, it is a blank page or column.
+
+ 
+
+### Content Properties
+
+A content property is a ( content-type = content-value ) pair.
 
  
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-content-element: "content-type": {{content-value}}
+"content-type": {{content-value}}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  
@@ -104,31 +122,38 @@ content-element: "content-type": {{content-value}}
 Content-value is a valid JSON object and its form varies depending on the
 content-type.
 
-If a page contains more than one content element, they are displayed in
+If a page contains more than one content property, they are displayed in
 appearing order.
 
-Storyrevealer provides a set of content-type element together with their representation.
-We make an artificial distinction between 3 types of content-type elements:
+Storyrevealer provides a set of content-type properties together with their
+representation. We make an artificial distinction between 3 types of
+content-type properties:
 
-1.  Decoration elements affect the page of column appearance,
+1.  Decoration properties affect the page of column appearance,
 
-2.  «Data» elements, and
+2.  Data properties, and
 
-3.  content elements add content to the page.
+3.  Content properties add content to the page.
 
  
 
-#### Decoration Elements
+#### Decoration Properties
 
-| Content Type        | Value          | Note                                                                                                                  |
+Decoration properties mainly affect the appearance of the page.
+
+| **Content Type**    | **Value**      | **Note**                                                                                                              |
 |---------------------|----------------|-----------------------------------------------------------------------------------------------------------------------|
 | background or image | URL of image   | Displayed as background image                                                                                         |
 | video               | URL of video   | Displayed as background video. Plays automatically when page is shown                                                 |
 | class               | CSS class name | Single class name is added to the page’s parent element. A page-element may contain more than one class content type. |
 
-### Data Elements
+ 
 
-| Content Type          | Value        | Note             |
+#### Data Properties
+
+Data properties are relayed to Reveal.js element entities.
+
+| **Content Type**      | **Value**    | **Note**         |
 |-----------------------|--------------|------------------|
 | data-background-color | RGB(A) Color | Background color |
 
@@ -143,23 +168,23 @@ background transitions, or any other data attribute.  
 
  
 
-#### Text Content Element
+#### Text Content Properties
 
 Text content is the simplest form of content laid over the background.
 
 The following text content elements are accepted:
 
-| Text Content | Purpose                      | Display                              |
-|--------------|------------------------------|--------------------------------------|
-| title        | Main title of page           | Bold, larg text in middle of screen. |
-| editor       | Display editor information   | Meant to be used on cover pages      |
-| date         | Date of story                | Meant to be used on cover pages      |
-| above-title  | Text displayed above a title | Displayed in small caps.             |
-| under-title  | Text displayed under a title | Displayed in bolder font             |
-| credits      |                              |                                      |
-| copyright    |                              |                                      |
-| text         | Regular text                 |                                      |
-| quote        | Quoted text                  |                                      |
+| **Text Content** | **Purpose**                  | **Display**                          |
+|------------------|------------------------------|--------------------------------------|
+| title            | Main title of page           | Bold, larg text in middle of screen. |
+| editor           | Display editor information   | Meant to be used on cover pages      |
+| date             | Date of story                | Meant to be used on cover pages      |
+| above-title      | Text displayed above a title | Displayed in small caps.             |
+| under-title      | Text displayed under a title | Displayed in bolder font             |
+| credits          |                              |                                      |
+| copyright        |                              |                                      |
+| text             | Regular text                 |                                      |
+| quote            | Quoted text                  |                                      |
 
  
 
@@ -177,39 +202,41 @@ will become
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <h1 class="huge reverse">Hello</h1>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
  
 
 The following class names have special meaning:
 
-| Class Name | Description                                                                                 |
-|------------|---------------------------------------------------------------------------------------------|
-| fragment   | Reveal.js Frament element                                                                   |
-| html       | The provided text is HTML formatted. It will be sanitized and sent directly to the browser. |
+| **Class Name** | **Description**                                                                             |
+|----------------|---------------------------------------------------------------------------------------------|
+| fragment       | Reveal.js Frament element                                                                   |
+| html           | The provided text is HTML formatted. It will be sanitized and sent directly to the browser. |
 
  
 
 The following class names are also provided and can be customized.
 
-| Class Name   | Description                                                 |
-|--------------|-------------------------------------------------------------|
-| darker       | Places a transparent darker background under the text       |
-| darkest      | Places a less transparent darker background under the text  |
-| lighter      | Places a transparent lighter background under the text      |
-| lightest     | Places a less transparent lighter background under the text |
-| left         | Align text to the left of the page/column                   |
-| right        | Align text to the right of the page/column                  |
-| bottom-left  | Places text in bottom, left corner of page                  |
-| bottom-right | Places text in bottom, left corner of page                  |
-| top-left     | Places text in bottom, left corner of page                  |
-| top-right    | Places text in bottom, left corner of page                  |
-| allcaps      | Transform text to uppercase                                 |
-| reverse      | Uses background color for text                              |
-| huge         | Increases font size to 150%                                 |
+| **Class Name** | **Description**                                             |
+|----------------|-------------------------------------------------------------|
+| darker         | Places a transparent darker background under the text       |
+| darkest        | Places a less transparent darker background under the text  |
+| lighter        | Places a transparent lighter background under the text      |
+| lightest       | Places a less transparent lighter background under the text |
+| left           | Align text to the left of the page/column                   |
+| right          | Align text to the right of the page/column                  |
+| bottom-left    | Places text in bottom, left corner of page                  |
+| bottom-right   | Places text in bottom, left corner of page                  |
+| top-left       | Places text in bottom, left corner of page                  |
+| top-right      | Places text in bottom, left corner of page                  |
+| allcaps        | Transform text to uppercase                                 |
+| reverse        | Uses background color for text                              |
+| huge           | Increases font size to 150%                                 |
 
-These classes are provided for your convenience
-but essentially show how you can add you styling to your newspaper stories.
+These classes are provided for your convenience but essentially show how you can
+add your own styling to your newspaper stories. Additional class names can be
+added and used in Storyrevealer.
 
-Additional class names can be added and used in Storyrevealer.
+ 
 
 ##### Text Content Element HTML Mapping 
 
@@ -217,15 +244,16 @@ Each text content element is mapped to an HTML element.
 
 The mapped element can also contain additional classes.
 
-In the above exemple, if `title` is mapped to `h1.left`
-the generated HTML will be
+In the above exemple, if `title` is mapped to `h1.left` the generated HTML will
+be
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <h1 class="huge reverse left">Hello</h1>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Mapping of content element can be provided as a Storyrevealer option.
+Mapping of content elements can be provided as a Storyrevealer option.
 
+ 
 
 #### Table
 
@@ -262,9 +290,9 @@ There are two methods to create graphs.
 
  
 
-The first method uses the content-type `barchart`, `linechart`, and `piechart` to
-create standard bar, line and pie chart respectively. Data need to presented in
-a standard way. No option can be changed.
+The first method uses the content-type `barchart`, `linechart`, and `piechart`
+to create standard bar, line and pie chart respectively. Data need to presented
+in a standard way. No option can be changed.
 
 These types of graphs are suitable for simple graphs.
 

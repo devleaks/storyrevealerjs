@@ -43,9 +43,11 @@
 		"under-title": "h4",
 		"copyright": "small"
 	}
+
 	var CONTENT_TYPE_DATA = [
 		"data-background-color"
 	]
+
 	var CLEAN_HTML = {
 	  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'div' ],
 	  allowedAttributes: {
@@ -53,6 +55,7 @@
 		'div': [ 'class', 'data-background-src' ]
 	  }
 	}
+
 	var _inited = false
 	
 	/*	Used before. Will probably come back...
@@ -306,8 +309,6 @@
 
 	Storyrevealer = {
 		VERSION: VERSION,
-		CONTENT_TYPE_DATA: CONTENT_TYPE_DATA,
-		CONTENT_TYPE_ELEM: CONTENT_TYPE_ELEM,
 
 		generate: function(options) {
 			var filename = options.url

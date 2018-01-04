@@ -37,6 +37,7 @@
 		],
 		{
 			"class": "darker",
+			"above-title": "Population for main cities",
 			"table": {
 				"options": {
 					"columnheader": true,
@@ -53,7 +54,7 @@
 					["Pedra Badejo", "Santa Cruz", "9345"]
 				]
 			},
-			"under-title": "Population for main cities"
+			"text": ""
 		}
   ]
 }

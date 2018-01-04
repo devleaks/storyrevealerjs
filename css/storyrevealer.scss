@@ -2,45 +2,46 @@
  * Reveal.js theme for Storyrevealer.
  *
  */
-
-// Default mixins and settings from Reveal.js --
-@import "theme/template/mixins";
-@import "theme/template/settings";
-// ---------------------------------------------
-
+// Default mixins and settings from Reveal.js
+@import "../node_modules/reveal.js/css/theme/template/mixins";
 
 /***********************************************
- * Storyrevealer Defaults
+ * Storyrevealer defaults for Reveal.js
  */
 
-// Include theme-specific fonts
+// Include specific fonts
 @import url(font/source-sans-pro/source-sans-pro.css);
+@import url(font/league-gothic/league-gothic.css);
 
-$sr-backgroundColor: #222;
-$sr-color: #eee;
-$sr-highlightColor: #f00;
-$sr-graphTransparency: 0.8;
-$sr-linkColor: #00ff00;
+// Background of the presentation
+$backgroundColor: #2b2b2b;
 
-
-
-// Override theme settings (see ../template/settings.scss)
-
-$backgroundColor: $sr-backgroundColor;
-
-$mainColor: $sr-color;
-$headingColor: $sr-color;
-
+// Primary/body text
+$mainFont: 'Lato', sans-serif;
 $mainFontSize: 30px;
-$mainFont: 'Source Sans Pro', Helvetica, sans-serif;
-$headingFont: 'Source Sans Pro', Helvetica, sans-serif;
-$headingTextShadow: none;
+$mainColor: #eee;
+
+// Vertical spacing between blocks of text
+$blockMargin: 20px;
+
+// Headings
+$headingMargin: 0 0 $blockMargin 0;
+$headingFont: 'League Gothic', Impact, sans-serif;
+$headingColor: #eee;
+$headingLineHeight: 1.2;
 $headingLetterSpacing: normal;
-$headingTextTransform: uppercase;
-$headingFontWeight: 600;
-$linkColor: $sr-linkColor;
-$linkColorHover: lighten( $linkColor, 15% );
-$selectionBackgroundColor: lighten( $linkColor, 25% );
+$headingTextTransform: normal; // uppercase
+$headingTextShadow: none;
+$headingFontWeight: normal;
+$heading1TextShadow: $headingTextShadow;
+
+// Links and actions
+$linkColor: #13DAEC;
+$linkColorHover: lighten( $linkColor, 20% );
+
+// Text selection
+$selectionBackgroundColor: #FF5E99;
+$selectionColor: #fff;
 
 $heading1Size: 2.5em;
 $heading2Size: 1.6em;
@@ -49,23 +50,33 @@ $heading4Size: 1.0em;
 
 section.has-light-background {
 	&, h1, h2, h3, h4, h5, h6 {
-		color: $sr-backgroundColor;
+		color: $backgroundColor;
 	}
 }
 
+// Generates the presentation background, can be overridden
+// to return a background image or gradient
+@mixin bodyBackground() {
+	background: $backgroundColor;
+}
+/*
+ * end of Storyrevealer defaults for Reveal.js
+ **********************************************/
 
-// Theme template for Reveal.js ----------------
-@import "theme/template/theme";
-// ---------------------------------------------
+/* Theme template for Reveal.js */
+@import "../node_modules/reveal.js/css/theme/template/theme";
 
-/* chartlist-setting is redefined to use above defaults */
+/* note: chartist/chartist-setting is redefined to use above defaults */
+$sr-graphTransparency: 0.8;
+
 @import "chartist/chartist.scss";
+
+@import "chartist-legend.scss";
 
 
 /***********************************************
  *	Storyrevealer redefinition and custom classes
  */
-@import "chartist-legend.scss";
 
 /* page structure */
 .multicols{
@@ -84,6 +95,7 @@ section.has-light-background {
 .bottom-left {
 	position: fixed;
 	bottom: 25%;
+	left: 10%;
 }
 .bottom-right {
 	position: fixed;
@@ -92,26 +104,26 @@ section.has-light-background {
 }
 /* generic classes */
 .lighter {
-	background: rgba($sr-color, 0.2);
+	background: rgba($mainColor, 0.2);
 }
 .lightest {
-	background: rgba($sr-color, 0.5);
+	background: rgba($mainColor, 0.5);
 }
 .darker {
-	background: rgba($sr-backgroundColor, 0.2);
+	background: rgba($backgroundColor, 0.2);
 }
 .darkest {
-	background: rgba($sr-backgroundColor, 0.5);
+	background: rgba($backgroundColor, 0.5);
 }
 .inverse {
-	color: $sr-backgroundColor;
+	color: $backgroundColor;
 }
 /**/
 .rightsep {
-	border-right: 1px dashed $sr-color;
+	border-right: 1px dashed $mainColor;
 }
 .col .leftsep {
-	border-left: 1px dashed $sr-color;
+	border-left: 1px dashed $mainColor;
 }
 /* fonts */
 .allcaps {
@@ -129,7 +141,9 @@ section.has-light-background {
 /* tables */
 .rowheader {
 	color: darkgreen;
+	font-weight: bolder;
 }
 .rowfooter {
 	color: orange;
+	font-weight: bolder;
 }

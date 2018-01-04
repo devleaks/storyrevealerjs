@@ -45,7 +45,8 @@
 	}
 
 	var CONTENT_TYPE_DATA = [
-		"data-background-color"
+		"data-background-color",
+		"data-background-iframe"
 	]
 
 	var CLEAN_HTML = {

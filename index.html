@@ -30,6 +30,7 @@
 
 		<!-- Custom styling for "stories" -->
 		<link rel="stylesheet" href="css/storyrevealer.css">
+		<link rel="stylesheet" href="css/storyrevealer-dev.css">
 
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -59,9 +60,7 @@
 		<script src="node_modules/mustache/mustache.js"></script>
 		<script src="node_modules/chartist/dist/chartist.js"></script>
 		<script src="node_modules/chartist-plugin-legend/chartist-plugin-legend.js"></script>
-		<script src="node_modules/countup.js/countUp.js"></script>
-		<script src="node_modules/holderjs/holder.js"></script>
-	
+		<script src="node_modules/countup.js/countUp.js"></script>	
 
 		<script src="js/storyrevealer.js"></script>
 
@@ -147,7 +146,13 @@
 			
 			Storyrevealer.generate({
 				// Data URL
-				url: 'tests/data.json'
+				url: 'data/dev/dev.json',
+				
+				// content-type mappings to HTML elements
+				content_type_mapping: {
+					"my-custom": "span.red"
+				}
+
 			})
 
 		</script>

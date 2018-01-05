@@ -365,7 +365,7 @@
 					
 					newspaper.pages.forEach(function(page) {	// For each page in the story
 
-						addPage(page, newspaper_elem)
+						addPage(page, story_elem)
 
 					})
 

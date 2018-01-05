@@ -1,9 +1,5 @@
 #Skill-HTML {
- width: 100%;
- animation: Animate-HTML 4s;
- -webkit-animation: Animate-HTML 4s;
- -moz-animation: Animate-HTML 4s;
- -o-animation: Animate-HTML 4s;
+ width: 0%;
  height: 45px;
  position: absolute;
  background-color: #F9690E;
@@ -11,54 +7,3 @@
  -moz-border-radius: 3px;
  border-radius: 3px;
  }
- @keyframes Animate-HTML {
- a from {width: 10px;}
- to {width: 75%}
- }
- @-webkit-keyframes Animate-HTML {
- from {width: 10px;}
- to {width: 75%}
- }
- @-moz-keyframes Animate-HTML {
- from {width: 10px;}
- to {width: 75%}
- }
- @-o-keyframes Animate-HTML {
- from {width: 10px;}
- to {width: 75%}
- }
-.fadeIn { /* CSS needed for animation */
-	opacity:0;
-	-webkit-animation:fadeIn ease-in 1;
-	-moz-animation:fadeIn ease-in 1;
-  -o-animation:fadeIn ease-in 1;
-  animation:fadeIn ease-in 1;
-  -webkit-animation-fill-mode:forwards;
-  -moz-animation-fill-mode:forwards;
-  -o-animation-fill-mode:forwards;
-  animation-fill-mode:forwards;
-}
-/* Animation Times - Time to fade in */
- .fadeIn-3s {
- -webkit-animation-duration:3s;
- -moz-animation-duration:3s;
- -o-animation-duration:3s;
- animation-duration:3s;
- }
- /* Animation Delay - Time to be delayed  */
- .fadeIn-Delay-3s {
- -webkit-animation-delay:3s;
- -moz-animation-delay:3s;
- -o-animation-delay:3s;
- animation-delay:3s;
- }
-@media only screen and (max-width: 40em) {
- .responsive-percent {
- margin-right: -45px !important;
- }
- }
-@media only screen and (min-width: 40.063em) and (max-width: 64em) {
-.responsive-percent {
-margin-right: -45px !important;
-}
-}

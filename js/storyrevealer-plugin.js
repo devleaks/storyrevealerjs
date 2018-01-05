@@ -4,25 +4,41 @@
  *
  * Copyright (C) 2017 Pierre M
  */
-var Storyrevealer2 = window.Storyrevealer2 || (function() {
-	var config = Reveal.getConfig().storyrevealer || {};
-	if (!config.url) { // should default to story.json?
-		console.log("storyrevealer: no url");
-		return;
-	}
-	console.log("storyrevealer: doing "+config.url);
-})();
-
 Reveal.addEventListener( 'fragmentshown', function( event ) {
 	if ( event.fragment.dataset.countup != undefined ) {
-		var opts = event.fragment.dataset.countup.split(",")
-		//console.log("fragmentshown",opts)
-		
-		var numAnim = new CountUp(event.fragment, opts[0], opts[1],opts[2],opts[3]);
-		if (!numAnim.error) {
-		    numAnim.start();
-		} else {
-		    console.error(numAnim.error);
+		var values = event.fragment.dataset.countup.split(',')
+		var myObject = {
+			counter: values[0]
 		}
+		var cssProperties = anime({
+			targets: myObject,
+			counter: values[1],
+			round: values[2],
+			easing: 'easeInOutQuad',
+			duration: values[3],
+			update: function() {
+				event.fragment.innerHTML = myObject.counter;
+			}
+		})
 	}
+} );
+
+
+Reveal.addEventListener( 'fragmentshown', function( event ) {
+	var cssProperties = anime({
+	  targets: '#Skill-HTML',
+	  width: '75%',
+	  easing: 'easeInOutQuad',
+	  duration: 3000
+	});
+	console.log('anim added')
+} );
+
+Reveal.addEventListener( 'fragmenthidden', function( event ) {
+	var cssProperties = anime({
+	  targets: '#Skill-HTML',
+	  width: '0%',
+	  easing: 'easeInOutQuad'
+	});
+	console.log('anim hidden')
 } );

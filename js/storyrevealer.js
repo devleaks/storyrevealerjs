@@ -39,6 +39,9 @@
 		"quote": "q",
 		"teaser": "h3.red",
 		"text": "p",
+		"text1": "p",
+		"text2": "p",
+		"text3": "p",
 		"title": "h1",
 		"under-title": "h4",
 		"copyright": "small"
@@ -50,10 +53,12 @@
 	]
 
 	var CLEAN_HTML = {
-	  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'div' ],
+	  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'div', 'p', 'br', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ],
 	  allowedAttributes: {
 	    'a': [ 'href' ],
-		'div': [ 'class', 'data-background-src' ]
+//		'div': [ 'class', 'data-background-src' ],
+//		'p': [ 'class', 'data-countup', 'data-fragment-index' ],
+		'*': [ 'class', 'data-*' ]
 	  }
 	}
 

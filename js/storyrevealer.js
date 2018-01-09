@@ -52,6 +52,11 @@
 		"data-background-iframe"
 	]
 
+	var COLORS = [
+		"#fff",
+		"#ddd"
+	]
+
 	var CLEAN_HTML = {
 	  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'div', 'p', 'br', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ],
 	  allowedAttributes: {
@@ -187,20 +192,25 @@
 						var html_raw = CONTENT_TYPE_ELEM[content_type];
 						var html_arr = html_raw.split(".")
 						var html_elem = html_arr.shift()
+						
+						// content is either a single string or an array of strings displayed one after the other
+						var str_arr = Array.isArray(data[content]) ? data[content] : [ data[content] ]
 					
+						str_arr.forEach(function(str) {
+							var container = elem.append(html_elem)
+							if(html_arr.length > 0) {
+								html_arr.forEach(function(c) { container.classed(c, true) })
+							}
 
-						var container = elem.append(html_elem)
-						if(html_arr.length > 0) {
-							html_arr.forEach(function(c) { container.classed(c, true) })
-						}
+							addClasses(container)		
 
-						addClasses(container)		
-
-						if(content_arr.indexOf("html") > -1) {
-							container.html(cleanHTML(data[content]))
-						} else {
-							container.text(data[content])
-						}
+							if(content_arr.indexOf("html") > -1) {
+								container.html(cleanHTML(str))
+							} else {
+								container.text(str)
+							}
+						})
+							
 
 					} else { // complex content
 
@@ -234,7 +244,7 @@
 									.append("table")
 								generateTable(container, data[content])
 								break
-
+								
 							case "barchart":
 							case "piechart":
 							case "linechart":

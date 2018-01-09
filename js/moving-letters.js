@@ -14,7 +14,7 @@ var MovingLetters = window.MovingLetters || (function(){
 		"ready": "<h1 class='ml4'><span class='letters letters-1'>{{0}}</span><span class='letters letters-2'>{{1}}</span><span class='letters letters-3'>{{2}}</span></h1>",
 		"signal-and-noise": "<h1 class='ml5'><span class='text-wrapper'><span class='line line1'></span><span class='letters letters-left'>{{0}}</span><span class='letters ampersand'>&amp;</span><span class='letters letters-right'>{{1}}</span><span class='line line2'></span></span></h1>",
 		"beautiful-question": "<h1 class='ml6'><span class='text-wrapper'><span class='letters'>{{0}}</span></span></h1>",
-		"reality-is-broken": "",
+		"reality-is-broken": "<h1 class='ml7'><span class='text-wrapper'><span class='letters'>{{0}}</span></span></h1>",
 		"hey": "<h1 class='ml8'><span class='letters-container'><span class='letters letters-left'>{{0}}</span><span class='letters bang'>{{1}}</span></span><span class='circle circle-white'></span><span class='circle circle-dark'></span><span class='circle circle-container'><span class='circle circle-dark-dashed'></span></span></h1>",
 		"coffee-morning": "<h1 class='ml9'><span class='text-wrapper'><span class='letters'>{{0}}</span></span></h1>",
 		"domino-dreams": "<h1 class='ml10'><span class='text-wrapper'><span class='letters'>{{0}}</span></span></h1>",
@@ -26,10 +26,10 @@ var MovingLetters = window.MovingLetters || (function(){
 		"made-with-love": "<h1 class='ml16'>{{0}}</h1>"
 	}
 
-	function install_template(container, animation) {
+	function install_template(container, animation, sep) {
 		var template = TEMPLATES[animation]
 		var text = container.html()
-		var newtext = Mustache.render(template, text.split(','))
+		var newtext = Mustache.render(template, text.split(sep))
 		container.html(newtext)
 	}
 
@@ -48,11 +48,12 @@ var MovingLetters = window.MovingLetters || (function(){
 		install_animation: function(container) {
 			var div = d3.select(container)
 			var animation = div.attr('data-animation')
-			var loop = true; // div.attr('data-animation-loop') === true
+			var loop = div.attr('data-animation-loop') == 'true'
+			var sep = div.attr('data-animation-separator')
 
 			if(! _ml.timelines[animation]) {
 				var animation_code = null
-				install_template(div, animation)
+				install_template(div, animation, sep)
 
 				switch(animation) {
 					case 'thursday':
@@ -303,6 +304,7 @@ var MovingLetters = window.MovingLetters || (function(){
 					  </span>
 					</h1>
 					*/
+						isolateLetters('.ml7 .letters')
 						animation_code = anime.timeline({loop: loop})
 						  .add({
 						    targets: '.ml7 .letter',
@@ -323,8 +325,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						    delay: 1000
 						  });
 						break
-					
-					
+							
 					
 					case "hey":
 					/*

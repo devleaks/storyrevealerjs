@@ -265,6 +265,11 @@
 
 								break
 
+							case "moving-letters":
+								var html = Mustache.render("<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}'>{{text}}</div>",data[content])
+								elem.html(html)
+								break
+								
 							case "chartist":
 							case "mustache":
 							default: // we add a generic div with class "content-type" for interception by anything plugin

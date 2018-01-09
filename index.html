@@ -30,6 +30,7 @@
 
 		<!-- Custom styling for "stories" -->
 		<link rel="stylesheet" href="css/storyrevealer.css">
+		<link rel="stylesheet" href="css/moving-letters.css">
 		<link rel="stylesheet" href="css/storyrevealer-dev.css">
 
 		<!--[if lt IE 9]>
@@ -66,7 +67,8 @@
 		<script src="js/storyrevealer.js"></script>
 
 		<script>
-
+			var ml = { timelines: {}};
+			
 			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				controls: true,
@@ -87,6 +89,13 @@
 							if(options) {
 								container.innerHTML = Mustache.render(options.template, options.data)
 							}
+						})
+					},
+					{
+						className: "moving-letters", 
+						initialize: (function(container, options){
+							//console.log("anything moving-letters", options, container)
+							MovingLetters.install_animation(container)
 						})
 					},
 					{

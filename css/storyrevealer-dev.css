@@ -1,16 +1,44 @@
-.skill-cursor {
- width: 0%;
- height: 45px;
- position: absolute;
- background-color: #F9690E;
- -webkit-border-radius: 3px;
- -moz-border-radius: 3px;
- border-radius: 3px;
- }
-.vl {
-    border-left: 6px solid green;
-    position: absolute;
-    left: 50%;
-    margin-left: -3px;
-    top: 0;
+/* skill elements */
+div.skill-table {
+	margin: 20px;
+}
+.progress-bar {
+    padding: 5px;
+    width: 100%;
+    margin: 70px 0 20px 0;			
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    position: relative;
+}
+        
+.progress-bar .skill-name {
+	width: 100%;
+	color: #fff;
+	text-align: left;
+	clear: both;
+}
+
+.progress-bar.right .skill-name {
+	text-align: right;
+}
+
+.progress-bar span {
+    display: block;
+    float: left;
+    height: 10px;
+    background-color: #777;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.progress-bar.right span {
+    display: block;
+    float: right;
+    height: 10px;
+    background-color: #777;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }

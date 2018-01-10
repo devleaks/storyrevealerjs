@@ -26,24 +26,34 @@ Reveal.addEventListener( 'fragmentshown', function( event ) {
 
 
 Reveal.addEventListener( 'fragmentshown', function( event ) {
-	if ( event.fragment.dataset.skill != undefined ) {
+	var colors = [ '#e00', '#0e0', '#00e' , '#ee0', '#e0e', '#0ee' ]
+	var skillbars = Reveal.getCurrentSlide().querySelectorAll("div[data-skillname]")
+	for (var i = 0; i < skillbars.length; i++ ){
+		var skillName = skillbars[i].dataset.skillname
+		var selector = '.skill[data-skillname="'+skillName+'"] span'
 		var cssProperties = anime({
-		  targets: '.skill-cursor',
-		  width: '75%',
+		  targets: selector,
+		  width: skillbars[i].dataset.skillvalue+'%',
+		  'background-color': colors[i % colors.length],
 		  easing: 'easeInOutQuad',
 		  duration: 3000
 		});
-		console.log('anim added', 'skill-cursor')
+		console.log('anim added', 'skill-cursor', selector, skillbars[i].dataset.skillvalue)
 	}
 } );
 
 Reveal.addEventListener( 'fragmenthidden', function( event ) {
-	if ( event.fragment.dataset.skill != undefined ) {
+	var skillbars = Reveal.getCurrentSlide().querySelectorAll("div[data-skillname]")
+	for (var i = 0; i < skillbars.length; i++ ){
+		var skillName = skillbars[i].dataset.skillname
+		var selector = '.skill-cursor[data-skillname="'+skillName+'"] span'
 		var cssProperties = anime({
-		  targets: '.skill-cursor',
+		  targets: selector,
 		  width: '0%',
-		  easing: 'easeInOutQuad'
+		  'background-color': '#000',
+		  easing: 'easeInOutQuad',
+		  duration: 100
 		});
-		console.log('anim hidden', 'skill-cursor')
+		console.log('anim reset', 'skill-cursor', selector, skillbars[i].dataset.skillvalue)
 	}
 } );

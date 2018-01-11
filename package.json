@@ -17,6 +17,7 @@
     "d3-request": "^1.0.6",
     "d3-selection": "^1.2.0",
     "d3-transition": "^1.1.1",
+    "jquery": "^3.2.1",
     "mustache": "^2.3.0",
     "reveal.js": "^3.6.0",
     "reveal.js-d3js": "^1.0.0",

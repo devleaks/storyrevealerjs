@@ -4,9 +4,43 @@
  *
  * Copyright (C) 2017 Pierre M
  */
-Reveal.addEventListener( 'fragmentshown', function( event ) {
-	if ( event.fragment.dataset.countup != undefined ) {
-		var values = event.fragment.dataset.countup.split(',')
+
+var RevealJSAnimation = window.RevealJSAnimation || (function(){
+	var _animations = {}
+	
+	return {
+		register: function(name, anim) {
+			_animations[name] = anim
+			return anim
+		},
+		play: function(name) {
+			if(_animations[name]) {
+				_animations[name].play()
+			}
+		},
+		pause: function(name) {
+			if(_animations[name]) {
+				_animations[name].pause()
+			}
+		},
+		restart: function(name) {
+			if(_animations[name]) {
+				_animations[name].restart()
+			}
+		},
+		reverse: function(name) {
+			if(_animations[name]) {
+				_animations[name].reverse()
+			}
+		}
+	}
+})()	
+
+function do_countup(container) {
+	var counters = container.querySelectorAll("*[data-countup]")
+	for (var i = 0; i < counters.length; i++ ) {
+		console.log(counters[i])
+		var values = counters[i].dataset.countup.split(',')
 		var myObject = {
 			counter: values[0]
 		}
@@ -17,43 +51,61 @@ Reveal.addEventListener( 'fragmentshown', function( event ) {
 			easing: 'easeInOutQuad',
 			duration: values[3],
 			update: function() {
-				event.fragment.innerHTML = myObject.counter;
+				 counters[i].innerHTML = myObject.counter;
 			}
 		})
 		console.log('anim added', 'countup')
 	}
+}
+
+Reveal.addEventListener( 'fragmentshown', function( event ) {
+	do_countup(event.fragment)
+} );
+
+Reveal.addEventListener( 'slidechanged', function( event ) {
+	do_countup(Reveal.getCurrentSlide())
 } );
 
 
-Reveal.addEventListener( 'fragmentshown', function( event ) {
+
+function do_skill_table(container, enable) {
 	var colors = [ '#e00', '#0e0', '#00e' , '#ee0', '#e0e', '#0ee' ]
-	var skillbars = Reveal.getCurrentSlide().querySelectorAll("div[data-skillname]")
+	var skillbars = container.querySelectorAll("div[data-skillname]")
 	for (var i = 0; i < skillbars.length; i++ ){
 		var skillName = skillbars[i].dataset.skillname
 		var selector = '.skill[data-skillname="'+skillName+'"] span'
-		var cssProperties = anime({
-		  targets: selector,
-		  width: skillbars[i].dataset.skillvalue+'%',
-		  'background-color': colors[i % colors.length],
-		  easing: 'easeInOutQuad',
-		  duration: 3000
-		});
-		console.log('anim added', 'skill-cursor', selector, skillbars[i].dataset.skillvalue)
+		if(enable) {
+			var cssProperties = anime({
+			  targets: selector,
+			  width: skillbars[i].dataset.skillvalue+'%',
+			  'background-color': colors[i % colors.length],
+			  opacity: 1,
+			  easing: 'easeInOutQuad',
+			  duration: 3000
+			});
+			console.log('anim added', 'skill-cursor', selector, skillbars[i].dataset.skillvalue)
+		} else {
+			var cssProperties = anime({
+			  targets: selector,
+			  width: skillbars[i].dataset.skillvalue+'%',
+			  'background-color': colors[i % colors.length],
+			  opacity: 0,
+			  easing: 'easeInOutQuad',
+			  duration: 3000
+			});
+			console.log('anim added', 'skill-cursor', selector, skillbars[i].dataset.skillvalue)
+		}
 	}
+}
+
+Reveal.addEventListener( 'slidechanged', function( event ) {
+	do_skill_table(Reveal.getCurrentSlide(), true)
+} );
+
+Reveal.addEventListener( 'fragmentshown', function( event ) {
+	do_skill_table(event.fragment, true)
 } );
 
 Reveal.addEventListener( 'fragmenthidden', function( event ) {
-	var skillbars = Reveal.getCurrentSlide().querySelectorAll("div[data-skillname]")
-	for (var i = 0; i < skillbars.length; i++ ){
-		var skillName = skillbars[i].dataset.skillname
-		var selector = '.skill-cursor[data-skillname="'+skillName+'"] span'
-		var cssProperties = anime({
-		  targets: selector,
-		  width: '0%',
-		  'background-color': '#000',
-		  easing: 'easeInOutQuad',
-		  duration: 100
-		});
-		console.log('anim reset', 'skill-cursor', selector, skillbars[i].dataset.skillvalue)
-	}
+	do_skill_table(event.fragment, false)
 } );

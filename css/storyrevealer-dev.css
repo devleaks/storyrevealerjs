@@ -1,8 +1,8 @@
-/* skill elements */
-div.skill-table {
+/* progress-bar elements */
+div.progress-bar-table {
 	margin: 20px;
 }
-.progress-bar {
+*[data-animation='progress-bar'] {
     padding: 5px;
     width: 100%;
     margin: 70px 0 20px 0;			
@@ -12,18 +12,27 @@ div.skill-table {
     position: relative;
 }
         
-.progress-bar .skill-name {
+*[data-animation='progress-bar'] .progress-bar-name {
 	width: 100%;
 	color: #fff;
 	text-align: left;
 	clear: both;
 }
 
-.progress-bar.right .skill-name {
+*[data-animation='progress-bar'] .progress-bar-desc {
+	width: 100%;
+	color: #fff;
+	text-align: left;
+	font-size: 16px;
+	clear: both;
+}
+
+*[data-animation='progress-bar'].right .progress-bar-name,
+*[data-animation='progress-bar'].right .progress-bar-desc {
 	text-align: right;
 }
 
-.progress-bar span {
+*[data-animation='progress-bar'] span {
     display: block;
     float: left;
     height: 10px;
@@ -33,7 +42,7 @@ div.skill-table {
     border-radius: 3px;
 }
 
-.progress-bar.right span {
+*[data-animation='progress-bar'].right span {
     display: block;
     float: right;
     height: 10px;
@@ -42,3 +51,4 @@ div.skill-table {
     -webkit-border-radius: 3px;
     border-radius: 3px;
 }
+/* countup elements */

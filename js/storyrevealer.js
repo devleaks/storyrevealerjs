@@ -52,7 +52,7 @@
 		"data-background-iframe"
 	]
 
-	var COLORS = [
+	var _COLORS = [
 		"#1abc9c",
 		"#2ecc71",
 		"#3498db",
@@ -74,7 +74,9 @@
 		"#bdc3c7",
 		"#7f8c8d"
 	]
-
+	var COLORS = []
+	var transparency = 0.6
+	
 	var CLEAN_HTML = {
 	  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'div', 'p', 'br', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ],
 	  allowedAttributes: {
@@ -91,9 +93,19 @@
 	 *
 	 */
 	function init() {
-		if(_inited) return
-		_inited = true
+		if(_inited) return;
+		function hexToRgb(hex) {
+		    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+		    return result ? {
+		        r: parseInt(result[1], 16),
+		        g: parseInt(result[2], 16),
+		        b: parseInt(result[3], 16)
+		    } : null
+		}
+		COLORS = _COLORS.map(function(hex){ var c = hexToRgb(hex); return "rgba("+c.r+","+c.g+","+c.b+","+transparency+")" })
+		_inited = true;
 	}
+
 	
 	/*
 	 *
@@ -159,11 +171,14 @@
 
 		chart.data.labels = categories
 		chart.data.datasets = []
+		counter = 1
 		columns.forEach(function(column) {
 			chart.data.datasets.push({
 				data: column,
-				backgroundColor: colors
+				label: chart_data.labels ? chart_data.labels[counter-1] : 'Set '+counter,
+				backgroundColor: (chart.type == "pie") ? colors : COLORS[(counter) % COLORS.length]
 			})
+			counter++
 		})
 		//console.log(chart_data, chart)
 
@@ -319,6 +334,7 @@
 							case "barchart": // Using Chart.js
 							case "piechart":
 							case "linechart":
+							    data[content].type = data[content].type || content_type.substr(0, content_type.length - 5)
 								generateChart(elem, data[content])
 								break
 
@@ -341,7 +357,6 @@
 									.attr('data-progress-bar', data[content].start+','+data[content].end+','+data[content].max+','+data[content].time)
 								
 								if(data[content].name) {
-									console.log('append name')
 									bar.append("div").attr("class", "progress-bar-name").text(data[content].name)
 								}
 								var cursor = bar.append("span").attr("class", "progress-bar")								
@@ -353,7 +368,6 @@
 								})
 
 								if(data[content]["show-value"]) {
-									console.log('append show-value')
 									cursor.append("span").attr("class", "progress-bar-value")
 								}
 

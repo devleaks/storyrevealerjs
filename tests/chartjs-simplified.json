@@ -1,12 +1,12 @@
 {
 	"cover": {
-		"headline": "Chartist",
-		"under-title": "Siplified Chartist"
+		"headline": "Chart",
+		"under-title": "Siplified Chart"
 	},
 	"pages": [
 		{
 			"title": "Simplified Pie Chart",
-			"piechartist": {
+			"piechart": {
 				"data": [
      			["Tiger", 50],
 					["Henrick", 30],
@@ -16,7 +16,7 @@
 		},
 		{
 			"title": "Simplified Line Chart",
-			"linechartist": {
+			"linechart": {
 				"data": [
      			["Tiger", 70, 71, 68, 66],
           ["Henrick", 72, 72, 66, 65],
@@ -26,7 +26,8 @@
 		},
 		{
 			"title": "Simplified Bar Chart",
-			"barchartist": {
+			"barchart": {
+				"labels": ["R1", "R2", "R3", "R4"],
 				"data": [
      			["Tiger", 70, 71, 68, 66],
           ["Henrick", 72, 72, 66, 65],
@@ -35,35 +36,6 @@
           ["Justin", 72, 70, 68, 72],
           ["Thomas", 66, 68, 76, 72]
 				]
-			}
-		},
-		{
-			"title": "Generic Chartist Chart",
-			"chartist": {
-				"data": {
-				   "labels": [
-				      "1",
-				      "2",
-				      "3",
-				      "4",
-				      "5",
-				      "6"
-				   ],
-				   "series": [
-				      {
-				         "data": [
-				            1,
-				            2,
-				            3,
-				            5,
-				            8,
-				            13
-				         ]
-				      }
-				   ]
-				},
-				"options": {},
-				"responsiveOptions": {}
 			}
 		}
 	]

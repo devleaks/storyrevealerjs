@@ -255,16 +255,43 @@
 
 								break
 
-							/* @todo
-							case "progressbar": (text, min, max, value, animated, show_value)
-							*/
 							case "counter": // text, start, stop, time
-								elem.append("p")
-									.attr('class', 'fragment')
-									.attr("data-countup", data[content])
+								var cntparams = (typeof data[content] == "object")
+								 					? ""+data[content].start+','+data[content].end+','+data[content].round+','+data[content].time
+													: data[content]
+								var counter = elem.append("p")
+									.attr('data-animation', 'countup')
+									.attr("data-countup", cntparams)
+
+								if(content_arr.indexOf("fragment") > -1)
+										counter.classed("fragment", true)
 
 								break
+								
+							case "progress-bar":
+								var bar = elem.append("div")
+									.attr('data-animation', 'progress-bar')
+									.attr('data-progress-bar', data[content].start+','+data[content].end+','+data[content].max+','+data[content].time)
+								
+								if(data[content].name) {
+									console.log('append name')
+									bar.append("div").attr("class", "progress-bar-name").text(data[content].name)
+								}
+								var cursor = bar.append("span").attr("class", "progress-bar")								
 
+								var classes = ["fragment","right"]
+								classes.forEach(function(c) {
+									if(content_arr.indexOf(c) > -1)
+										bar.classed(c, true)
+								})
+
+								if(data[content]["show-value"]) {
+									console.log('append show-value')
+									cursor.append("span").attr("class", "progress-bar-value")
+								}
+
+								break
+								
 							case "moving-letters":
 								var html = Mustache.render("<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}'>{{text}}</div>",data[content])
 								elem.html(html)

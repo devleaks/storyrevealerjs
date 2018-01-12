@@ -75,7 +75,7 @@ var RevealJSAnimation = window.RevealJSAnimation || (function(){
 			if(container.getAttribute('data-animation')) { // play animation on current element, if any
 				var id = container.getAttribute("id")
 				RevealJSAnimation.restart(id)
-				//console.log("RevealJSAnimation::play_animation::container", id)
+				console.log("RevealJSAnimation::play_animation::container", id)
 			}
 			/*	The following selector IS NOT CORRECT. we should only search for animation but without .fragment style
 				correct algorithm need to bring in jquery (See: https://github.com/hakimel/reveal.js/issues/833)
@@ -86,7 +86,7 @@ var RevealJSAnimation = window.RevealJSAnimation || (function(){
 				var animation = animations[i]
 				var id = animation.getAttribute("id")
 				RevealJSAnimation.restart(id)
-				//console.log("RevealJSAnimation::play_animations", id)
+				console.log("RevealJSAnimation::play_animations", id)
 			}
 		}
 	}
@@ -109,6 +109,7 @@ Reveal.addEventListener( 'ready' , function( event ) {
 
 			case "countup": (function() { // start each anim in its own context
 				var values = animation.dataset.countup.split(',')
+				console.log('countup', values)
 				var myObject = {
 					target: animation,
 					counter: values[0]
@@ -119,39 +120,41 @@ Reveal.addEventListener( 'ready' , function( event ) {
 					round: values[2],
 					easing: 'easeInOutQuad',
 					duration: values[3],
-					autoplay: false,
+//					autoplay: false,
 					update: function() {
 						 myObject.target.innerHTML = myObject.counter;
 					}
 				}))
-				//console.log('anim added', 'countup', id)
 
 				})()
 				break
 
 			case "progress-bar": (function() {
-				console.log(animation)
-				var duration = animation.dataset['progress-bar-duration'] || 3000
+				var pbparams = animation.dataset['progress-bar'] || '0,100,100,3000' // default 0 to 100%
+				var pbpararr = pbparams.split(',')
+				if(pbpararr[2] == 0) pbpararr[2] = 1 // convert start->end into %-start,%end
+				var start_val = Math.round(100 * pbpararr[0]/pbpararr[2])
+				var end_val   = Math.round(100 * pbpararr[1]/pbpararr[2])
+				var duration = pbpararr[3] || 3000
 
 				var timeline = anime.timeline().add({ // animation of bar
 				  targets: '#'+id+" span.progress-bar",
-				  width: animation.dataset['progress-bar-value']+'%',
-				  'background-color': RevealJSAnimation.color(),
-				  opacity: 1,
+				  width: [start_val+'%',end_val+'%'],
+				  backgroundColor: [RevealJSAnimation.color(),RevealJSAnimation.color()],
 				  easing: 'easeInOutQuad',
 				  autoplay: false,
 				  duration: duration
 				})
 
 				var counter_display = document.querySelector('#'+id+" span.progress-bar-value")
-				if(counter_display) {
+				if(counter_display) { // add displayed value if templates has it
 					var myObject = {
 						target: counter_display,
-						counter: 0
+						counter: pbpararr[0]
 					}
 					timeline.add({	// animation of value
 						targets: myObject,
-						counter: animation.dataset['progress-bar-value'],
+						counter: pbpararr[1],
 						round: 1,
 						easing: 'easeInOutQuad',
 						offset: '-='+duration,
@@ -168,7 +171,6 @@ Reveal.addEventListener( 'ready' , function( event ) {
 				})()
 				break
 
-			case "moving-letters":
 			default:
 				console.log('ready::install animations::animation type not found', animation)
 				break

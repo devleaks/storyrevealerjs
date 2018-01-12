@@ -1025,3 +1025,61 @@ body {
 .rowfooter {
   color: orange;
   font-weight: bolder; }
+
+/* progress-bar elements */
+div.progress-bar-table {
+	margin: 20px;
+}
+*[data-animation='progress-bar'] {
+    padding: 5px;
+    width: 100%;
+    margin: 70px 0 20px 0;			
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    position: relative;
+}
+        
+*[data-animation='progress-bar'] .progress-bar-name {
+	width: 100%;
+	color: #fff;
+	text-align: left;
+	clear: both;
+}
+
+*[data-animation='progress-bar'] .progress-bar-desc {
+	width: 100%;
+	color: #fff;
+	text-align: left;
+	font-size: 16px;
+	clear: both;
+}
+
+*[data-animation='progress-bar'].right .progress-bar-name,
+*[data-animation='progress-bar'].right .progress-bar-desc {
+	text-align: right;
+}
+
+*[data-animation='progress-bar'] span {
+    display: block;
+    float: left;
+    height: 10px;
+    background-color: #777;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+*[data-animation='progress-bar'].right span {
+    display: block;
+    float: right;
+    height: 10px;
+    background-color: #777;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+/* countup elements */
+span.description {
+	font-size: 16px;
+}

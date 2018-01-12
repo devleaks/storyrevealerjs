@@ -131,15 +131,16 @@ Reveal.addEventListener( 'ready' , function( event ) {
 				})()
 				break
 
-			case "progress-bar": (function() { 
-				RevealJSAnimation.register(id, anime({
+			case "progress-bar": (function() {
+				var duration = animation.dataset['progress-bar-duration'] || 3000
+ 				RevealJSAnimation.register(id, anime({
 				  targets: '#'+id+" span.progress-bar",
 				  width: animation.dataset['progress-bar-value']+'%',
 				  'background-color': RevealJSAnimation.color(),
 				  opacity: 1,
 				  easing: 'easeInOutQuad',
 				  autoplay: false,
-				  duration: 3000
+				  duration: duration
 				}))
 				console.log('anim added', 'progress-bar', id)
 

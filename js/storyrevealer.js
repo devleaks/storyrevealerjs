@@ -53,8 +53,26 @@
 	]
 
 	var COLORS = [
-		"#fff",
-		"#ddd"
+		"#1abc9c",
+		"#2ecc71",
+		"#3498db",
+		"#9b59b6",
+		"#34495e",
+		"#16a085",
+		"#27ae60",
+		"#2980b9",
+		"#8e44ad",
+		"#2c3e50",
+		"#f1c40f",
+		"#e67e22",
+		"#e74c3c",
+		"#ecf0f1",
+		"#95a5a6",
+		"#f39c12",
+		"#d35400",
+		"#c0392b",
+		"#bdc3c7",
+		"#7f8c8d"
 	]
 
 	var CLEAN_HTML = {
@@ -111,8 +129,52 @@
 			}			
 		}
 	}
-	
+
+
 	/* 	Generate chart object for each chart type
+	 *
+	 */
+	function generateChart(container, chart_data) {
+		init();
+		var counter = 0
+		var data = chart_data.data
+
+		var chart = {}
+		chart.type = chart_data.type
+		chart.options = chart_data.options
+		chart.data = {}
+
+		var columns = []
+		var categories = []
+		var colors = []
+		data.forEach(function(line) {
+			categories.push(line[0])
+			for(var i = 1; i < data[0].length; i++) {
+				columns[i-1] = columns[i-1] || []
+				columns[i-1].push(line[i])
+				colors.push(COLORS[(counter++) % COLORS.length])
+			}
+		})
+		//console.log(categories, columns)
+
+		chart.data.labels = categories
+		chart.data.datasets = []
+		columns.forEach(function(column) {
+			chart.data.datasets.push({
+				data: column,
+				backgroundColor: colors
+			})
+		})
+		//console.log(chart_data, chart)
+
+		container
+			.append('canvas')
+			.attr('class', 'chart')
+			.html('<!-- '+JSON.stringify(chart)+' -->');
+	}
+	
+	
+	/* 	Generate chartist object for each chart type
 	 *
 	 */
 	function generateChartist(chart_data, chart_type) {
@@ -245,14 +307,19 @@
 								generateTable(container, data[content])
 								break
 								
-							case "barchart":
-							case "piechart":
-							case "linechart":
+							case "barchartist": // Using Chartist
+							case "piechartist":
+							case "linechartist":
 								var json = generateChartist(data[content], content_type.substr(0, content_type.indexOf("chart")))
 								var container = elem.append("div")
 								    .classed("chartist", true)
 									.html('<!-- '+JSON.stringify(json)+' -->')
+								break
 
+							case "barchart": // Using Chart.js
+							case "piechart":
+							case "linechart":
+								generateChart(elem, data[content])
 								break
 
 							case "counter": // text, start, stop, time
@@ -297,6 +364,12 @@
 								elem.html(html)
 								break
 								
+							case "chart":
+								elem
+									.append('canvas')
+									.attr('class', 'chart')
+									.html('<!-- '+JSON.stringify(data[content])+' -->');
+								break
 							case "chartist":
 							case "mustache":
 							default: // we add a generic div with class "content-type" for interception by anything plugin

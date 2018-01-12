@@ -253,7 +253,94 @@ be
 
 Mapping of content elements can be provided as a Storyrevealer option.
 
- 
+#### Animations
+
+Storyrevealers adds simple animations.
+The following animations are currently available:
+
+##### Countup
+
+Count-Up changes the value of a counter from a starting value to an ending value, by increment (round), in a giving time.
+
+```
+"counter": {
+	"name": "counter title",
+	"start": 20,
+	"end": 60,
+	"round": 0,
+	"time": 5000
+}
+```
+or
+```
+"counter": "300,100,1,3000"
+```
+
+##### Progress Bar
+
+A progress bar is a title, a subtitle and a cursor-like bar that runs from a starting value to an ending value, in a given time.
+
+```
+"progress-bar": {
+	"name": "progress bar title",
+	"description": "text under above progress bar title",
+	"show-value": true,
+	"start": 20,
+	"end": 60,
+	"max": 200,
+	"time": 5000
+}```
+
+It is possible to display several progress bar like so:
+
+```
+"mustache": {
+	"template": "<table class='counter-table'>{{#skills}}<tr><td>{{name}}</td><td><span data-animation='countup' data-countup='0,{{value}},1,2000'>{{value}}</span></td></tr>{{/skills}}</table>",
+	"data": {
+	   "name":"John Smith",
+	   "skills":[
+	      {
+	         "name":"JavaScript",
+	         "value":100
+	      },
+	      {
+	         "name":"PHP",
+	         "value":80
+	      },
+	      {
+	         "name":"Java",
+	         "value":20
+	      }
+	   ]
+	}
+}
+```
+
+#### Moving Letters
+
+Storyrevealer adds a few animations for short text (typically title texts).
+To add a text animation, add a Mustache element like this one:
+
+```
+{
+	"mustache": {
+		"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+		"data": {
+			"animation": "ready",
+			"loop": "true",
+			"text": "Ready,Set,Go",
+			"separator": ","
+		}
+	}
+}
+```
+
+When animation requires more than one string, strings are separated using the `separator` inside the `text` attribute.
+Loop indicates whether the animation should only play once, or loop forever.
+
+[Valid animations](http://tobiasahlin.com/moving-letters/) are: thursday, slow-mornings, great-thinker, ready, signal-and-noise, beautiful-question,
+reality-is-broken, hey, coffee-morning, domino-dreams, hello-goodbye, a-new-production, rising-strong,
+finding-your-element, out-now, and made-with-love.
 
 #### Table
 
@@ -284,24 +371,26 @@ straightforward, bold, graphs.
 
 Most graphs are animated but not interactive.
 
+Storyrevealer uses 2 graphic packages
+
+1. [Chart.js](http://tobiasahlin.com/blog/chartjs-charts-to-get-you-started/), which uses the HTML Canvas,
+2. [Chartist](https://gionkunz.github.io/chartist-js/), which uses SVG, very much like [C3](http://c3js.org) and D3 which could also be viable alternatives.
+
  
 
 There are two methods to create graphs.
-
  
 
-The first method uses the content-type `barchart`, `linechart`, and `piechart`
-to create standard bar, line and pie chart respectively. Data need to presented
-in a standard way. No option can be changed.
+The first method uses the content-type `barchart` (respectively `barchartist`), `linechart` (resp. `linechartist`), and `piechart` (resp. `piechartist`)
+to create standard bar, line and pie chart respectively.
+Data need to presented in a standard way. No option can be changed.
 
 These types of graphs are suitable for simple graphs.
 
  
 
-The second method uses the content-type « chart ». Data need to be presented in
+The second method uses the content-type « chart » (respectively « chartist »). Data need to be presented in
 the the way the graphing package expects it.
 
 This method allow to display any type of graph that the graphing package can
 display.
-
- 

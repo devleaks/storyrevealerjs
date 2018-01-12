@@ -91,7 +91,8 @@
 		],
 		[
 			{
-					"text.html": "A sentence with <span data-animation='countup' data-countup='0,20,1,3000'>0</span> words"
+					"text.html": "A sentence with <span data-animation='countup' data-countup='0,20,1,3000'>0</span> words",
+					"under-title.html": "<div data-animation='progress-bar' data-progress-bar-value='100' data-progress-bar-duration='3000'><span class='progress-bar'></span></div>"
 			}
 		]
 

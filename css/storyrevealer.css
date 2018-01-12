@@ -270,7 +270,7 @@ body {
   -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
 
-/* chartlist-setting is redefined to use above defaults */
+/* note: chartist/chartist-setting is redefined to use above defaults */
 .ct-label {
   fill: rgba(238, 238, 238, 0.8);
   color: rgba(238, 238, 238, 0.8);
@@ -1028,58 +1028,59 @@ body {
 
 /* progress-bar elements */
 div.progress-bar-table {
-	margin: 20px;
-}
+  margin: 20px; }
+
 *[data-animation='progress-bar'] {
-    padding: 5px;
-    width: 100%;
-    margin: 70px 0 20px 0;			
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    position: relative;
-}
-        
+  padding: 5px;
+  width: 100%;
+  margin: 70px 0 20px 0;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  position: relative; }
+
 *[data-animation='progress-bar'] .progress-bar-name {
-	width: 100%;
-	color: #fff;
-	text-align: left;
-	clear: both;
-}
+  width: 100%;
+  color: #fff;
+  text-align: left;
+  clear: both; }
 
 *[data-animation='progress-bar'] .progress-bar-desc {
-	width: 100%;
-	color: #fff;
-	text-align: left;
-	font-size: 16px;
-	clear: both;
-}
+  width: 100%;
+  color: #fff;
+  text-align: left;
+  font-size: 16px;
+  clear: both; }
 
 *[data-animation='progress-bar'].right .progress-bar-name,
 *[data-animation='progress-bar'].right .progress-bar-desc {
-	text-align: right;
-}
+  text-align: right; }
 
-*[data-animation='progress-bar'] span {
-    display: block;
-    float: left;
-    height: 10px;
-    background-color: #777;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-}
+*[data-animation='progress-bar'] span.progress-bar {
+  display: block;
+  float: left;
+  height: 10px;
+  background-color: #777;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
 
-*[data-animation='progress-bar'].right span {
-    display: block;
-    float: right;
-    height: 10px;
-    background-color: #777;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-}
+*[data-animation='progress-bar'].right span.progress-bar {
+  display: block;
+  float: right;
+  height: 10px;
+  background-color: #777;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+
+*[data-animation='progress-bar'] span.progress-bar-value {
+  float: right;
+  font-size: 70%; }
+
+*[data-animation='progress-bar'].right span.progress-bar-value {
+  float: left; }
+
 /* countup elements */
 span.description {
-	font-size: 16px;
-}
+  font-size: 16px; }

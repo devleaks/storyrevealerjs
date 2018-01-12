@@ -40,13 +40,11 @@ var RevealJSAnimation = window.RevealJSAnimation || (function(){
 	return {
 		register: function(name, anim) {
 			_animations[name] = anim
-			console.log("RevealJSAnimation::register", name)
 			return anim
 		},
 		play: function(name) {
 			if(_animations[name]) {
 				_animations[name].play()
-				console.log("RevealJSAnimation::play", name)
 			}
 		},
 		pause: function(name) {
@@ -77,7 +75,7 @@ var RevealJSAnimation = window.RevealJSAnimation || (function(){
 			if(container.getAttribute('data-animation')) { // play animation on current element, if any
 				var id = container.getAttribute("id")
 				RevealJSAnimation.restart(id)
-				console.log("RevealJSAnimation::play_animation::container", id)
+				//console.log("RevealJSAnimation::play_animation::container", id)
 			}
 			/*	The following selector IS NOT CORRECT. we should only search for animation but without .fragment style
 				correct algorithm need to bring in jquery (See: https://github.com/hakimel/reveal.js/issues/833)
@@ -88,7 +86,7 @@ var RevealJSAnimation = window.RevealJSAnimation || (function(){
 				var animation = animations[i]
 				var id = animation.getAttribute("id")
 				RevealJSAnimation.restart(id)
-				console.log("RevealJSAnimation::play_animations", id)
+				//console.log("RevealJSAnimation::play_animations", id)
 			}
 		}
 	}
@@ -126,14 +124,16 @@ Reveal.addEventListener( 'ready' , function( event ) {
 						 myObject.target.innerHTML = myObject.counter;
 					}
 				}))
-				console.log('anim added', 'countup', id)
+				//console.log('anim added', 'countup', id)
 
 				})()
 				break
 
 			case "progress-bar": (function() {
+				console.log(animation)
 				var duration = animation.dataset['progress-bar-duration'] || 3000
- 				RevealJSAnimation.register(id, anime({
+
+				var timeline = anime.timeline().add({ // animation of bar
 				  targets: '#'+id+" span.progress-bar",
 				  width: animation.dataset['progress-bar-value']+'%',
 				  'background-color': RevealJSAnimation.color(),
@@ -141,8 +141,29 @@ Reveal.addEventListener( 'ready' , function( event ) {
 				  easing: 'easeInOutQuad',
 				  autoplay: false,
 				  duration: duration
-				}))
-				console.log('anim added', 'progress-bar', id)
+				})
+
+				var counter_display = document.querySelector('#'+id+" span.progress-bar-value")
+				if(counter_display) {
+					var myObject = {
+						target: counter_display,
+						counter: 0
+					}
+					timeline.add({	// animation of value
+						targets: myObject,
+						counter: animation.dataset['progress-bar-value'],
+						round: 1,
+						easing: 'easeInOutQuad',
+						offset: '-='+duration,
+						duration: duration,
+						update: function() {
+							 myObject.target.innerHTML = myObject.counter;
+						}
+					})
+				}
+
+ 				RevealJSAnimation.register(id, timeline)
+				//console.log('anim added', 'progress-bar', id)
 
 				})()
 				break

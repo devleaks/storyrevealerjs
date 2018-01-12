@@ -289,7 +289,8 @@ A progress bar is a title, a subtitle and a cursor-like bar that runs from a sta
 	"end": 60,
 	"max": 200,
 	"time": 5000
-}```
+}
+```
 
 It is possible to display several progress bar like so:
 

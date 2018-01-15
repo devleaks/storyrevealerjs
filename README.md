@@ -25,7 +25,7 @@ Storyrevealer uses Reveal.js plugins, like the Anything plugin, to display and
 animate your content. (Anything plugin is so generic that you can really stick
 anything in a slide' section)
 
-It also uses some JS libraries like animate.js, mustache, d3 (request and selection).0
+It also uses some JS libraries like animate.js, mustache, d3 (request and selection).
 
 Storyrevealer just started, so expect documentation, tests, and more examples in
 the following weeks.
@@ -253,9 +253,16 @@ The mapped element can also contain additional classes.
 In the above exemple, if `title` is mapped to `h1.left` the generated HTML will
 be
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<h1 class="huge reverse left">Hello</h1>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Mapping of content elements can be provided as a Storyrevealer option.
+
+
 ##### Mustache Templating
 
-The content-element mustache formats text and data from the famous templating engine:
+The content-element `mustache` formats text and data from the famous templating engine:
 
 ```
 "mustache": {
@@ -279,12 +286,6 @@ The content-element mustache formats text and data from the famous templating en
 	}
 }
 ```
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-<h1 class="huge reverse left">Hello</h1>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Mapping of content elements can be provided as a Storyrevealer option.
 
 #### Animations
 

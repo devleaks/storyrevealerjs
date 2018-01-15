@@ -12,18 +12,20 @@ examples
 [here](http://www.gaa.ie/sportteller-content/stories/1/1/55b33bda-d289-41a6-ba6e-a3e094201f36/index.html#Slide_2),
 and
 [here](http://www.europeantour.com/sportteller/bmw-pga-championship-day-1-in-numbers.html)),
-here is a simpler, free, alternative.
+Storyrevealer is a simpler, free, alternative.
 
 Storyrevealer creates a single web page, called a newspaper, which contains
 stories. Stories in a newspaper are scrolled horizontally. A story is a list of
-pages. A single story is scrolled vertically.
+pages scrolled vertically.
 
 A page is a background image, animation, or video, with content laid over it.
-Content is a collection of information displayed as text, table, or graphics.
+The content of the page is a collection of information displayed as text, table, or graphics.
 
 Storyrevealer uses Reveal.js plugins, like the Anything plugin, to display and
 animate your content. (Anything plugin is so generic that you can really stick
 anything in a slide' section)
+
+It also uses some JS libraries like animate.js, mustache, d3 (request and selection).0
 
 Storyrevealer just started, so expect documentation, tests, and more examples in
 the following weeks.
@@ -79,7 +81,7 @@ The story’s cover page is a regular, additional page.
 
 ### Page
 
-A page is made of one or more columns.
+A page is made of one or more columns. In the latter case, it is an array of columns.
 
  
 
@@ -104,7 +106,7 @@ column: { {{content}}* }
  
 
 If a column does not contain any content property, it is a blank page or column.
-
+Blank columns can be useful to control the horizontal layout of content.
  
 
 ### Content Properties
@@ -119,11 +121,9 @@ A content property is a ( content-type = content-value ) pair.
 
  
 
-Content-value is a valid JSON object and its form varies depending on the
-content-type.
+Content-value is a valid JSON object and its form varies depending on the content-type.
 
-If a page contains more than one content property, they are displayed in
-appearing order.
+If a page contains more than one content property, they are displayed in appearing order.
 
 Storyrevealer provides a set of content-type properties together with their
 representation. We make an artificial distinction between 3 types of
@@ -153,9 +153,11 @@ Decoration properties mainly affect the appearance of the page.
 
 Data properties are relayed to Reveal.js element entities.
 
-| **Content Type**      | **Value**    | **Note**         |
-|-----------------------|--------------|------------------|
-| data-background-color | RGB(A) Color | Background color |
+| **Content Type**       | **Value**        | **Note**         |
+|------------------------|------------------|------------------|
+| data-background-color  | RGB(A) Color     | Background color |
+| data-background-iframe | URL to HTML page | Background HTML page (non-interactive) |
+
 
 Data elements are added to the parent element as data attributes.
 
@@ -172,7 +174,7 @@ background transitions, or any other data attribute.  
 
 Text content is the simplest form of content laid over the background.
 
-The following text content elements are accepted:
+The following text content elements are provided by Storyrevealer:
 
 | **Text Content** | **Purpose**                  | **Display**                          |
 |------------------|------------------------------|--------------------------------------|
@@ -193,6 +195,8 @@ The following text content elements are accepted:
 The content-type name can contain additional CSS class names that must be added
 to its HTML parent element.
 
+For exemple, if the title content-type is mapped to the HTML element H1:
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 title.huge.reverse: Hello
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -205,7 +209,7 @@ will become
 
  
 
-The following class names have special meaning:
+The following class names are intercepted by Storyrevealer and have special meaning:
 
 | **Class Name** | **Description**                                                                             |
 |----------------|---------------------------------------------------------------------------------------------|
@@ -214,7 +218,7 @@ The following class names have special meaning:
 
  
 
-The following class names are also provided and can be customized.
+The following class names are provided by Storyrevealer and can be customized in the SCSS file.
 
 | **Class Name** | **Description**                                             |
 |----------------|-------------------------------------------------------------|
@@ -236,6 +240,8 @@ These classes are provided for your convenience but essentially show how you can
 add your own styling to your newspaper stories. Additional class names can be
 added and used in Storyrevealer.
 
+More content-type elements, their mapping, and styles can easily be added to Storyrevealer
+to suit your needs.
  
 
 ##### Text Content Element HTML Mapping 
@@ -246,6 +252,33 @@ The mapped element can also contain additional classes.
 
 In the above exemple, if `title` is mapped to `h1.left` the generated HTML will
 be
+
+##### Mustache Templating
+
+The content-element mustache formats text and data from the famous templating engine:
+
+```
+"mustache": {
+	"template": "<table class='counter-table'>{{#skills}}<tr><td>{{name}}</td><td><span data-animation='countup' data-countup='0,{{value}},1,2000'>{{value}}</span></td></tr>{{/skills}}</table>",
+	"data": {
+	   "name":"John Smith",
+	   "skills":[
+	      {
+	         "name":"JavaScript",
+	         "value":90
+	      },
+	      {
+	         "name":"PHP",
+	         "value":70
+	      },
+	      {
+	         "name":"CSS",
+	         "value":75
+	      }
+	   ]
+	}
+}
+```
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <h1 class="huge reverse left">Hello</h1>
@@ -261,6 +294,7 @@ The following animations are currently available:
 ##### Countup
 
 Count-Up changes the value of a counter from a starting value to an ending value, by increment (round), in a giving time.
+The counter starts when the page is displayed.
 
 ```
 "counter": {
@@ -279,6 +313,7 @@ or
 ##### Progress Bar
 
 A progress bar is a title, a subtitle and a cursor-like bar that runs from a starting value to an ending value, in a given time.
+The progress bar starts when the page is displayed.
 
 ```
 "progress-bar": {
@@ -317,7 +352,7 @@ It is possible to display several progress bar like so:
 }
 ```
 
-#### Moving Letters
+##### Moving Letters
 
 Storyrevealer adds a few animations for short text (typically title texts).
 To add a text animation, add a Mustache element like this one:
@@ -343,11 +378,11 @@ Loop indicates whether the animation should only play once, or loop forever.
 reality-is-broken, hey, coffee-morning, domino-dreams, hello-goodbye, a-new-production, rising-strong,
 finding-your-element, out-now, and made-with-love.
 
+
+
 #### Table
 
 The table structure contains two parts.
-
- 
 
 The first part contains table options.
 
@@ -355,14 +390,27 @@ The following options are accepted: rowheader, rowfooter, columnheader, column
 footer. They are all boolean and tells whether data contains such row or column
 header or footer.
 
- 
-
 The second part contains the data. Table data is an Array; each element of the
 array represents a table row.
 
 Each row is represented by an Array; each element of the array is the table cell
 content.
 
+```
+"table": {
+	"options": {
+		"columnheader": true,
+		"rowheader": true,
+		"rowfooter": true
+	},
+	"data": [
+		["", "R1", "R2", "R3", "R4", "TOT"],
+		["Tiger", 70, 71, 68, 66, 275],
+        ["Henrick", 72, 72, 66, 65, 275],
+        ["Sergio", 72, 71, 70, 68, 281]
+    ]
+}
+```
  
 
 #### Graphs
@@ -384,14 +432,52 @@ There are two methods to create graphs.
 
 The first method uses the content-type `barchart` (respectively `barchartist`), `linechart` (resp. `linechartist`), and `piechart` (resp. `piechartist`)
 to create standard bar, line and pie chart respectively.
-Data need to presented in a standard way. No option can be changed.
-
-These types of graphs are suitable for simple graphs.
+Data need to presented in a simple Storyrevealer way. No option can be changed.
+These types of graphs are suitable for most simple graphs.
 
  
 
 The second method uses the content-type « chart » (respectively « chartist »). Data need to be presented in
 the the way the graphing package expects it.
+This method allow to display any type of graph that the graphing package can display.
 
-This method allow to display any type of graph that the graphing package can
-display.
+
+## Storyrevealer Options
+
+When created, the Storyrevealer object accepts the following options:
+
+
+```
+Storyrevealer.generate({
+	// Storyrevealer data URL
+	url: 'dev.json',
+	// Content-type to HMTL element mappings
+	mappings: {
+		content-type: mapped-element
+	},
+	// Additional options for HTML Sanitazing library
+	html: {
+		allowedTags: [ 'h4', 'h5', 'h6' ]
+	}
+})
+```
+
+
+### Reveal.js Plugins
+
+The following Reveal.js plugins need to be installed to use Stpryrevealer features:
+
+Plugin | Purpose | Note
+-------+---------+-----
+Anything | Most Story revealer features, like Mustache
+
+
+In addition, the following JS scripts need to be added to your page (or to Reveal.js as a plugin):
+
+Plugin | Purpose | Note
+-------+---------+-----
+Mustache | Easy templating | 
+Chartist | SVG charting library
+Chart.js | Canvas-based charting library
+sanitize-html | Flexible HTML sanitazing library
+

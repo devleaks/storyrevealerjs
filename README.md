@@ -89,7 +89,7 @@ columns.
  
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"page": {{column}} || [ {{column}}{2,} ]
+"page": {{column}} || [ {{column}}{1,} ]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  
@@ -177,6 +177,10 @@ background transitions, or any other data attribute.  
 
 Text content is the simplest form of content laid over the background.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"text-content-type": {{string}} || [ {{string}}{1,} ]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The following text content elements are provided by Storyrevealer:
 
 | **Text Content** | **Purpose**                  | **Display**                          |
@@ -191,25 +195,33 @@ The following text content elements are provided by Storyrevealer:
 | text             | Regular text                 |                                      |
 | quote            | Quoted text                  |                                      |
 
+
+##### Text Content Type to Element HTML Mapping 
+
+Each text content element is mapped to an HTML element.
+
+The mapped element can contain additional classes separated by dots.
+
+If content-type `title` is mapped to `h1.left` the generated HTML will be
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"title": "Hello"     =>    <h1 class="left">Hello</h1>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Mappings of content types to HTML elements can be provided as a Storyrevealer option.
+
  
 
-##### Text Content Element Styling 
+##### Text Content Type Styling 
 
 The content-type name can contain additional CSS class names that must be added
 to its HTML parent element.
 
-For exemple, if the title content-type is mapped to the HTML element H1:
+For exemple, if the `title` content-type is mapped to the HTML element `H1`:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-title.huge.reverse: Hello
+"title.huge.reverse": "Hello"   =>   <h1 class="huge reverse">Hello</h1>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-will become
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-<h1 class="huge reverse">Hello</h1>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
  
 
 The following class names are intercepted by Storyrevealer and have special
@@ -241,27 +253,8 @@ the SCSS file.
 | reverse        | Uses background color for text                              |
 | huge           | Increases font size to 150%                                 |
 
-These classes are provided for your convenience but essentially show how you can
-add your own styling to your newspaper stories. Additional class names can be
-added and used in Storyrevealer.
+Additional class names can be provided as a Storyrevealer option.
 
-More content-type elements, their mapping, and styles can easily be added to
-Storyrevealer to suit your needs.  
-
-##### Text Content Element HTML Mapping 
-
-Each text content element is mapped to an HTML element.
-
-The mapped element can also contain additional classes.
-
-In the above exemple, if `title` is mapped to `h1.left` the generated HTML will
-be
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-<h1 class="huge reverse left">Hello</h1>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Mapping of content elements can be provided as a Storyrevealer option.
 
 ##### Mustache Templating
 
@@ -343,7 +336,7 @@ It is possible to display several progress bar like so:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "mustache": {
-    "template": "<table class='counter-table'>{{#skills}}<tr><td>{{name}}</td><td><span data-animation='countup' data-countup='0,{{value}},1,2000'>{{value}}</span></td></tr>{{/skills}}</table>",
+	"template": "<div class='progress-bar-table'>{{#skills}}<div data-animation='progress-bar' data-progress-bar='0,{{value}},100,2000'><div class='progress-bar-name'>{{name}}</div><span class='progress-bar'></span></div>{{/skills}}</div>",	
     "data": {
        "name":"John Smith",
        "skills":[
@@ -364,28 +357,23 @@ It is possible to display several progress bar like so:
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
 ##### Moving Letters
 
 Storyrevealer adds a few animations for short text (typically title texts). To
-add a text animation, add a Mustache element like this one:
+add a text animation, add a element like this one:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-{
-    "mustache": {
-        "template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
-        "data": {
-            "animation": "ready",
-            "loop": "true",
-            "text": "Ready,Set,Go",
-            "separator": ","
-        }
-    }
+"moving-letters": {
+	"animation": "signal-and-noise",
+	"loop": "true",
+	"text": "Signal,Noise",
+	"separator": ","
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When animation requires more than one string, strings are separated using the
-`separator` inside the `text` attribute. Loop indicates whether the animation
-should only play once, or loop forever.
+When animation requires more than one string (like Signal and Noise in the example), strings are separated using the
+`separator` inside the `text` attribute. Loop indicates whether the animation should only play once, or loop forever.
 
 [Valid animations](http://tobiasahlin.com/moving-letters/) are: thursday,
 slow-mornings, great-thinker, ready, signal-and-noise, beautiful-question,
@@ -515,7 +503,7 @@ Storyrevealer Options
 When created, the Storyrevealer object accepts the following options:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Storyrevealer.generate({
+Storyrevealer.initialize({
 
     // Storyrevealer data URL
     url: 'dev.json',
@@ -584,3 +572,4 @@ Reveal.js as a plugin):
 
 ## Limits
 
+With the exception of pure text content, you can only have one content of a given type in a column.

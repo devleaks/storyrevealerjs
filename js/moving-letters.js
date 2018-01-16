@@ -40,7 +40,7 @@ var MovingLetters = window.MovingLetters || (function(){
 			    d3.select(this).html( d3.select(this).html().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>") );
 			})
 			done.attr('data-spaced', true)
-			console.log('isolateLetters', selector)
+			//console.log('isolateLetters', selector)
 		}
 	}
 	

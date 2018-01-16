@@ -75,10 +75,10 @@
 		"#7f8c8d"
 	]
 	var COLORS = []
-	var transparency = 0.6
+	var TRANSPARENCY = 0.6
 	
 	var CLEAN_HTML = {
-	  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'div', 'p', 'br', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ],
+	  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'div', 'p', 'br', 'span', 'h1', 'h2', 'h3', 'h4', 'h5' ], // 'h6' added as Storyrevealer option for testing purpose
 	  allowedAttributes: {
 	    'a': [ 'href' ],
 //		'div': [ 'class', 'data-background-src' ],
@@ -92,8 +92,10 @@
 	/*	Used before. Will probably come back...
 	 *
 	 */
-	function init() {
+	function init(options) {
 		if(_inited) return;
+
+		// Transparent colors
 		function hexToRgb(hex) {
 		    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 		    return result ? {
@@ -102,7 +104,131 @@
 		        b: parseInt(result[3], 16)
 		    } : null
 		}
-		COLORS = _COLORS.map(function(hex){ var c = hexToRgb(hex); return "rgba("+c.r+","+c.g+","+c.b+","+transparency+")" })
+		COLORS = _COLORS.map(function(hex){ var c = hexToRgb(hex); return "rgba("+c.r+","+c.g+","+c.b+","+TRANSPARENCY+")" })
+		
+		/*
+		* Recursively merge properties of two objects without overwriting the first.
+		* Concatenate arrays if it is present in both object
+		*/
+		function mergeRecursive(obj1, obj2) {
+		  for (var p in obj2) {
+		    try { // Property in destination object set; update its value.
+		      if ( obj2[p].constructor==Object ) {
+		        obj1[p] = mergeRecursive(obj1[p], obj2[p])
+		      } else if ( Array.isArray(obj2[p]) ) {
+				if(Array.isArray(obj1[p])) { // both are arrays: concatenating...
+			      obj1[p] = obj1[p].concat(obj2[p])
+				} else if(!obj1[p]) { // source does not exist, creating it...
+			      obj1[p] = obj2[p]
+				} else { // source is not array and target is array: problem: do nothing
+				  console.log('Storyrevealer::init::mergeRecursive: warning non matching objects types', p)
+				}
+			  } else{
+		        if ( !obj1[p] ) obj1[p] = obj2[p]
+		      }
+		    } catch(e) { // Property in destination object not set; create it and set its value.
+		      if ( !obj1[p] ) obj1[p] = obj2[p]
+		    }
+		  }
+		  return obj1;
+		}
+
+		// Merging options
+		if(options.mappings) {
+			CONTENT_TYPE_ELEM = mergeRecursive(CONTENT_TYPE_ELEM, options.mappings)
+			//console.log('CONTENT_TYPE_ELEM', CONTENT_TYPE_ELEM)
+		}
+		
+		if(options.html) {
+			CLEAN_HTML = mergeRecursive(CLEAN_HTML, options.html)
+			//console.log('CLEAN_HTML', CLEAN_HTML)
+		}
+		
+		
+		// Add anything plugin setup
+		Reveal.configure({
+			anything: [ 
+				{
+					className: "mustache", 
+					initialize: (function(container, options){
+						//console.log("anything mustache", options, container)
+						if(options) {
+							container.innerHTML = Mustache.render(options.template, options.data)
+						}
+					})
+				},
+				{
+					className: "moving-letters", 
+					initialize: (function(container, options){
+						//console.log("anything moving-letters", options, container)
+						MovingLetters.install_animation(container)
+					})
+				},
+				{
+					className: "chart",  
+					initialize: (function(container, options){
+						function mergeRecursive(obj1, obj2) {
+						    for (var p in obj2) {
+						        try {
+						            // Property in destination object set; update its value.
+						            if (obj1[p].constructor == Object && obj2[p].constructor == Object) {
+						                obj1[p] = mergeRecursive(obj1[p], obj2[p]);
+						            } else {
+						                obj1[p] = obj2[p];
+						            }
+						        } catch (e) {
+						            // Property in destination object not set; create it and set its value.
+						            obj1[p] = obj2[p];
+						        }
+						    }
+						    return obj1;
+						}
+						
+						if(options) {
+							container.chart = new Chart(container.getContext("2d"), options)
+						}
+					})
+				},
+				{
+					className: "chartist",
+					initialize: (function(container, options) {
+						//console.log("anything chartist", options, container)
+						if(options) {
+							var f = null;
+							switch(options.type) {
+								case "bar": f = Chartist.Bar; break;
+								case "pie": f = Chartist.Pie; break;
+								case "line": f = Chartist.Line; break;
+							}
+							if(f) {
+								var o = options.options || {}
+								if(o["sr_legend_options"]) {
+									o.plugins = o.plugins || []
+									if(o["sr_legend_options"] === true) {
+										o.plugins.push(Chartist.plugins.legend())
+										console.log("chartist-plugin-legend installed")
+									} else {
+										o.plugins.push(Chartist.plugins.legend(o["sr_legend_options"]))
+										console.log("chartist-plugin-legend installed", o["sr_legend_options"])
+									}
+								}
+								new f(
+									container,
+									options.data,
+									options.options,
+									options.responsiveOptions
+								)
+							} else {
+								console.log("anything: chartists: no graph type "+options.type, options)
+							}
+						}
+					})
+				} // chartist
+
+			] // anything
+		}) // Reveal.cnofiugure
+		
+		console.log("Storyrevealer - "+VERSION)
 		_inited = true;
 	}
 
@@ -483,8 +609,10 @@
 	Storyrevealer = {
 		VERSION: VERSION,
 
-		generate: function(options) {
+		initialize: function(options) {
 			var filename = options.url
+			
+			init(options)
 
 			d3.json(filename, function(error, newspaper) {	// There should only be one newspaper element at the root/top
 				var newspaper_elem = d3.select("div.slides")

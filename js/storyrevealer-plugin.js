@@ -45,7 +45,7 @@ var RevealJSAnimation = window.RevealJSAnimation || (function(){
 		},
 		deregister: function(name) {
 			delete _animations[name]
-			console.log("RevealJSAnimation::deregister", name)			
+			//console.log("RevealJSAnimation::deregister", name)			
 		},
 		exists: function(name) {
 			return typeof _animations[name] != "undefined"
@@ -181,7 +181,6 @@ Reveal.addEventListener( 'ready' , function( event ) {
 
 			case "moving-letters":
 				MovingLetters.install_animation(animation)
-				// moving letters animations are installed by anything plugin
 				break
 				
 			default:

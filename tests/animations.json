@@ -41,7 +41,7 @@
 				"title": "« Skill » Animations",
 				"under-title": "Right to Left on half screen",
 				"mustache": {
-					"template": "<div class='fragment progress-bar-table'>{{#skills}}<div class='right' data-animation='progress-bar' data-progress-bar-name='{{name}}' data-progress-bar-value='{{value}}'><div class='progress-bar-name'>{{name}}</div>{{#description}}<div class='progress-bar-desc'>{{description}}</div>{{/description}}<span class='progress-bar'></span></div>{{/skills}}</div>",
+					"template": "<div class='fragment progress-bar-table'>{{#skills}}<div class='right' data-animation='progress-bar' data-progress-bar='0,{{value}},100,2000'><div class='progress-bar-name'>{{name}}</div>{{#description}}<div class='progress-bar-desc'>{{description}}</div>{{/description}}<span class='progress-bar'></span></div>{{/skills}}</div>",
 					"data": {
 					   "name":"John Smith",
 					   "skills":[
@@ -67,7 +67,7 @@
 				"title": "Compare Competences",
 				"under-title": "Left to Right on half screen",
 				"mustache": {
-					"template": "<div class='progress-bar-table'>{{#skills}}<div data-animation='progress-bar' data-progress-bar-name='{{name}}' data-progress-bar-value='{{value}}'><div class='progress-bar-name'>{{name}}</div>{{#description}}<div class='progress-bar-desc'>{{description}}</div>{{/description}}<span class='progress-bar'></span></div>{{/skills}}</div>",
+					"template": "<div class='progress-bar-table'>{{#skills}}<div data-animation='progress-bar' data-progress-bar='0,{{value}},100,2000'><div class='progress-bar-name'>{{name}}</div>{{#description}}<div class='progress-bar-desc'>{{description}}</div>{{/description}}<span class='progress-bar'></span></div>{{/skills}}</div>",
 					"data": {
 					   "name":"John Smith",
 					   "skills":[
@@ -92,7 +92,7 @@
 		[
 			{
 					"text.html": "A sentence with <span data-animation='countup' data-countup='0,20,1,3000'>0</span> words",
-					"under-title.html": "<div data-animation='progress-bar' data-progress-bar-value='100' data-progress-bar-duration='3000'><span class='progress-bar'></span></div>"
+					"under-title.html": "<div data-animation='progress-bar' data-progress-bar='0,100,100,2000'><span class='progress-bar'></span></div>"
 			}
 		]
 

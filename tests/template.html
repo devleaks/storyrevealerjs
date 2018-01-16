@@ -31,6 +31,7 @@
 		<!-- Custom styling for "stories" -->
 		<link rel="stylesheet" href="../css/moving-letters.css">
 		<link rel="stylesheet" href="../css/storyrevealer.css">
+		<link rel="stylesheet" href="../css/storyrevealer-dev.css">
 
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -56,13 +57,16 @@
 		<script src="../node_modules/d3-request/build/d3-request.min.js"></script>
 		<script src="../node_modules/d3-selection/build/d3-selection.min.js"></script>
 
+
 		<script src="../node_modules/sanitize-html/dist/sanitize-html.js"></script>
 		<script src="../node_modules/mustache/mustache.js"></script>
+
 		<script src="../node_modules/chart.js/dist/Chart.js"></script>
+
 		<script src="../node_modules/chartist/dist/chartist.js"></script>
 		<script src="../node_modules/chartist-plugin-legend/chartist-plugin-legend.js"></script>
+
 		<script src="../node_modules/animejs/anime.js"></script>	
-	
 
 		<script src="../js/storyrevealer.js"></script>
 
@@ -83,19 +87,29 @@
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
 					{ src: '../node_modules/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: '../node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
 					{ src: '../node_modules/@bower_components/reveal.js-menu/menu.js' },
-//					{ src: '../node_modules/@bower_components/reveal.js-elapsed-time-bar/plugin/elapsed-time-bar/elapsed-time-bar.js' },
-					{ src: '../node_modules/@bower_components/Reveal.js-Title-Footer/plugin/title-footer/title-footer.js',
-								async: true, callback: function() { title_footer.initialize(); }  },
-					{ src: '../js/storyrevealer-plugin.js' },
-					{ src: '../node_modules/reveal.js/plugin/notes/notes.js', async: true }
+
+					{ src: '../node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
+					{ src: '../js/moving-letters.js' },
+					{ src: '../js/storyrevealer-plugin.js' }
 				]
 			});
 			
 			Storyrevealer.initialize({
+
 				// Data URL
-				url: 'chartjs.json'
+				url: 'animation.json',
+				
+				// Content types to HTML element mappings
+				mappings: {
+					"demo": "h6.right"
+				},
+				
+			    // Additional options for HTML Sanitazing library
+			    html: {
+			        allowedTags: [ 'h6' ]
+			    }
+
 			})
 
 		</script>

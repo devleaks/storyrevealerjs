@@ -94,6 +94,9 @@
 	 */
 	function init(options) {
 		if(_inited) return;
+		
+		var config = Reveal.getConfig().storyrevealer;
+		console.log('init', config)
 
 		// Transparent colors
 		function hexToRgb(hex) {
@@ -670,6 +673,7 @@
 		
 	}
 
+	init()
 
 	return Storyrevealer
 

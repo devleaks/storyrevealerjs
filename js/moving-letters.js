@@ -39,7 +39,7 @@ var MovingLetters = window.MovingLetters || (function(){
 			    d3.select(this).html( d3.select(this).html().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>") );
 			})
 			done.attr('data-spaced', true)
-			//console.log('isolateLetters', selector)
+			//console.log('MovingLetters::isolateLetters', selector)
 		}
 	}
 	
@@ -621,16 +621,16 @@ var MovingLetters = window.MovingLetters || (function(){
 					
 					
 					default:
-						console.log('text anim not found', animation)
+						console.log('MovingLetters::install_animation: animation type not found', animation)
 						break;
 				}
 				if(animation_code) {
 					RevealJSAnimation.register(id, animation_code)
-					console.log('moving letters installed', animation)
+					console.log('MovingLetters::install_animation: installed', animation)
 				}
 			} else {
 				RevealJSAnimation.play(id)
-				console.log('text anim started', animation)
+				console.log('MovingLetters::install_animation: started', animation)
 			}
 		}
 

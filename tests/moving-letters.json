@@ -1,7 +1,7 @@
 {
 	"cover": {
 		"mustache": {
-			"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+			"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 			"data": {
 				"animation": "thursday",
 				"loop": "true",
@@ -14,7 +14,7 @@
 	"pages": [
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "slow-mornings",
 					"loop": "true",
@@ -25,7 +25,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "great-thinker",
 					"loop": "true",
@@ -36,7 +36,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "ready",
 					"loop": "true",
@@ -47,7 +47,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "signal-and-noise",
 					"loop": "true",
@@ -58,7 +58,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "beautiful-question",
 					"loop": "true",
@@ -69,7 +69,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "reality-is-broken",
 					"loop": "true",
@@ -80,7 +80,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "hey",
 					"loop": "true",
@@ -91,7 +91,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "coffee-morning",
 					"loop": "true",
@@ -102,7 +102,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "domino-dreams",
 					"loop": "true",
@@ -113,7 +113,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "hello-goodbye",
 					"loop": "true",
@@ -124,7 +124,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "a-new-production",
 					"loop": "true",
@@ -135,7 +135,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "rising-strong",
 					"loop": "true",
@@ -146,7 +146,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "finding-your-element",
 					"loop": "true",
@@ -157,7 +157,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "out-now",
 					"loop": "true",
@@ -168,7 +168,7 @@
 		},
 		{
 			"mustache": {
-				"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+				"template": "<div class='moving-letters' data-animation='moving-letters' data-moving-letters='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
 				"data": {
 					"animation": "made-with-love",
 					"loop": "true",

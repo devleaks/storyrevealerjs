@@ -84,59 +84,6 @@
 				parallaxBackgroundHorizontal: 695,
 				parallaxBackgroundVertical: 0,
 			
-				anything: [ 
-					{
-						className: "mustache", 
-						initialize: (function(container, options){
-							//console.log("anything mustache", options, container)
-							if(options) {
-								container.innerHTML = Mustache.render(options.template, options.data)
-							}
-						})
-					},
-					{
-						className: "chartist",
-						initialize: (function(container, options) {
-							//console.log("anything chartist", options, container)
-							if(options) {
-								var f = null;
-								switch(options.type) {
-									case "bar": f = Chartist.Bar; break;
-									case "pie": f = Chartist.Pie; break;
-									case "line": f = Chartist.Line; break;
-								}
-								if(f) {
-									var o = options.options || {}
-									if(o["sr_legend_options"]) {
-										o.plugins = o.plugins || []
-										if(o["sr_legend_options"] === true) {
-											o.plugins.push(Chartist.plugins.legend())
-											console.log("chartist-plugin-legend installed")
-										} else {
-											o.plugins.push(Chartist.plugins.legend(o["sr_legend_options"]))
-											console.log("chartist-plugin-legend installed", o["sr_legend_options"])
-										}
-									}
-									new f(
-										container,
-										options.data,
-										options.options,
-										options.responsiveOptions
-									)
-								} else {
-									console.log("anything: chartists: no graph type "+options.type, options)
-								}
-							}
-						})
-					}
-
-				],
-
-				// Storyrevealer options like URL to fetch stories from and themes
-				storyrevealer: {
-					url: 'data/data.json'
-				},
-				
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
 					{ src: '../node_modules/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },

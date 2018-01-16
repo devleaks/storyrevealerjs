@@ -63,7 +63,7 @@
 		{
 			"background": "g.png",
 			"mustache": {
-				"template": "<p>{{text}}</p></br><p class='fragment visible current-fragment' data-countup='0,{{value}},0,2' data-fragment-index='0'></p>",
+				"template": "<p>{{text}}</p></br><p class='fragment' data-animation='countup' data-countup='0,20,1,3000'>0</p>",
 				"data": {
 					"text": "Some statistics",
 					"value": 144,

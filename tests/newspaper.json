@@ -1,6 +1,6 @@
 {
 	"cover": {
-		"background": "tests/g.png",
+		"background": "g.png",
 		"class": "lighter",
 		"teaser": "Test Newspaper",
 		"name": "Storyrevealer",
@@ -11,21 +11,21 @@
 	"stories": [
 		{
 			"cover": {
-				"background": "tests/r.png",
+				"background": "r.png",
 				"byline": "News 1 Byline",
 				"headline": "Text Display",
 				"bytitle": "All size and justification"
 			},
 			"pages": [
 				{
-					"background": "tests/r.png",
+					"background": "r.png",
 					"above-title": "Slide 1A Above Title",
 					"title": "Simple slide 1A",
 					"under-title": "Slide 1A Below Title",
 					"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut."
 				},
 				{
-					"background": "tests/r.png",
+					"background": "r.png",
 					"transition": "convex",
 					"class": "lighter",
 					"byline": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.",
@@ -48,7 +48,7 @@
 			},
 			"pages": [
 				{
-					"background": "tests/b.png",
+					"background": "b.png",
 					"class": "left",
 					"above-title": "Slide 2A Above Title",
 					"title": "Simple slide 2A",
@@ -57,7 +57,7 @@
 				},
 				[
 					{
-						"background": "tests/b.png",
+						"background": "b.png",
 						"above-title": "Slide 2BL Above Title",
 						"title": "Simple slide 2BL",
 						"under-title": "Slide 2BL Below Title",
@@ -72,7 +72,7 @@
 				],
 				[
 					{
-						"background": "tests/b.png",
+						"background": "b.png",
 						"class": "left lighter",
 						"above-title": "Slide 2CL Above Title",
 						"title": "Simple slide 2CL",
@@ -104,7 +104,7 @@
 			},
 			"pages": [
 				{
-					"background": "tests/g.png",
+					"background": "g.png",
 					"class": "lighter",
 					"table": {
 						"options": {
@@ -125,7 +125,7 @@
 					"under-title": "Text under table"
 				},
 				{
-					"background": "tests/g.png",
+					"background": "g.png",
 					"mustache": {
 						"template": "<p>{{text}}</p></br><p class='fragment visible current-fragment' data-countup='0,{{value}},0,2' data-fragment-index='0'></p>",
 						"data": {
@@ -146,7 +146,7 @@
 			},
 			"pages": [
 				{
-					"background": "tests/r.png",
+					"background": "r.png",
 					"above-title": "Simple bar chart",
 					"barchart": {
 						"data": [
@@ -160,7 +160,7 @@
 					}
 				},
 				{
-					"background": "tests/r.png",
+					"background": "r.png",
 					"class": "lighter",
 					"above-title": "Simple pie chart",
 					"piechart": {
@@ -172,12 +172,12 @@
 					}
 				},
 				{
-					"background": "tests/r.png",
+					"background": "r.png",
 					"text.allcaps": "Line Chart",
 					"linechart": {
 						"data": [
          			["Tiger", 70, 71, 68, 66],
-	            ["Henrick", 72, 72, 66, 65],
+	            ["Henrick", 72, 73, 66, 65],
 	            ["Phil", 71, 69, 72, 64]
 				    ]
 					}
@@ -193,11 +193,11 @@
 			"pages": [
 				[
 					{
-						"background": "tests/r.png",
+						"background": "r.png",
 						"text": "Graph is in right column only"
 					},
 					{
-						"background": "tests/r.png",
+						"background": "r.png",
 						"text.bottom-right": "Introducing the chart...",
 						"chartist": {
 							"type": "line",

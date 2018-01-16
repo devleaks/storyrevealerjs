@@ -40,7 +40,15 @@ var RevealJSAnimation = window.RevealJSAnimation || (function(){
 	return {
 		register: function(name, anim) {
 			_animations[name] = anim
+			console.log("RevealJSAnimation::register", name)			
 			return anim
+		},
+		deregister: function(name) {
+			delete _animations[name]
+			console.log("RevealJSAnimation::deregister", name)			
+		},
+		exists: function(name) {
+			return typeof _animations[name] != "undefined"
 		},
 		play: function(name) {
 			if(_animations[name]) {
@@ -102,7 +110,7 @@ Reveal.addEventListener( 'ready' , function( event ) {
 		if(! id) {
 			id = RevealJSAnimation.generateId()
 			animation.setAttribute("id", id)
-			console.log('generated id', animation_type, id)
+			//console.log('ready::*[data-animation]: generated id', animation_type, id)
 		}
 		
 		switch(animation_type) {
@@ -171,6 +179,11 @@ Reveal.addEventListener( 'ready' , function( event ) {
 				})()
 				break
 
+			case "moving-letters":
+				MovingLetters.install_animation(animation)
+				// moving letters animations are installed by anything plugin
+				break
+				
 			default:
 				console.log('ready::install animations::animation type not found', animation)
 				break

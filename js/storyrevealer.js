@@ -158,13 +158,6 @@
 					})
 				},
 				{
-					className: "moving-letters", 
-					initialize: (function(container, options){
-						//console.log("anything moving-letters", options, container)
-						MovingLetters.install_animation(container)
-					})
-				},
-				{
 					className: "chart",  
 					initialize: (function(container, options){
 						function mergeRecursive(obj1, obj2) {
@@ -226,9 +219,9 @@
 				} // chartist
 
 			] // anything
-		}) // Reveal.cnofiugure
+		}) // Reveal.configure
 		
-		console.log("Storyrevealer - "+VERSION)
+		console.log("Storyrevealer "+VERSION)
 		_inited = true;
 	}
 
@@ -538,7 +531,7 @@
 								break
 								
 							case "moving-letters":
-								var html = Mustache.render("<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}'>{{text}}</div>",data[content])
+								var html = Mustache.render("<div class='moving-letters' data-moving-letters='{{animation}}' data-animation='moving-letters' data-animation-loop='{{loop}}'>{{text}}</div>",data[content])
 								elem.html(html)
 								break
 								

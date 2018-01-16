@@ -5,7 +5,6 @@
  * Copyright (C) 2017 Pierre M
  */
 var MovingLetters = window.MovingLetters || (function(){
-	var _ml = { timelines: { } };
 	
 	var TEMPLATES = {
 		"thursday": "<h1 class='ml1'><span class='text-wrapper'><span class='line line1'></span><span class='letters'>{{0}}</span><span class='line line2'></span></span></h1>",
@@ -47,11 +46,17 @@ var MovingLetters = window.MovingLetters || (function(){
 	return {
 		install_animation: function(container) {
 			var div = d3.select(container)
-			var animation = div.attr('data-animation')
+			var animation = div.attr('data-moving-letters')
 			var loop = div.attr('data-animation-loop') == 'true'
-			var sep = div.attr('data-animation-separator')
+			var sep = div.attr('data-animation-separator') || ','
 
-			if(! _ml.timelines[animation]) {
+			var id = div.attr("id")
+			if(! id) {
+				id = RevealJSAnimation.generateId()
+				div.attr("id", id)
+			}
+
+			if(! RevealJSAnimation.exists(id)) {
 				var animation_code = null
 				install_template(div, animation, sep)
 
@@ -620,27 +625,12 @@ var MovingLetters = window.MovingLetters || (function(){
 						break;
 				}
 				if(animation_code) {
-					_ml.timelines[animation] = animation_code
+					RevealJSAnimation.register(id, animation_code)
 					console.log('moving letters installed', animation)
 				}
 			} else {
-				_ml.timelines[animation].play()
+				RevealJSAnimation.play(id)
 				console.log('text anim started', animation)
-			}
-		}
-		,
-	
-		play: function(animation) {
-			if(_ml.timelines[animation]) {
-				_ml.timelines[animation].play()
-				console.log('text anim started', animation)
-			}
-		},
-	
-		pause: function(animation) {
-			if(_ml.timelines[animation]) {
-				_ml.timelines[animation].pause()
-				console.log('text anim stopped', animation)
 			}
 		}
 

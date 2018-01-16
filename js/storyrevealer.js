@@ -88,16 +88,13 @@
 	}
 
 	var _inited = false
+	var _config = {}
 	
 	/*	Used before. Will probably come back...
 	 *
 	 */
-	function init(options) {
-		if(_inited) return;
-		
-		var config = Reveal.getConfig().storyrevealer;
-		console.log('init', config)
-
+	function init(force) {
+		if(_inited && !force) return;
 		// Transparent colors
 		function hexToRgb(hex) {
 		    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
@@ -135,15 +132,20 @@
 		  }
 		  return obj1;
 		}
+		
+		var config = Reveal.getConfig().storyrevealer;
+		_config = mergeRecursive(_config, config)
+		
+		console.log('Storyrevealer::init: _config', _config)
 
-		// Merging options
-		if(options.mappings) {
-			CONTENT_TYPE_ELEM = mergeRecursive(CONTENT_TYPE_ELEM, options.mappings)
+		// Merging config
+		if(config.mappings) {
+			CONTENT_TYPE_ELEM = mergeRecursive(CONTENT_TYPE_ELEM, config.mappings)
 			//console.log('CONTENT_TYPE_ELEM', CONTENT_TYPE_ELEM)
 		}
 		
-		if(options.html) {
-			CLEAN_HTML = mergeRecursive(CLEAN_HTML, options.html)
+		if(config.html) {
+			CLEAN_HTML = mergeRecursive(CLEAN_HTML, config.html)
 			//console.log('CLEAN_HTML', CLEAN_HTML)
 		}
 		
@@ -226,6 +228,12 @@
 		
 		console.log("Storyrevealer "+VERSION)
 		_inited = true;
+		
+		if(_config.url) {
+			initialize(_config.url)
+		} else {
+			console.log("Storyrevealer::init: no url")
+		}
 	}
 
 	
@@ -269,13 +277,13 @@
 	 *
 	 */
 	function generateChart(container, chart_data) {
-		init();
 		var data = chart_data.data
 
-		var chart = {}
-		chart.type = chart_data.type
-		chart.options = chart_data.options
-		chart.data = {}
+		var chart = {
+			type: chart_data.type,
+			options: chart_data.options,
+			data: {}
+		}
 
 		var counter = 0
 		
@@ -602,79 +610,80 @@
 		}	
 	}
 
-	Storyrevealer = {
-		VERSION: VERSION,
+	/*	Loads stories and pages
+	 *
+	 */
+	function initialize(filename) {
 
-		initialize: function(options) {
-			var filename = options.url
+		d3.json(filename, function(error, newspaper) {	// There should only be one newspaper element at the root/top
+			var newspaper_elem = d3.select("div.slides")
 			
-			init(options)
+			if(! newspaper_elem) {
+				console.log("storyrevealer::load", "div.slides element not found")
+				return
+			}
 
-			d3.json(filename, function(error, newspaper) {	// There should only be one newspaper element at the root/top
-				var newspaper_elem = d3.select("div.slides")
-				
-				if(! newspaper_elem) {
-					console.log("storyrevealer::load", "div.slides element not found")
-					return
+			// remove previous newspaper or stories
+			newspaper_elem.selectAll('section').each(function(d) {
+				newspaper_elem.removeChild(d3.select(this))
+			})			
+			
+			if(error || ! newspaper) {	// Add error page
+				var error_elem = newspaper_elem.append("section")
+				error_elem.append("h3")
+					.text("There was a problem loading "+filename)
+				error_elem.append("h1")
+					.text("Error")
+					.attr("class", "red")
+				if(error) {
+					error_elem.append("p")
+						.append("small")
+						.html(cleanHTML(error))
 				}
+				return
+			}				
+			
+			if(newspaper.cover) {	// Add newspaper cover page
+				addSection(newspaper_elem, newspaper.cover, true)				
+			}
+			
+			if(newspaper.stories) {	// multiple stories
+				
+				newspaper.stories.forEach(function(story) {	// For each news, news are navigated left to right
 
-				if(error || ! newspaper) {	// Add error page
-					var error_elem = newspaper_elem.append("section")
-					error_elem.append("h3")
-						.text("There was a problem loading "+filename)
-					error_elem.append("h1")
-						.text("Error")
-						.attr("class", "red")
-					if(error) {
-						error_elem.append("p")
-							.append("small")
-							.html(cleanHTML(error))
+					// Add empty story container section
+					var story_elem = addSection(newspaper_elem, story.cover, false)
+
+					if(story.cover) {	// Add story cover page
+						addSection(story_elem, story.cover, true)
 					}
-					return
-				}				
-				
-				if(newspaper.cover) {	// Add newspaper cover page
-					addSection(newspaper_elem, newspaper.cover, true)				
-				}
-				
-				if(newspaper.stories) {	// multiple stories
-					
-					newspaper.stories.forEach(function(story) {	// For each news, news are navigated left to right
 
-						// Add empty story container section
-						var story_elem = addSection(newspaper_elem, story.cover, false)
-
-						if(story.cover) {	// Add story cover page
-							addSection(story_elem, story.cover, true)
-						}
-
-						story.pages.forEach(function(page) {	// Add story pages
-
-							addPage(page, story_elem)
-
-						})
-					})
-
-				} else {	// just one story
-
-					var story_elem = newspaper_elem // or shoud we create an empty containing section?
-					
-					newspaper.pages.forEach(function(page) {	// For each page in the story
+					story.pages.forEach(function(page) {	// Add story pages
 
 						addPage(page, story_elem)
 
 					})
+				})
 
-				}
+			} else {	// just one story
+
+				var story_elem = newspaper_elem // or shoud we create an empty containing section?
 				
-				
-			})			
-		}
-		
+				newspaper.pages.forEach(function(page) {	// For each page in the story
+
+					addPage(page, story_elem)
+
+				})
+
+			}	// newspaper.stories
+			
+		})	// d3.json		
 	}
 
-	init()
 
-	return Storyrevealer
+	/*	Storyrevealer Object
+	 *
+	 */
+	return { init: init }
 
 }));

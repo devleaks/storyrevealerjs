@@ -570,6 +570,12 @@ Reveal.js as a plugin):
 ...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+## Example Files
+
+Please have a look at all JSON files in the tests directory.
+
 ## Limits
 
 With the exception of pure text content, you can only have one content of a given type in a column.
+To get around this limitation, you can insert direct HTML by adding .html class to any content-type
+and pass HTML elements directly for rendering.

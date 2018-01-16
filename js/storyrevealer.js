@@ -93,8 +93,8 @@
 	/*	Used before. Will probably come back...
 	 *
 	 */
-	function init(force) {
-		if(_inited && !force) return;
+	function init(moreconfig) {
+		if(_inited && (moreconfig && !moreconfig.force)) return;
 		// Transparent colors
 		function hexToRgb(hex) {
 		    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
@@ -107,7 +107,7 @@
 		COLORS = _COLORS.map(function(hex){ var c = hexToRgb(hex); return "rgba("+c.r+","+c.g+","+c.b+","+TRANSPARENCY+")" })
 		
 		/*
-		* Recursively merge properties of two objects without overwriting the first.
+		* Recursively merge properties of two objects **without overwriting the first**.
 		* Concatenate arrays if it is present in both object
 		*/
 		function mergeRecursive(obj1, obj2) {
@@ -134,9 +134,9 @@
 		}
 		
 		var config = Reveal.getConfig().storyrevealer;
-		_config = mergeRecursive(_config, config)
+		_config = mergeRecursive(config, _config) // does not overwrite what is in first obj1 = config
 		
-		console.log('Storyrevealer::init: _config', _config)
+		//console.log('Storyrevealer::init: _config', _config)
 
 		// Merging config
 		if(config.mappings) {
@@ -231,6 +231,7 @@
 		
 		if(_config.url) {
 			initialize(_config.url)
+			console.log("Storyrevealer::init", _config.url)
 		} else {
 			console.log("Storyrevealer::init: no url")
 		}
@@ -623,11 +624,9 @@
 				return
 			}
 
-			// remove previous newspaper or stories
-			newspaper_elem.selectAll('section').each(function(d) {
-				newspaper_elem.removeChild(d3.select(this))
-			})			
-			
+			// clean previous newspaper or stories
+			newspaper_elem.selectAll('section').remove()
+
 			if(error || ! newspaper) {	// Add error page
 				var error_elem = newspaper_elem.append("section")
 				error_elem.append("h3")

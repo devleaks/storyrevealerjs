@@ -148,7 +148,6 @@
 	 */
 	function generateChart(container, chart_data) {
 		init();
-		var counter = 0
 		var data = chart_data.data
 
 		var chart = {}
@@ -156,32 +155,71 @@
 		chart.options = chart_data.options
 		chart.data = {}
 
-		var columns = []
-		var categories = []
-		var colors = []
-		data.forEach(function(line) {
-			categories.push(line[0])
-			for(var i = 1; i < data[0].length; i++) {
-				columns[i-1] = columns[i-1] || []
-				columns[i-1].push(line[i])
-				colors.push(COLORS[(counter++) % COLORS.length])
-			}
-		})
-		//console.log(categories, columns)
+		var counter = 0
+		
+		switch(chart.type) {
+			case "line":
+				var columns = []
+				var categories = []
+				var colors = []
+				chart.data.labels = chart.data.labels || []
+				data.forEach(function(line) {
+					categories.push(line.shift())
+					columns[counter] = line
+					colors.push(COLORS[(counter++) % COLORS.length])
+				})
 
-		chart.data.labels = categories
-		chart.data.datasets = []
-		counter = 1
-		columns.forEach(function(column) {
-			chart.data.datasets.push({
-				data: column,
-				label: chart_data.labels ? chart_data.labels[counter-1] : 'Set '+counter,
-				backgroundColor: (chart.type == "pie") ? colors : COLORS[(counter) % COLORS.length]
-			})
-			counter++
-		})
+				chart.data.datasets = []
+				counter = 0
+				columns.forEach(function(column) {
+					chart.data.datasets.push({
+						data: column,
+						label: categories[counter],
+						backgroundColor: COLORS[(counter) % COLORS.length]
+					})
+					counter++
+				})
+				
+				if(chart_data.labels) {
+					chart.data.labels = chart_data.labels
+				} else {
+					chart.data.labels = []
+					for(var i = 1; i <= chart.data.datasets[0].data.length; i++) {
+						chart.data.labels.push('Set '+i)
+					}
+				}
+				
+				break
+			case "pie":
+			case "bar":
+
+				var columns = []
+				var categories = []
+				var colors = []
+				data.forEach(function(line) { // need to "transpose" data array
+					categories.push(line[0])
+					for(var i = 1; i < data[0].length; i++) {
+						columns[i-1] = columns[i-1] || []
+						columns[i-1].push(line[i])
+						colors.push(COLORS[(counter++) % COLORS.length])
+					}
+				})
+
+				chart.data.labels = categories
+				chart.data.datasets = []
+				counter = 1
+				columns.forEach(function(column) {
+					chart.data.datasets.push({
+						data: column,
+						label: chart_data.labels ? chart_data.labels[counter-1] : 'Set '+counter,
+						backgroundColor: (chart.type == "pie") ? colors : COLORS[(counter) % COLORS.length]
+					})
+					counter++
+				})
+				break
+		}
+
 		//console.log(chart_data, chart)
-
 		container
 			.append('canvas')
 			.attr('class', 'chart')

@@ -19,13 +19,15 @@ stories. Stories in a newspaper are scrolled horizontally. A story is a list of
 pages scrolled vertically.
 
 A page is a background image, animation, or video, with content laid over it.
-The content of the page is a collection of information displayed as text, table, or graphics.
+The content of the page is a collection of information displayed as text, table,
+or graphics.
 
 Storyrevealer uses Reveal.js plugins, like the Anything plugin, to display and
 animate your content. (Anything plugin is so generic that you can really stick
 anything in a slide' section)
 
-It also uses some JS libraries like animate.js, mustache, d3 (request and selection).
+It also uses some JS libraries like animate.js, mustache, d3 (request and
+selection).
 
 Storyrevealer just started, so expect documentation, tests, and more examples in
 the following weeks.
@@ -81,7 +83,8 @@ The story’s cover page is a regular, additional page.
 
 ### Page
 
-A page is made of one or more columns. In the latter case, it is an array of columns.
+A page is made of one or more columns. In the latter case, it is an array of
+columns.
 
  
 
@@ -106,8 +109,7 @@ column: { {{content}}* }
  
 
 If a column does not contain any content property, it is a blank page or column.
-Blank columns can be useful to control the horizontal layout of content.
- 
+Blank columns can be useful to control the horizontal layout of content.  
 
 ### Content Properties
 
@@ -121,9 +123,11 @@ A content property is a ( content-type = content-value ) pair.
 
  
 
-Content-value is a valid JSON object and its form varies depending on the content-type.
+Content-value is a valid JSON object and its form varies depending on the
+content-type.
 
-If a page contains more than one content property, they are displayed in appearing order.
+If a page contains more than one content property, they are displayed in
+appearing order.
 
 Storyrevealer provides a set of content-type properties together with their
 representation. We make an artificial distinction between 3 types of
@@ -153,11 +157,10 @@ Decoration properties mainly affect the appearance of the page.
 
 Data properties are relayed to Reveal.js element entities.
 
-| **Content Type**       | **Value**        | **Note**         |
-|------------------------|------------------|------------------|
-| data-background-color  | RGB(A) Color     | Background color |
+| **Content Type**       | **Value**        | **Note**                               |
+|------------------------|------------------|----------------------------------------|
+| data-background-color  | RGB(A) Color     | Background color                       |
 | data-background-iframe | URL to HTML page | Background HTML page (non-interactive) |
-
 
 Data elements are added to the parent element as data attributes.
 
@@ -209,7 +212,8 @@ will become
 
  
 
-The following class names are intercepted by Storyrevealer and have special meaning:
+The following class names are intercepted by Storyrevealer and have special
+meaning:
 
 | **Class Name** | **Description**                                                                             |
 |----------------|---------------------------------------------------------------------------------------------|
@@ -218,7 +222,8 @@ The following class names are intercepted by Storyrevealer and have special mean
 
  
 
-The following class names are provided by Storyrevealer and can be customized in the SCSS file.
+The following class names are provided by Storyrevealer and can be customized in
+the SCSS file.
 
 | **Class Name** | **Description**                                             |
 |----------------|-------------------------------------------------------------|
@@ -240,9 +245,8 @@ These classes are provided for your convenience but essentially show how you can
 add your own styling to your newspaper stories. Additional class names can be
 added and used in Storyrevealer.
 
-More content-type elements, their mapping, and styles can easily be added to Storyrevealer
-to suit your needs.
- 
+More content-type elements, their mapping, and styles can easily be added to
+Storyrevealer to suit your needs.  
 
 ##### Text Content Element HTML Mapping 
 
@@ -259,127 +263,135 @@ be
 
 Mapping of content elements can be provided as a Storyrevealer option.
 
-
 ##### Mustache Templating
 
-The content-element `mustache` formats text and data from the famous templating engine:
+The content-element `mustache` formats text and data from the famous templating
+engine:
 
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "mustache": {
-	"template": "<table class='counter-table'>{{#skills}}<tr><td>{{name}}</td><td><span data-animation='countup' data-countup='0,{{value}},1,2000'>{{value}}</span></td></tr>{{/skills}}</table>",
-	"data": {
-	   "name":"John Smith",
-	   "skills":[
-	      {
-	         "name":"JavaScript",
-	         "value":90
-	      },
-	      {
-	         "name":"PHP",
-	         "value":70
-	      },
-	      {
-	         "name":"CSS",
-	         "value":75
-	      }
-	   ]
-	}
+    "template": "<table class='counter-table'>{{#skills}}<tr><td>{{name}}</td><td><span data-animation='countup' data-countup='0,{{value}},1,2000'>{{value}}</span></td></tr>{{/skills}}</table>",
+    "data": {
+       "name":"John Smith",
+       "skills":[
+          {
+             "name":"JavaScript",
+             "value":90
+          },
+          {
+             "name":"PHP",
+             "value":70
+          },
+          {
+             "name":"CSS",
+             "value":75
+          }
+       ]
+    }
 }
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #### Animations
 
 Storyrevealers adds simple animations.
+
+Animations are added because of their simplicity and beauty.
+
 The following animations are currently available:
 
 ##### Countup
 
-Count-Up changes the value of a counter from a starting value to an ending value, by increment (round), in a giving time.
-The counter starts when the page is displayed.
+Count-Up changes the value of a counter from a starting value to an ending
+value, by increment (round), in a giving time. The counter starts when the page
+is displayed.
 
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "counter": {
-	"name": "counter title",
-	"start": 20,
-	"end": 60,
-	"round": 0,
-	"time": 5000
+    "name": "counter title",
+    "start": 20,
+    "end": 60,
+    "round": 0,
+    "time": 5000
 }
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 or
-```
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "counter": "300,100,1,3000"
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ##### Progress Bar
 
-A progress bar is a title, a subtitle and a cursor-like bar that runs from a starting value to an ending value, in a given time.
-The progress bar starts when the page is displayed.
+A progress bar is a title, a subtitle and a cursor-like bar that runs from a
+starting value to an ending value, in a given time. The progress bar starts when
+the page is displayed.
 
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "progress-bar": {
-	"name": "progress bar title",
-	"description": "text under above progress bar title",
-	"show-value": true,
-	"start": 20,
-	"end": 60,
-	"max": 200,
-	"time": 5000
+    "name": "progress bar title",
+    "description": "text under above progress bar title",
+    "show-value": true,
+    "start": 20,
+    "end": 60,
+    "max": 200,
+    "time": 5000
 }
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is possible to display several progress bar like so:
 
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "mustache": {
-	"template": "<table class='counter-table'>{{#skills}}<tr><td>{{name}}</td><td><span data-animation='countup' data-countup='0,{{value}},1,2000'>{{value}}</span></td></tr>{{/skills}}</table>",
-	"data": {
-	   "name":"John Smith",
-	   "skills":[
-	      {
-	         "name":"JavaScript",
-	         "value":100
-	      },
-	      {
-	         "name":"PHP",
-	         "value":80
-	      },
-	      {
-	         "name":"Java",
-	         "value":20
-	      }
-	   ]
-	}
+    "template": "<table class='counter-table'>{{#skills}}<tr><td>{{name}}</td><td><span data-animation='countup' data-countup='0,{{value}},1,2000'>{{value}}</span></td></tr>{{/skills}}</table>",
+    "data": {
+       "name":"John Smith",
+       "skills":[
+          {
+             "name":"JavaScript",
+             "value":100
+          },
+          {
+             "name":"PHP",
+             "value":80
+          },
+          {
+             "name":"Java",
+             "value":20
+          }
+       ]
+    }
 }
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ##### Moving Letters
 
-Storyrevealer adds a few animations for short text (typically title texts).
-To add a text animation, add a Mustache element like this one:
+Storyrevealer adds a few animations for short text (typically title texts). To
+add a text animation, add a Mustache element like this one:
 
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {
-	"mustache": {
-		"template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
-		"data": {
-			"animation": "ready",
-			"loop": "true",
-			"text": "Ready,Set,Go",
-			"separator": ","
-		}
-	}
+    "mustache": {
+        "template": "<div class='moving-letters' data-animation='{{animation}}' data-animation-loop='{{loop}}' data-animation-separator='{{separator}}'>{{text}}</div>",
+        "data": {
+            "animation": "ready",
+            "loop": "true",
+            "text": "Ready,Set,Go",
+            "separator": ","
+        }
+    }
 }
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When animation requires more than one string, strings are separated using the `separator` inside the `text` attribute.
-Loop indicates whether the animation should only play once, or loop forever.
+When animation requires more than one string, strings are separated using the
+`separator` inside the `text` attribute. Loop indicates whether the animation
+should only play once, or loop forever.
 
-[Valid animations](http://tobiasahlin.com/moving-letters/) are: thursday, slow-mornings, great-thinker, ready, signal-and-noise, beautiful-question,
-reality-is-broken, hey, coffee-morning, domino-dreams, hello-goodbye, a-new-production, rising-strong,
-finding-your-element, out-now, and made-with-love.
-
-
+[Valid animations](http://tobiasahlin.com/moving-letters/) are: thursday,
+slow-mornings, great-thinker, ready, signal-and-noise, beautiful-question,
+reality-is-broken, hey, coffee-morning, domino-dreams, hello-goodbye,
+a-new-production, rising-strong, finding-your-element, out-now, and
+made-with-love.
 
 #### Table
 
@@ -397,21 +409,22 @@ array represents a table row.
 Each row is represented by an Array; each element of the array is the table cell
 content.
 
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "table": {
-	"options": {
-		"columnheader": true,
-		"rowheader": true,
-		"rowfooter": true
-	},
-	"data": [
-		["", "R1", "R2", "R3", "R4", "TOT"],
-		["Tiger", 70, 71, 68, 66, 275],
+    "options": {
+        "columnheader": true,
+        "rowheader": true,
+        "rowfooter": true
+    },
+    "data": [
+        ["", "R1", "R2", "R3", "R4", "TOT"],
+        ["Tiger", 70, 71, 68, 66, 275],
         ["Henrick", 72, 72, 66, 65, 275],
         ["Sergio", 72, 71, 70, 68, 281]
     ]
 }
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
  
 
 #### Graphs
@@ -423,62 +436,151 @@ Most graphs are animated but not interactive.
 
 Storyrevealer uses 2 graphic packages
 
-1. [Chart.js](http://tobiasahlin.com/blog/chartjs-charts-to-get-you-started/), which uses the HTML Canvas,
-2. [Chartist](https://gionkunz.github.io/chartist-js/), which uses SVG, very much like [C3](http://c3js.org) and D3 which could also be viable alternatives.
+1.  [Chart.js](http://tobiasahlin.com/blog/chartjs-charts-to-get-you-started/),
+    which uses the HTML Canvas,
+
+2.  [Chartist](https://gionkunz.github.io/chartist-js/), which uses SVG, very
+    much like [C3](http://c3js.org) and D3 which could also be viable
+    alternatives.
 
  
 
-There are two methods to create graphs.
- 
+There are two methods to create graphs.  
 
-The first method uses the content-type `barchart` (respectively `barchartist`), `linechart` (resp. `linechartist`), and `piechart` (resp. `piechartist`)
-to create standard bar, line and pie chart respectively.
-Data need to presented in a simple Storyrevealer way. No option can be changed.
-These types of graphs are suitable for most simple graphs.
+The first method uses the content-type `barchart` (respectively `barchartist`),
+`linechart` (resp. `linechartist`), and `piechart` (resp. `piechartist`) to
+create standard bar, line and pie chart respectively. Data need to presented in
+a simple Storyrevealer way. No option can be changed. These types of graphs are
+suitable for most simple graphs.
 
- 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"piechart": {
+    "data": [
+        ["Tiger", 50],
+        ["Henrick", 30],
+        ["Phil", 20]
+    ]
+}
 
-The second method uses the content-type « chart » (respectively « chartist »). Data need to be presented in
-the the way the graphing package expects it.
-This method allow to display any type of graph that the graphing package can display.
+"linechart": {
+    "data": [
+        ["Tiger", 70, 71, 68, 66],
+        ["Henrick", 72, 72, 66, 65],
+        ["Phil", 71, 69, 72, 64]
+    ]
+}
 
+"barchart": {
+    "labels": ["R1", "R2", "R3", "R4"],
+    "data": [
+        ["Tiger", 70, 71, 68, 66],
+        ["Henrick", 72, 72, 66, 65],
+        ["Sergio", 72, 71, 70, 68]
+    ]
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-## Storyrevealer Options
+The second method uses the content-type « chart » (respectively « chartist »).
+Data need to be presented in the the way the graphing package expects it. This
+method allow to display any type of graph that the graphing package can display.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"chart": {
+   "type": "horizontalBar",
+   "data": {
+      "labels": [ "Africa", "Asia", "Europe", "Latin America", "North America" ],
+      "datasets": [
+         {
+            "label": "Population (millions)",
+            "backgroundColor": [ "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850" ],
+            "data": [ 2478, 5267, 734, 784, 433 ]
+         }
+      ]
+   },
+   "options": {
+      "legend": {
+         "display": false
+      },
+      "title": {
+         "display": true,
+         "text": "Predicted world population (millions) in 2050"
+      }
+   }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Storyrevealer Options
+---------------------
 
 When created, the Storyrevealer object accepts the following options:
 
-
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Storyrevealer.generate({
-	// Storyrevealer data URL
-	url: 'dev.json',
-	// Content-type to HMTL element mappings
-	mappings: {
-		content-type: mapped-element
-	},
-	// Additional options for HTML Sanitazing library
-	html: {
-		allowedTags: [ 'h4', 'h5', 'h6' ]
-	}
-})
-```
 
+    // Storyrevealer data URL
+    url: 'dev.json',
+
+    // Content-type to HMTL element mappings
+    mappings: {
+        "paragraph": "p.left"
+    },
+
+    // Additional options for HTML Sanitazing library
+    html: {
+        allowedTags: [ 'h4', 'h5', 'h6' ]
+    }
+
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ### Reveal.js Plugins
 
-The following Reveal.js plugins need to be installed to use Stpryrevealer features:
+The following Reveal.js plugins need to be installed to use Stpryrevealer
+features:
 
-Plugin | Purpose | Note
--------+---------+-----
-Anything | Most Story revealer features, like Mustache
+| **Plugin** | **Purpose**                                 | **Note** |
+|------------|---------------------------------------------|----------|
+| Anything   | Most Story revealer features, like Mustache |          |
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// More info https://github.com/hakimel/reveal.js#configuration
+
+Reveal.initialize({
+	...
+
+	// More info https://github.com/hakimel/reveal.js#dependencies
+	dependencies: [
+		...
+
+		{ src: 'node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
+		{ src: 'js/moving-letters.js' },
+		{ src: 'js/storyrevealer-plugin.js' },
+
+		...
+	],
+	
+	...
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-In addition, the following JS scripts need to be added to your page (or to Reveal.js as a plugin):
+In addition, the following JS scripts need to be added to your page (or to
+Reveal.js as a plugin):
 
-Plugin | Purpose | Note
--------+---------+-----
-Mustache | Easy templating | 
-Chartist | SVG charting library
-Chart.js | Canvas-based charting library
-sanitize-html | Flexible HTML sanitazing library
+| **Plugin**    | **Purpose**                       | **Note** |
+|---------------|-----------------------------------|----------|
+| Mustache      | Easy templating                   |          |
+| Chartist      | SVG charting library              |          |
+| Chart.js      | Canvas-based charting library     |          |
+| sanitize-html |  Flexible HTML sanitazing library |          |
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+...
+<script src="node_modules/sanitize-html/dist/sanitize-html.js"></script>
+<script src="node_modules/mustache/mustache.js"></script>
+<script src="node_modules/animejs/anime.js"></script>	
+...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## Limits
 

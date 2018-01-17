@@ -52,11 +52,11 @@ var MovingLetters = window.MovingLetters || (function(){
 
 			var id = div.attr("id")
 			if(! id) {
-				id = RevealJSAnimation.generateId()
+				id = StoryrevealerAnimation.generateId()
 				div.attr("id", id)
 			}
 
-			if(! RevealJSAnimation.exists(id)) {
+			if(! StoryrevealerAnimation.exists(id)) {
 				var animation_code = null
 				install_template(div, animation, sep)
 
@@ -625,11 +625,11 @@ var MovingLetters = window.MovingLetters || (function(){
 						break;
 				}
 				if(animation_code) {
-					RevealJSAnimation.register(id, animation_code)
+					StoryrevealerAnimation.register(id, animation_code)
 					console.log('MovingLetters::install_animation: installed', animation)
 				}
 			} else {
-				RevealJSAnimation.play(id)
+				StoryrevealerAnimation.play(id)
 				console.log('MovingLetters::install_animation: started', animation)
 			}
 		}

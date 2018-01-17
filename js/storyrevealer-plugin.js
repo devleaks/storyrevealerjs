@@ -5,7 +5,7 @@
  * Copyright (C) 2017 Pierre M
  */
 
-var RevealJSAnimation = window.RevealJSAnimation || (function(){
+var StoryrevealerAnimation = window.StoryrevealerAnimation || (function(){
 	var _animations = {}
 	var _id_counter = 0
 	var _colors = [
@@ -40,12 +40,12 @@ var RevealJSAnimation = window.RevealJSAnimation || (function(){
 	return {
 		register: function(name, anim) {
 			_animations[name] = anim
-			console.log("RevealJSAnimation::register", name)			
+			console.log("StoryrevealerAnimation::register", name)			
 			return anim
 		},
 		deregister: function(name) {
 			delete _animations[name]
-			//console.log("RevealJSAnimation::deregister", name)			
+			//console.log("StoryrevealerAnimation::deregister", name)			
 		},
 		exists: function(name) {
 			return typeof _animations[name] != "undefined"
@@ -70,20 +70,14 @@ var RevealJSAnimation = window.RevealJSAnimation || (function(){
 				_animations[name].reverse()
 			}
 		},
-		id: function() {
-			return _id_counter
-		},
-		generateId: function() {
-			return 'a'+(_id_counter++)
-		},
 		color: function() {
 			return _colors[_id_counter % _colors.length]
 		},
 		play_animations: function(container) {
 			if(container.getAttribute('data-animation')) { // play animation on current element, if any
 				var id = container.getAttribute("id")
-				RevealJSAnimation.restart(id)
-				console.log("RevealJSAnimation::play_animation::container", id)
+				StoryrevealerAnimation.restart(id)
+				console.log("StoryrevealerAnimation::play_animation::container", id)
 			}
 			/*	The following selector IS NOT CORRECT. we should only search for animation but without .fragment style
 				correct algorithm need to bring in jquery (See: https://github.com/hakimel/reveal.js/issues/833)
@@ -93,9 +87,33 @@ var RevealJSAnimation = window.RevealJSAnimation || (function(){
 			for (var i = 0; i < animations.length; i++ ) {
 				var animation = animations[i]
 				var id = animation.getAttribute("id")
-				RevealJSAnimation.restart(id)
-				console.log("RevealJSAnimation::play_animations", id)
+				StoryrevealerAnimation.restart(id)
+				console.log("StoryrevealerAnimation::play_animations", id)
 			}
+		},
+		pause_animations: function(container) {
+			if(container.getAttribute('data-animation')) { // play animation on current element, if any
+				var id = container.getAttribute("id")
+				StoryrevealerAnimation.pause(id)
+				console.log("StoryrevealerAnimation::pause_animation::container", id)
+			}
+			/*	The following selector IS NOT CORRECT. we should only search for animation but without .fragment style
+				correct algorithm need to bring in jquery (See: https://github.com/hakimel/reveal.js/issues/833)
+				so we'll stick to this for now
+			*/
+			var animations = container.querySelectorAll("*[data-animation]")
+			for (var i = 0; i < animations.length; i++ ) {
+				var animation = animations[i]
+				var id = animation.getAttribute("id")
+				StoryrevealerAnimation.pause(id)
+				console.log("StoryrevealerAnimation::pause_animations", id)
+			}
+		},
+		id: function() {
+			return _id_counter
+		},
+		generateId: function() {
+			return 'a'+(_id_counter++)
 		}
 	}
 })()	
@@ -108,7 +126,7 @@ Reveal.addEventListener( 'ready' , function( event ) {
 		var animation_type = animation.getAttribute("data-animation")
 		var id = animation.getAttribute("id")
 		if(! id) {
-			id = RevealJSAnimation.generateId()
+			id = StoryrevealerAnimation.generateId()
 			animation.setAttribute("id", id)
 			//console.log('ready::*[data-animation]: generated id', animation_type, id)
 		}
@@ -122,7 +140,7 @@ Reveal.addEventListener( 'ready' , function( event ) {
 					target: animation,
 					counter: values[0]
 				}
-				RevealJSAnimation.register(id, anime({
+				StoryrevealerAnimation.register(id, anime({
 					targets: myObject,
 					counter: values[1],
 					round: values[2],
@@ -148,7 +166,7 @@ Reveal.addEventListener( 'ready' , function( event ) {
 				var timeline = anime.timeline().add({ // animation of bar
 				  targets: '#'+id+" span.progress-bar",
 				  width: [start_val+'%',end_val+'%'],
-				  backgroundColor: [RevealJSAnimation.color(),RevealJSAnimation.color()],
+				  backgroundColor: [StoryrevealerAnimation.color(),StoryrevealerAnimation.color()],
 				  easing: 'easeInOutQuad',
 				  autoplay: false,
 				  duration: duration
@@ -173,7 +191,7 @@ Reveal.addEventListener( 'ready' , function( event ) {
 					})
 				}
 
- 				RevealJSAnimation.register(id, timeline)
+ 				StoryrevealerAnimation.register(id, timeline)
 				//console.log('anim added', 'progress-bar', id)
 
 				})()
@@ -192,12 +210,17 @@ Reveal.addEventListener( 'ready' , function( event ) {
 
 // Play animations on new slide
 Reveal.addEventListener( 'slidechanged' , function( event ) {
+	StoryrevealerAnimation.play_animations(Reveal.getCurrentSlide())
+	StoryrevealerAnimation.pause_animations(Reveal.getPreviousSlide())
 	console.log('slidechanged::play_animations')	
-	RevealJSAnimation.play_animations(Reveal.getCurrentSlide())
 } );
 
 // Play animations on new fragment shown
 Reveal.addEventListener( 'fragmentshown' , function( event ) {
+	StoryrevealerAnimation.play_animations(event.fragment)
 	console.log('fragmentshown::play_animations')	
-	RevealJSAnimation.play_animations(event.fragment)
+} );
+
+Reveal.addEventListener( 'animation' , function( event ) {
+	console.log("Storyrevealer::animation", event)
 } );

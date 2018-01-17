@@ -89,6 +89,9 @@
 
 	var _inited = false
 	var _config = {}
+	var _navigation = null
+	var _slide_h = 0
+	var _slide_v = 0
 	
 	/*	Used before. Will probably come back...
 	 *
@@ -151,8 +154,7 @@
 			CLEAN_HTML = mergeRecursive(CLEAN_HTML, config.html)
 			//console.log('CLEAN_HTML', CLEAN_HTML)
 		}
-		
-		
+				
 		// Add anything plugin setup
 		Reveal.configure({
 			anything: [ 
@@ -230,6 +232,14 @@
 		}) // Reveal.configure
 		
 		console.log("Storyrevealer "+VERSION)
+		
+		_navigation = document.querySelector("#dot-nav")
+		if(_navigation) {
+			_navigation.appendChild(document.createElement("ul"))
+			_navigation = document.querySelector("#dot-nav ul")
+			
+		}
+		
 		_inited = true;
 		
 		if(_config.url) {
@@ -240,6 +250,15 @@
 		}
 	}
 
+
+	function navigate(e) {
+		var o = document.querySelector('#dot-nav ul li.active')
+		if(o) o.classList.remove('active')
+		e.currentTarget.classList.add('active')
+		console.log("clicked")
+		// navigate to slide
+	}
+
 	
 	/*
 	 *
@@ -248,6 +267,25 @@
 		return sanitizeHtml(str, CLEAN_HTML)
 	}
 	
+	
+	/*
+	 *
+	 */
+	function getTitle(data) {
+		var title = null;
+		["title", "headline", "name", "h1", "h2", "h3"].forEach(function(tested) {
+			for (var content in data) {
+			    if (data.hasOwnProperty(content)) {
+					var content_type = content.split(".").shift()
+					if(!title && tested == content_type && data[content])
+						title = data[content]
+				}
+			}
+		})				
+		console.log("data", data, title)
+		return title ? title : 'No title '+_slide_h+'/'+_slide_v+'.'
+	}
+
 	/*	Generate <table> element and fill it 
 	 *
 	 */
@@ -510,7 +548,6 @@
 								["color","background-color"].forEach(function(s) {
 									if(icon[s]) sty += (s+':'+icon[s]+';')
 								});
-								console.log("sty", sty)
 								if(sty != '') itag.attr('style', sty)
 								break
 
@@ -615,6 +652,25 @@
 			if(first.class) {
 				s.classed(first.class, true)
 			}
+			if(_navigation) { // <li class="active" title="Home"><a href="#home"></a></li>
+				var li = document.createElement("li")
+				var title = getTitle(data)
+				li.setAttribute("title", title)
+				
+				if(_slide_h == 0 && _slide_v == 0)
+					li.classList.add('active')
+					
+				var a = document.createElement("a")
+				var slide = "#/"+_slide_h+'/'+_slide_v
+				a.setAttribute("href", slide)
+				console.log("adding", slide)
+				
+				li.appendChild(a)
+				li.addEventListener("click", navigate)
+				
+				_navigation.appendChild(li)
+				console.log('adding navigation')
+			}
 			if(add_content) {
 				addContent(s, data)
 			}
@@ -670,28 +726,39 @@
 						.html(cleanHTML(error))
 				}
 				return
-			}				
+			}
+			
+			_slide_h = 0
+			_slide_v = 0				
 			
 			if(newspaper.cover) {	// Add newspaper cover page
-				addSection(newspaper_elem, newspaper.cover, true)				
+				addSection(newspaper_elem, newspaper.cover, true)
+				_slide_h++
 			}
 			
 			if(newspaper.stories) {	// multiple stories
 				
 				newspaper.stories.forEach(function(story) {	// For each news, news are navigated left to right
 
+					_slide_v = 0
+
 					// Add empty story container section
 					var story_elem = addSection(newspaper_elem, story.cover, false)
+					_slide_v++
 
 					if(story.cover) {	// Add story cover page
 						addSection(story_elem, story.cover, true)
+						_slide_v++
 					}
 
 					story.pages.forEach(function(page) {	// Add story pages
 
 						addPage(page, story_elem)
+						_slide_v++
 
 					})
+					
+					_slide_h++
 				})
 
 			} else {	// just one story
@@ -701,6 +768,8 @@
 				newspaper.pages.forEach(function(page) {	// For each page in the story
 
 					addPage(page, story_elem)
+
+					_slide_h++
 
 				})
 
@@ -713,6 +782,16 @@
 	/*	Storyrevealer Object
 	 *
 	 */
-	return { init: init }
+	return { init: init, navigate: navigate }
 
 }));
+
+function navigate(e) {
+	var o = document.querySelector('#dot-nav ul li.active')
+	if(o) o.classList.remove('active')
+	e.currentTarget.classList.add('active')
+	console.log("clicked")
+	// navigate to slide
+}
+
+

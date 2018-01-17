@@ -40,7 +40,7 @@ var StoryrevealerAnimation = window.StoryrevealerAnimation || (function(){
 	return {
 		register: function(name, anim) {
 			_animations[name] = anim
-			console.log("StoryrevealerAnimation::register", name)			
+			//console.log("StoryrevealerAnimation::register", name)			
 			return anim
 		},
 		deregister: function(name) {
@@ -78,7 +78,7 @@ var StoryrevealerAnimation = window.StoryrevealerAnimation || (function(){
 			if(container.getAttribute('data-animation')) { // play animation on current element, if any
 				var id = container.getAttribute("id")
 				StoryrevealerAnimation.restart(id)
-				console.log("StoryrevealerAnimation::play_animation::container", id)
+				//console.log("StoryrevealerAnimation::play_animation::container", id)
 			}
 			/*	The following selector IS NOT CORRECT. we should only search for animation but without .fragment style
 				correct algorithm need to bring in jquery (See: https://github.com/hakimel/reveal.js/issues/833)
@@ -89,7 +89,7 @@ var StoryrevealerAnimation = window.StoryrevealerAnimation || (function(){
 				var animation = animations[i]
 				var id = animation.getAttribute("id")
 				StoryrevealerAnimation.restart(id)
-				console.log("StoryrevealerAnimation::play_animations", id)
+				//console.log("StoryrevealerAnimation::play_animations", id)
 			}
 		},
 		pause_animations: function(container) {
@@ -97,7 +97,7 @@ var StoryrevealerAnimation = window.StoryrevealerAnimation || (function(){
 			if(container.getAttribute('data-animation')) { // play animation on current element, if any
 				var id = container.getAttribute("id")
 				StoryrevealerAnimation.pause(id)
-				console.log("StoryrevealerAnimation::pause_animation::container", id)
+				//console.log("StoryrevealerAnimation::pause_animation::container", id)
 			}
 			/*	The following selector IS NOT CORRECT. we should only search for animation but without .fragment style
 				correct algorithm need to bring in jquery (See: https://github.com/hakimel/reveal.js/issues/833)
@@ -108,7 +108,7 @@ var StoryrevealerAnimation = window.StoryrevealerAnimation || (function(){
 				var animation = animations[i]
 				var id = animation.getAttribute("id")
 				StoryrevealerAnimation.pause(id)
-				console.log("StoryrevealerAnimation::pause_animations", id)
+				//console.log("StoryrevealerAnimation::pause_animations", id)
 			}
 		},
 		id: function() {
@@ -137,7 +137,6 @@ Reveal.addEventListener( 'ready' , function( event ) {
 
 			case "countup": (function() { // start each anim in its own context
 				var values = animation.dataset.countup.split(',')
-				console.log('countup', values)
 				var myObject = {
 					target: animation,
 					counter: values[0]
@@ -165,7 +164,6 @@ Reveal.addEventListener( 'ready' , function( event ) {
 				var end_val   = Math.round(100 * pbpararr[1]/pbpararr[2])
 				var duration = pbpararr[3] || 3000
 
-				console.log('params', pbpararr, start_val, end_val, duration, )
 				var timeline = anime.timeline().add({ // animation of bar
 				  targets: '#'+id+" span.progress-bar",
 				  width: [start_val+'%',end_val+'%'],
@@ -205,7 +203,7 @@ Reveal.addEventListener( 'ready' , function( event ) {
 				break
 				
 			default:
-				console.log('ready::install animations::animation type not found', animation)
+				console.log('ready::install animations::animation type not found', animation_type)
 				break
 		}
 	}
@@ -215,15 +213,11 @@ Reveal.addEventListener( 'ready' , function( event ) {
 Reveal.addEventListener( 'slidechanged' , function( event ) {
 	StoryrevealerAnimation.play_animations(Reveal.getCurrentSlide())
 	StoryrevealerAnimation.pause_animations(Reveal.getPreviousSlide())
-	console.log('slidechanged::play_animations')	
+	//console.log('slidechanged::play_animations')	
 } );
 
 // Play animations on new fragment shown
 Reveal.addEventListener( 'fragmentshown' , function( event ) {
 	StoryrevealerAnimation.play_animations(event.fragment)
-	console.log('fragmentshown::play_animations')	
-} );
-
-Reveal.addEventListener( 'animation' , function( event ) {
-	console.log("Storyrevealer::animation", event)
+	//console.log('fragmentshown::play_animations')	
 } );

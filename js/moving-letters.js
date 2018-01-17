@@ -40,7 +40,7 @@ var MovingLetters = window.MovingLetters || (function(){
 			  nodeList[i].innerHTML = nodeList[i].innerHTML.replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>")
 			}
 			done.setAttribute('data-ml-spaced', true)
-			console.log('MovingLetters::isolateLetters', selector)
+			//console.log('MovingLetters::isolateLetters', selector)
 		}
 	}
 	

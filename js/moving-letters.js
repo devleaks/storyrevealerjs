@@ -33,13 +33,14 @@ var MovingLetters = window.MovingLetters || (function(){
 	}
 
 	function isolateLetters(selector) {
-		var done = d3.select(selector)
-		if(! done.attr('data-spaced') ) {
-			d3.selectAll(selector).each(function(d) {
-			    d3.select(this).html( d3.select(this).html().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>") );
-			})
-			done.attr('data-spaced', true)
-			//console.log('MovingLetters::isolateLetters', selector)
+		var done = document.querySelector(selector)
+		if(! done.getAttribute('data-ml-spaced') ) {
+			var nodeList = document.querySelectorAll(selector)
+			for (var i = 0; i < nodeList.length; ++i) {
+			  nodeList[i].innerHTML = nodeList[i].innerHTML.replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>")
+			}
+			done.setAttribute('data-ml-spaced', true)
+			console.log('MovingLetters::isolateLetters', selector)
 		}
 	}
 	
@@ -462,7 +463,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						  })
 						  .add({	// see: https://stackoverflow.com/questions/21990857/d3-js-how-to-get-the-computed-width-and-height-for-an-arbitrary-element
 						    targets: '.ml11 .line',
-						    translateX: [0,d3.select(".ml11 .letters").node().getBoundingClientRect().width],
+						    translateX: [0,document.querySelector(".ml11 .letters").getBoundingClientRect().width],
 						    easing: "easeOutExpo",
 						    duration: 700,
 						    delay: 100

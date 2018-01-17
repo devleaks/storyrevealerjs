@@ -27,9 +27,9 @@ var MovingLetters = window.MovingLetters || (function(){
 
 	function install_template(container, animation, sep) {
 		var template = TEMPLATES[animation]
-		var text = container.html()
+		var text = container.innerHTML
 		var newtext = Mustache.render(template, text.split(sep))
-		container.html(newtext)
+		container.innerHTML = newtext
 	}
 
 	function isolateLetters(selector) {
@@ -46,20 +46,19 @@ var MovingLetters = window.MovingLetters || (function(){
 	
 	return {
 		install_animation: function(container) {
-			var div = d3.select(container)
-			var animation = div.attr('data-moving-letters')
-			var loop = div.attr('data-animation-loop') == 'true'
-			var sep = div.attr('data-animation-separator') || ','
+			var animation = container.getAttribute('data-moving-letters')
+			var loop = container.getAttribute('data-animation-loop') == 'true'
+			var sep = container.getAttribute('data-animation-separator') || ','
 
-			var id = div.attr("id")
+			var id = container.getAttribute("id")
 			if(! id) {
 				id = StoryrevealerAnimation.generateId()
-				div.attr("id", id)
+				container.setAttribute("id", id)
 			}
 
 			if(! StoryrevealerAnimation.exists(id)) {
 				var animation_code = null
-				install_template(div, animation, sep)
+				install_template(container, animation, sep)
 
 				switch(animation) {
 					case 'thursday':

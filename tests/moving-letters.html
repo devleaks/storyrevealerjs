@@ -79,6 +79,10 @@
 				// your allotted time for newspaper reading (See https://github.com/tkrkt/reveal.js-elapsed-time-bar)
 				allottedTime: 3 * 60 * 1000, // 3 minutes
 				
+				storyrevealer: {
+					url: 'moving-letters.json'
+				},
+				
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
 					{ src: '../node_modules/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
@@ -88,15 +92,12 @@
 					{ src: '../node_modules/@bower_components/Reveal.js-Title-Footer/plugin/title-footer/title-footer.js',
 								async: true, callback: function() { title_footer.initialize(); }  },
 					{ src: '../js/moving-letters.js' },
-					{ src: '../js/storyrevealer-plugin.js' },
+					{ src: '../js/storyrevealer-animation-plugin.js' },
 					{ src: '../node_modules/reveal.js/plugin/notes/notes.js', async: true }
 				]
 			});
 			
-			Storyrevealer.initialize({
-				// Data URL
-				url: 'moving-letters.json'
-			})
+			Storyrevealer.init()
 
 		</script>
 

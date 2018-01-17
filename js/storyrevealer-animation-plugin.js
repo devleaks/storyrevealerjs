@@ -74,6 +74,7 @@ var StoryrevealerAnimation = window.StoryrevealerAnimation || (function(){
 			return _colors[_id_counter % _colors.length]
 		},
 		play_animations: function(container) {
+			if(! container) return;
 			if(container.getAttribute('data-animation')) { // play animation on current element, if any
 				var id = container.getAttribute("id")
 				StoryrevealerAnimation.restart(id)
@@ -92,6 +93,7 @@ var StoryrevealerAnimation = window.StoryrevealerAnimation || (function(){
 			}
 		},
 		pause_animations: function(container) {
+			if(! container) return;
 			if(container.getAttribute('data-animation')) { // play animation on current element, if any
 				var id = container.getAttribute("id")
 				StoryrevealerAnimation.pause(id)
@@ -143,7 +145,7 @@ Reveal.addEventListener( 'ready' , function( event ) {
 				StoryrevealerAnimation.register(id, anime({
 					targets: myObject,
 					counter: values[1],
-					round: values[2],
+					round: values[2],	// used as value = Math.round(value * round) / round;
 					easing: 'easeInOutQuad',
 					duration: values[3],
 //					autoplay: false,
@@ -163,6 +165,7 @@ Reveal.addEventListener( 'ready' , function( event ) {
 				var end_val   = Math.round(100 * pbpararr[1]/pbpararr[2])
 				var duration = pbpararr[3] || 3000
 
+				console.log('params', pbpararr, start_val, end_val, duration, )
 				var timeline = anime.timeline().add({ // animation of bar
 				  targets: '#'+id+" span.progress-bar",
 				  width: [start_val+'%',end_val+'%'],

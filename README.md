@@ -542,7 +542,7 @@ Reveal.initialize({
 
 		{ src: 'node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
 		{ src: 'js/moving-letters.js' },
-		{ src: 'js/storyrevealer-plugin.js' },
+		{ src: 'js/storyrevealer-animation-plugin.js' },
 
 		...
 	],

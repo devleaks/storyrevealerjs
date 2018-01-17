@@ -134,7 +134,10 @@
 		}
 		
 		var config = Reveal.getConfig().storyrevealer;
-		_config = mergeRecursive(config, _config) // does not overwrite what is in first obj1 = config
+		if(moreconfig) {	// moreconfig takes precendence over config
+			config = mergeRecursive(moreconfig, config)
+		}											// (new) config takes precedence over (existing) _config
+		_config = mergeRecursive(config, _config)	// does not overwrite what is in first obj1 = config
 		
 		//console.log('Storyrevealer::init: _config', _config)
 
@@ -462,6 +465,21 @@
 
 						switch(content_type) {
 
+							case "content": // older structure for json, still works!
+								var page = data[content]
+								if(Array.isArray(page)) { // more than one column
+									var column_elem = elem.append("div")
+										                  .attr("class", "multicols")
+									page.forEach(function(column) {
+										var container = column_elem.append("div")
+														           .attr("class", "col")
+										addContent(container, column, false)
+									})
+								} else {
+									addContent(elem, data[content])
+								}	
+								break
+
 							case "class":
 								elem.classed(data[content], true)
 								break
@@ -482,6 +500,18 @@
 							case "notes":
 								elem.append("aside")
 									.html(cleanHTML(data[content]))
+								break
+
+							case "icon":
+								var icon = data[content]
+								var itag = elem.append("i")
+									.attr('class', 'fa fa-'+icon.glyph)
+								var sty = '';
+								["color","background-color"].forEach(function(s) {
+									if(icon[s]) sty += (s+':'+icon[s]+';')
+								});
+								console.log("sty", sty)
+								if(sty != '') itag.attr('style', sty)
 								break
 
 							case "table":

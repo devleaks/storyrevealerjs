@@ -26,12 +26,12 @@
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
 
-		<!-- BEGIN STORYREVEALERJS -->
 		<link rel="stylesheet" href="../node_modules/@bower_components/Reveal.js-Title-Footer/plugin/title-footer/title-footer.css">
+
+		<!-- Custom styling for "stories" -->
 		<link rel="stylesheet" href="../css/moving-letters.css">
 		<link rel="stylesheet" href="../css/storyrevealer.css">
 		<link rel="stylesheet" href="../css/storyrevealer-dev.css">
-		<!-- END STORYREVEALERJS -->
 
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -39,6 +39,11 @@
 	</head>
 
 	<body>
+		<form>
+			<select id="filename" onchange="loadFile()">
+			</select>
+		</form>
+
 		<div class="reveal">
 
 			<!-- Any section element inside of this container is displayed as a slide -->
@@ -50,7 +55,6 @@
 		<script src="../node_modules/reveal.js/lib/js/head.min.js"></script>
 		<script src="../node_modules/reveal.js/js/reveal.js"></script>
 
-		<!-- BEGIN STORYREVEALERJS -->
 		<script src="../node_modules/d3-collection/build/d3-collection.min.js"></script>
 		<script src="../node_modules/d3-dispatch/build/d3-dispatch.min.js"></script>
 		<script src="../node_modules/d3-dsv/build/d3-dsv.min.js"></script>
@@ -69,7 +73,6 @@
 		<script src="../node_modules/animejs/anime.js"></script>	
 
 		<script src="../js/storyrevealer.js"></script>
-		<!-- END STORYREVEALERJS -->
 
 		<script>
 
@@ -86,7 +89,7 @@
 				allottedTime: 3 * 60 * 1000, // 3 minutes
 				
 				storyrevealer: {
-					url: 'template.json'
+					url: 'data.json',
 				},
 
 				// More info https://github.com/hakimel/reveal.js#dependencies
@@ -98,10 +101,48 @@
 					{ src: '../js/moving-letters.js' },
 					{ src: '../js/storyrevealer-animation-plugin.js' }
 				]
-			});			
+			});
+			
 			
 			Storyrevealer.init()
 			
+			var newspapers = {
+				animations: "Animations",
+				caboverde: "Cabo Verde",
+				chartist: "Chartist",
+				"chartjs-demo": "Chart.js Demo",
+				chartjs: "Chart.js",
+				data: "data",
+				"moving-letters": "Moving Letters",
+				newspaper: "a Newspaper",
+				story: "a Story"
+			}
+			var root = document.getElementById("filename");
+			for (var story in newspapers) {
+			    if (newspapers.hasOwnProperty(story)) {
+					var option = document.createElement("option")
+					option.setAttribute('value', story+'.json')
+					option.innerHTML = newspapers[story]
+					root.appendChild(option)
+				}
+			}
+			
+						
+			function loadFile() {
+				var file = root.options[root.selectedIndex].value;
+				console.log("file is", file)
+				
+				// change config and reload
+				Reveal.configure({
+					storyrevealer: {
+						url: file,
+						force: true
+					}
+				})
+				Storyrevealer.init()
+				Reveal.slide(1)
+			}
+
 		</script>
 
 	</body>

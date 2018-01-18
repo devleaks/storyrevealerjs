@@ -92,6 +92,9 @@
 	var _navigation = null
 	var _slide_h = 0
 	var _slide_v = 0
+	var _slideTitles = []
+	var _currentStory = 0
+	var _title_found = false
 	
 	/*	Used before. Will probably come back...
 	 *
@@ -250,17 +253,8 @@
 		}
 	}
 
-
-	function navigate(e) {
-		var o = document.querySelector('#dot-nav ul li.active')
-		if(o) o.classList.remove('active')
-		e.currentTarget.classList.add('active')
-		console.log("clicked")
-		// navigate to slide
-	}
-
 	
-	/*
+	/*	Sanitize HTML string according to CLEAN_HTML config
 	 *
 	 */
 	function cleanHTML(str) {
@@ -268,23 +262,66 @@
 	}
 	
 	
-	/*
+	/*	Tries to retrieve a title for the slide from content
 	 *
 	 */
 	function getTitle(data) {
+		var whereToLook = ["title", "headline", "name", "h1", "h2", "h3", "text"]
+		var prec = whereToLook.length
 		var title = null;
-		["title", "headline", "name", "h1", "h2", "h3"].forEach(function(tested) {
-			for (var content in data) {
-			    if (data.hasOwnProperty(content)) {
-					var content_type = content.split(".").shift()
-					if(!title && tested == content_type && data[content])
-						title = data[content]
+		for (var content in data) {
+		    if (data.hasOwnProperty(content)) {
+				var content_arr = content.split(".")
+				var content_type = content_arr.shift()
+				var pos = whereToLook.indexOf(content_type)
+				if(pos > -1 && pos < prec && data[content]) {
+					title = Array.isArray(data[content]) ? data[content].join('.') : data[content]
+					if(content_arr.indexOf('html') > -1) {
+						title = sanitizeHtml(title, {allowedTags: [], allowedAttributes: {} })
+					}
+					prec = pos
 				}
 			}
-		})				
-		console.log("data", data, title)
+		}
+		//console.log("Storyrevealer::getTitle", data, title)
 		return title ? title : 'No title '+_slide_h+'/'+_slide_v+'.'
 	}
+	
+	/*	When changing stories, reset dot navigation for current story (idx)
+	 *
+	 */
+	function resetDotNav(idx) {
+		if(!_navigation || isNaN(idx) || idx > _slideTitles.length || idx == _currentStory)
+			return
+
+		_navigation.innerHTML = ''
+		console.log("ici", _slideTitles, idx)
+		for(var i = 0; i < _slideTitles[idx].length; i++) {			
+			var li = document.createElement("li")
+			li.setAttribute("title", _slideTitles[idx][i])
+			li.setAttribute("data-slide-h", idx)
+			li.setAttribute("data-slide-v", i)
+			li.addEventListener("click", navigate)			
+			_navigation.appendChild(li)
+		}
+		_currentStory = idx
+		console.log('Storyrevealer::resetDotNav:done', idx, _slideTitles[idx].length)
+	}
+
+
+	/*	Click event handler for dot navigation
+	 *
+	 */
+	function navigate(e) {
+		var o = document.querySelector('#dot-nav ul li.active')
+		if(o) o.classList.remove('active')
+		e.currentTarget.classList.add('active')
+		var h = e.currentTarget.getAttribute("data-slide-h")
+		var v = e.currentTarget.getAttribute("data-slide-v")
+		//console.log("clicked", h, v)
+		Reveal.slide(h, v)
+	}
+
 
 	/*	Generate <table> element and fill it 
 	 *
@@ -644,6 +681,8 @@
 	 */
 	function addSection(elem, data, add_content) {
 		var s = elem.append("section")
+		_slideTitles[_slide_h] = _slideTitles[_slide_h] || []
+		var slideTitles = _slideTitles[_slide_h]
 		if(data) { // always adds background and class if present
 			var first = Array.isArray(data) ? data[0] : data;
 			if(first.background) {
@@ -652,27 +691,21 @@
 			if(first.class) {
 				s.classed(first.class, true)
 			}
-			if(_navigation) { // <li class="active" title="Home"><a href="#home"></a></li>
-				var li = document.createElement("li")
-				var title = getTitle(data)
-				li.setAttribute("title", title)
-				
-				if(_slide_h == 0 && _slide_v == 0)
-					li.classList.add('active')
-					
-				var a = document.createElement("a")
-				var slide = "#/"+_slide_h+'/'+_slide_v
-				a.setAttribute("href", slide)
-				console.log("adding", slide)
-				
-				li.appendChild(a)
-				li.addEventListener("click", navigate)
-				
-				_navigation.appendChild(li)
-				console.log('adding navigation')
-			}
+			var title = getTitle(data)
+			slideTitles[_slide_v] = title
 			if(add_content) {
 				addContent(s, data)
+				if(_navigation) { // if slide has no content, it has no nav (it probably is a container for other slides)
+					var li = document.createElement("li")
+					li.setAttribute("title", title)
+					li.setAttribute("data-slide-h", _slide_h)
+					li.setAttribute("data-slide-v", _slide_v)
+
+					li.addEventListener("click", navigate)
+
+					_navigation.appendChild(li)
+					//console.log("Storyrevealer::addSection:title", _slide_v, title, data)
+				}
 			}
 		}
 		return s
@@ -710,9 +743,6 @@
 				return
 			}
 
-			// clean previous newspaper or stories
-			newspaper_elem.selectAll('section').remove()
-
 			if(error || ! newspaper) {	// Add error page
 				var error_elem = newspaper_elem.append("section")
 				error_elem.append("h3")
@@ -728,12 +758,28 @@
 				return
 			}
 			
+			// clean previous newspaper or stories
+			newspaper_elem.selectAll('section').remove()
+
 			_slide_h = 0
 			_slide_v = 0				
 			
+			if(newspaper.pages) {	// Just one story, add wrapping section for vertical navigation, does not count for nav
+				newspaper_elem = addSection(newspaper_elem, newspaper.cover, false)
+				//_slide_v++ // !!
+			}
+			
 			if(newspaper.cover) {	// Add newspaper cover page
 				addSection(newspaper_elem, newspaper.cover, true)
-				_slide_h++
+				if(newspaper.pages) { // if only one story, we only have vertical nav
+					_slide_v++
+				} else {
+					_slide_h++
+				}
+				if(!_title_found && newspaper.cover.title) {
+					document.title = newspaper.cover.title
+					_title_found = true
+				}
 			}
 			
 			if(newspaper.stories) {	// multiple stories
@@ -744,7 +790,7 @@
 
 					// Add empty story container section
 					var story_elem = addSection(newspaper_elem, story.cover, false)
-					_slide_v++
+					// _slide_v++ // !!
 
 					if(story.cover) {	// Add story cover page
 						addSection(story_elem, story.cover, true)
@@ -763,17 +809,19 @@
 
 			} else {	// just one story
 
-				var story_elem = newspaper_elem // or shoud we create an empty containing section?
+				var story_elem = newspaper_elem
 				
 				newspaper.pages.forEach(function(page) {	// For each page in the story
 
 					addPage(page, story_elem)
 
-					_slide_h++
+					_slide_v++
 
 				})
 
 			}	// newspaper.stories
+			
+			//console.log("Storyrevealer::initialize:titles", _slideTitles)
 			
 		})	// d3.json		
 	}
@@ -782,16 +830,45 @@
 	/*	Storyrevealer Object
 	 *
 	 */
-	return { init: init, navigate: navigate }
+	return {
+		init: init,
+		initialize: init,
+		resetDotNav: resetDotNav
+	}
 
 }));
 
-function navigate(e) {
-	var o = document.querySelector('#dot-nav ul li.active')
-	if(o) o.classList.remove('active')
-	e.currentTarget.classList.add('active')
-	console.log("clicked")
-	// navigate to slide
-}
+// Install all animations without starting them
+Reveal.addEventListener( 'ready' , function( event ) {
+	var s = Reveal.getIndices()
+	//console.log("Storyrevealer::-ready-:dot-nav", s)
+	
+	Storyrevealer.resetDotNav(s.h)
 
+	var active = document.querySelector("#dot-nav li.active")
+	if(active) {
+		active.classList.remove('active')
+	}
 
+	var curr = document.querySelector("li[data-slide-h='"+s.h+"'][data-slide-v='"+s.v+"']")
+	if(curr) {
+		curr.classList.add('active')
+	}
+	
+} );
+
+Reveal.addEventListener( 'slidechanged' , function( event ) {
+	var s = Reveal.getIndices()
+	//console.log("Storyrevealer::-slidechanged-:dot-nav", s)
+	
+	Storyrevealer.resetDotNav(s.h)
+
+	var active = document.querySelector("#dot-nav li.active")
+	if(active) {
+		active.classList.remove('active')
+	}
+	var curr = document.querySelector("li[data-slide-h='"+s.h+"'][data-slide-v='"+s.v+"']")
+	if(curr) {
+		curr.classList.add('active')
+	}
+} );

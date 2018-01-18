@@ -2,4 +2,4 @@
 
 progress bar cursor should have background.
 
-side dot navigation
+restore horiz nav when forced. may be dot nav at bottom rather than aside?

@@ -203,7 +203,7 @@ Reveal.addEventListener( 'ready' , function( event ) {
 				break
 				
 			default:
-				console.log('ready::install animations::animation type not found', animation_type)
+				console.log('StoryrevealerAnimation::-ready-:animation type not found', animation_type)
 				break
 		}
 	}
@@ -213,11 +213,18 @@ Reveal.addEventListener( 'ready' , function( event ) {
 Reveal.addEventListener( 'slidechanged' , function( event ) {
 	StoryrevealerAnimation.play_animations(Reveal.getCurrentSlide())
 	StoryrevealerAnimation.pause_animations(Reveal.getPreviousSlide())
-	//console.log('slidechanged::play_animations')	
+	//console.log('StoryrevealerAnimation::-slidechanged-::play_animations')	
 } );
 
 // Play animations on new fragment shown
 Reveal.addEventListener( 'fragmentshown' , function( event ) {
 	StoryrevealerAnimation.play_animations(event.fragment)
-	//console.log('fragmentshown::play_animations')	
+	//console.log('StoryrevealerAnimation::-fragmentshown-::play_animations')	
 } );
+
+// Pause animations on fragment hidden
+Reveal.addEventListener( 'fragmenthidden' , function( event ) {
+	StoryrevealerAnimation.pause_animations(event.fragment)
+	//console.log('StoryrevealerAnimation::-fragmenthidden-::pause_animations')	
+} );
+

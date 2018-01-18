@@ -452,6 +452,7 @@ var MovingLetters = window.MovingLetters || (function(){
 					/*
 					*/
 						isolateLetters('.ml11 .letters')
+						//console.log("width", document.querySelector(".ml11 .letters").getBoundingClientRect() )
 						animation_code = anime.timeline({loop: loop})
 						  .add({
 						    targets: '.ml11 .line',

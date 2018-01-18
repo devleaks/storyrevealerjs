@@ -35,8 +35,8 @@
 					"class": "darker",
 					"title": "MP4 Video with Overlay",
 					"under-title": "Plays automagically on reveal...",
-					"video": "tests/mp4.mp4",
-					"static": "tests/mp4.jpg"
+					"video": "mp4.mp4",
+					"static": "mp4.jpg"
 				}
 			]
 		},

@@ -235,16 +235,18 @@
 			] // anything
 		}) // Reveal.configure
 				
-		console.log("Storyrevealer "+VERSION)
 		
 		_navigation = document.querySelector(".side-dot-navigation")
-		if(_navigation) {
+		if(_navigation) {	// first make sure side or bottom style is present
+			if(! _navigation.classList.contains('bottom') && ! _navigation.classList.contains('side'))
+				_navigation.classList.add('side')
 			_navigation.appendChild(document.createElement("ul"))
 			_navigation = document.querySelector(".side-dot-navigation ul")
-			
 		}
 		
+
 		_inited = true;
+		console.log("Storyrevealer "+VERSION+" initialized")
 		
 		if(_config.url) {
 			initialize(_config.url)
@@ -296,17 +298,27 @@
 			return
 
 		_navigation.innerHTML = ''
-		console.log("ici", _slideTitles, idx)
-		for(var i = 0; i < _slideTitles[idx].length; i++) {			
-			var li = document.createElement("li")
-			li.setAttribute("title", _slideTitles[idx][i])
-			li.setAttribute("data-slide-h", idx)
-			li.setAttribute("data-slide-v", i)
-			li.addEventListener("click", navigate)			
-			_navigation.appendChild(li)
+		if(_horizontalNav) {
+			for(var i = 0; i < _slideTitles.length; i++) {			
+				var li = document.createElement("li")
+				li.setAttribute("title", _slideTitles[i][0])
+				li.setAttribute("data-slide-h", i)
+				li.setAttribute("data-slide-v", 0)
+				li.addEventListener("click", navigate)			
+				_navigation.appendChild(li)
+			}
+		} else {
+			for(var i = 0; i < _slideTitles[idx].length; i++) {			
+				var li = document.createElement("li")
+				li.setAttribute("title", _slideTitles[idx][i])
+				li.setAttribute("data-slide-h", idx)
+				li.setAttribute("data-slide-v", i)
+				li.addEventListener("click", navigate)			
+				_navigation.appendChild(li)
+			}
 		}
 		_currentStory = idx
-		console.log('Storyrevealer::resetDotNav:done', idx, _slideTitles[idx].length)
+		//console.log('Storyrevealer::resetDotNav:done', idx, _slideTitles[idx].length)
 	}
 
 
@@ -826,7 +838,7 @@
 
 			}	// newspaper.stories
 			
-			console.log("Storyrevealer::initialize:titles", _slideTitles)
+			//console.log("Storyrevealer::initialize:titles", _slideTitles)
 			
 		})	// d3.json		
 	}

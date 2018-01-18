@@ -206,13 +206,16 @@ div.col.border-left {
 	text-transform: uppercase;
 }
 .huge {
-	font-size: 150%;
+	font-size: 400%;
 }
 .italic {
 	font-style: italic;
 }
 .red {
-	color: red;
+	color: red ! important;
+}
+.green {
+	color: green ! important;
 }
 /* tables */
 .rowheader {

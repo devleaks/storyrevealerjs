@@ -1,0 +1,230 @@
+{
+	"cover": {
+		"teaser": "A gentle introduction",
+		"title": "Storyrevealer",
+		"text": "A JSON configured story telling engine based on Reveal.js",
+		"editor.html": "Created by <a href='https://github.com/devleaks'>Pierre M</a> and <a href='https://github.com/hakimel/reveal.js/graphs/contributors'>contributors</a>",
+		"date": "Since 2017",
+		"copyright": "© Pierre M"
+	},
+	"stories": [
+		{
+			"cover": {
+				"byline": "A « newspaper » is a collection of « stories »",
+				"headline": "Navigation",
+				"text": [
+					"Use left and right arrow keys to jump from one story to another.",
+					"Use up and down keys to read a story.",
+					"Press the down key to learn more about Storyrevealer",
+					"Press the right key to discover Storyrevealer possibilities"
+				]
+			},
+			"pages": [
+				{
+					"background": "tests/audience.jpg",
+					"class": "darkest",
+					"title": "A picture is worth a thousand words",
+					"under-title": [
+						"A « page » of a « story » is a background image, animation, or video",
+						"And some text laid over it. No more. No less."
+					],
+					"text": "Press down key to reveal more text",
+					"text.fragment": "It is as simple as that."
+				},
+				{
+					"transition": "convex",
+					"class": "lighter",
+					"byline.red": "Text can easily be decorated.",
+					"above-title": "Transitions between pages varied"
+				},
+				{
+					"class": "darker",
+					"title": "Here is a background video with simple text laid over",
+					"under-title": "Plays automagically on reveal...",
+					"video": "tests/mp4.mp4",
+					"static": "tests/mp4.jpg"
+				},
+				{
+					"byline": "Creating such a story is simple and straightforward.",
+					"title": "Writing stories"
+				}
+			]
+		},
+		{
+			"cover": {
+				"byline": "News 2 Byline",
+				"headline": "More Columns",
+				"bytitle": "One, Two, and Three Columns"
+			},
+			"pages": [
+				{
+					"background": "tests/b.png",
+					"class": "left",
+					"above-title": "Slide 2A Above Title",
+					"title": "Simple slide 2A",
+					"under-title.fragment": "Slide 2A Below Title",
+					"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut."
+				},
+				[
+					{
+						"background": "tests/b.png",
+						"above-title": "Slide 2BL Above Title",
+						"title": "Simple slide 2BL",
+						"under-title": "Slide 2BL Below Title",
+						"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut."
+					},
+					{
+						"above-title": "Slide 2BR Above Title",
+						"title": "Simple slide 2BR",
+						"under-title": "Slide 2BR Below Title",
+						"quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut."
+					}
+				],
+				[
+					{
+						"background": "tests/b.png",
+						"class": "left lighter",
+						"above-title": "Slide 2CL Above Title",
+						"title": "Simple slide 2CL",
+						"under-title": "Slide 2CL Below Title",
+						"text.red": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut."
+					},
+					{
+						"class": "leftsep",
+						"above-title": "Slide 2CC Above Title",
+						"title.black": "Simple slide 2CC",
+						"under-title": "Slide 2CC Below Title",
+						"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut."
+					},
+					{
+						"class": "right lightest",
+						"above-title": "Slide 2CR Above Title",
+						"title": "Simple slide 2CR",
+						"text.inverse": "Slide 2CR Below Title",
+						"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut."
+					}
+				]
+			]
+		},
+		{
+			"cover": {
+				"headline": "Test for Table",
+				"data-background-color": "#bbb",
+				"bytitle": "Table header, footer, column header and footer as well"
+			},
+			"pages": [
+				{
+					"background": "tests/g.png",
+					"class": "lighter",
+					"table": {
+						"options": {
+							"columnheader": true,
+							"rowheader": true,
+							"rowfooter": true
+						},
+						"data": [
+         						["", "R1", "R2", "R3", "R4", "TOT"],
+	            			["Tiger", 70, 71, 68, 66, 275],
+				            ["Henrick", 72, 72, 66, 65, 275],
+				            ["Phil", 71, 69, 72, 64, 276],
+				            ["Sergio", 72, 71, 70, 68, 281],
+				            ["Justin", 72, 70, 68, 72, 282],
+				            ["Thomas", 66, 68, 76, 72, 282]
+				    ]
+					},
+					"under-title": "Text under table"
+				},
+				{
+					"background": "tests/g.png",
+					"mustache": {
+						"template": "<p>{{text}}</p></br><p class='fragment visible current-fragment' data-countup='0,{{value}},0,2' data-fragment-index='0'></p>",
+						"data": {
+							"text": "Some statistics",
+							"value": 144,
+							"maxvalue": 200,
+							"below-text": "Some highlights..."
+						}
+					},
+					"under-title": "Text under table"
+				}
+			]
+		},
+		{
+			"cover": {
+				"headline": "Tests for Charts",
+				"bytitle": "Bar charts, Pie charts..."
+			},
+			"pages": [
+				{
+					"background": "tests/r.png",
+					"above-title": "Simple bar chart",
+					"barchart": {
+						"data": [
+         			["Tiger", 70, 71, 68, 66],
+	            ["Henrick", 72, 72, 66, 65],
+	            ["Phil", 71, 69, 72, 64],
+	            ["Sergio", 72, 71, 70, 68],
+	            ["Justin", 72, 70, 68, 72],
+	            ["Thomas", 66, 68, 76, 72]
+						]
+					}
+				},
+				{
+					"background": "tests/r.png",
+					"class": "lighter",
+					"above-title": "Simple pie chart",
+					"piechart": {
+						"data": [
+         			["Tiger", 50],
+							["Henrick", 30],
+							["Phil", 20]
+				    ]
+					}
+				},
+				{
+					"background": "tests/r.png",
+					"text.allcaps": "Line Chart",
+					"linechart": {
+						"data": [
+         			["Tiger", 70, 71, 68, 66],
+	            ["Henrick", 72, 73, 66, 65],
+	            ["Phil", 71, 69, 72, 64]
+				    ]
+					}
+				}
+			]
+		},
+		{
+			"cover": {
+				"data-background-src.holderjs": "holder.js/300x200",
+				"headline": "Experimental Charts",
+				"bytitle": "Chartist"
+			},
+			"pages": [
+				[
+					{
+						"background": "tests/r.png",
+						"text": "Graph is in right column only"
+					},
+					{
+						"background": "tests/r.png",
+						"text.bottom-right": "Introducing the chart...",
+						"chartist": {
+							"type": "line",
+							"data": {
+								"labels": ["Tiger","Henrick","Phil"],
+								"series": [
+									[50, 30, 20],
+									[30, 50, 20]
+								]
+							},
+							"options": {
+								"chartPadding": 30
+							}
+	 					}
+					}
+				]
+			]
+		}
+	]
+}

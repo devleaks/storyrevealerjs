@@ -530,6 +530,12 @@ yarn
 gulp
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Explore files in the `tests` directory.
+
+Run the index.html file for brief explanations of this project.
+
+Now go. Tell stories.
+
 
 ### Reveal.js Required Plugins
 
@@ -620,3 +626,23 @@ Please have a look at all JSON files in the tests directory.
 With the exception of pure text content, you can only have one content of a given type in a column.
 To get around this limitation, you can insert direct HTML by adding .html class to any content-type
 and pass HTML elements directly for rendering.
+
+### Notes
+
+The origin of the project was to allow users of a couple of sport-related social networks (I once made)
+to create a simple story with just a few pictures (or videos) and some text attached to each picture or video.
+Text would be both provided by the user, and automagically generated from data (sports results) coming from the social network.
+It had to be simple to generate by computer (from statistics, result highlights, etc.) and presentation had to be great.
+Hence the intermediate JSON structured document fed to Storyrevealer.
+
+With this tool, every user of the network is a potential story teller.
+
+Storyteller engine only takes care of the presentation.
+A full screen image with the story displayed on it.
+No more. No less.
+
+And a few, very simple animations or graphs to break monotony.
+
+Enjoy.
+
+Now, go, tell stories.

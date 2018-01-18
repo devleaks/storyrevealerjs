@@ -985,8 +985,7 @@ div.col.border-left {
 .side-dot-navigation ul {
   list-style: none;
   margin: 0;
-  padding: 0 0 10px 10px;
-  background-color: rgba(0,0,0, 0.2);}
+  padding: 0; }
 
 .side-dot-navigation.side li {
   position: relative;
@@ -1081,13 +1080,16 @@ div.col.border-left {
   text-transform: uppercase; }
 
 .huge {
-  font-size: 150%; }
+  font-size: 400%; }
 
 .italic {
   font-style: italic; }
 
 .red {
-  color: red; }
+  color: red !important; }
+
+.green {
+  color: green !important; }
 
 /* tables */
 .rowheader {

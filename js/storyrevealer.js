@@ -93,8 +93,9 @@
 	var _slide_h = 0
 	var _slide_v = 0
 	var _slideTitles = []
-	var _currentStory = 0
+	var _currentStory = -1
 	var _title_found = false
+	var _horizontalNav = false
 	
 	/*	Used before. Will probably come back...
 	 *
@@ -233,13 +234,13 @@
 
 			] // anything
 		}) // Reveal.configure
-		
+				
 		console.log("Storyrevealer "+VERSION)
 		
-		_navigation = document.querySelector("#dot-nav")
+		_navigation = document.querySelector(".side-dot-navigation")
 		if(_navigation) {
 			_navigation.appendChild(document.createElement("ul"))
-			_navigation = document.querySelector("#dot-nav ul")
+			_navigation = document.querySelector(".side-dot-navigation ul")
 			
 		}
 		
@@ -313,7 +314,7 @@
 	 *
 	 */
 	function navigate(e) {
-		var o = document.querySelector('#dot-nav ul li.active')
+		var o = document.querySelector('.side-dot-navigation ul li.active')
 		if(o) o.classList.remove('active')
 		e.currentTarget.classList.add('active')
 		var h = e.currentTarget.getAttribute("data-slide-h")
@@ -765,13 +766,15 @@
 			_slide_v = 0				
 			
 			if(newspaper.pages) {	// Just one story, add wrapping section for vertical navigation, does not count for nav
-				newspaper_elem = addSection(newspaper_elem, newspaper.cover, false)
-				//_slide_v++ // !!
+				var config = Reveal.getConfig()
+				_horizontalNav = (typeof config.parallaxBackgroundImage != "undefined")
+				if(! _horizontalNav)
+					newspaper_elem = addSection(newspaper_elem, newspaper.cover, false)
 			}
 			
 			if(newspaper.cover) {	// Add newspaper cover page
 				addSection(newspaper_elem, newspaper.cover, true)
-				if(newspaper.pages) { // if only one story, we only have vertical nav
+				if(newspaper.pages && !_horizontalNav) { // if only one story, we only have vertical nav
 					_slide_v++
 				} else {
 					_slide_h++
@@ -790,7 +793,6 @@
 
 					// Add empty story container section
 					var story_elem = addSection(newspaper_elem, story.cover, false)
-					// _slide_v++ // !!
 
 					if(story.cover) {	// Add story cover page
 						addSection(story_elem, story.cover, true)
@@ -815,13 +817,16 @@
 
 					addPage(page, story_elem)
 
-					_slide_v++
+					if(_horizontalNav)
+						_slide_h++
+					else
+						_slide_v++
 
 				})
 
 			}	// newspaper.stories
 			
-			//console.log("Storyrevealer::initialize:titles", _slideTitles)
+			console.log("Storyrevealer::initialize:titles", _slideTitles)
 			
 		})	// d3.json		
 	}
@@ -845,7 +850,7 @@ Reveal.addEventListener( 'ready' , function( event ) {
 	
 	Storyrevealer.resetDotNav(s.h)
 
-	var active = document.querySelector("#dot-nav li.active")
+	var active = document.querySelector(".side-dot-navigation li.active")
 	if(active) {
 		active.classList.remove('active')
 	}
@@ -863,7 +868,7 @@ Reveal.addEventListener( 'slidechanged' , function( event ) {
 	
 	Storyrevealer.resetDotNav(s.h)
 
-	var active = document.querySelector("#dot-nav li.active")
+	var active = document.querySelector(".side-dot-navigation li.active")
 	if(active) {
 		active.classList.remove('active')
 	}

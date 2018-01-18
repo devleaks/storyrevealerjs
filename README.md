@@ -521,7 +521,17 @@ Storyrevealer.initialize({
 })
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-### Reveal.js Plugins
+## Storyrevealer Installation
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+git clone https://github.com/devleaks/storyrevealerjs
+cd storyrevealerjs
+yarn
+gulp
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+### Reveal.js Required Plugins
 
 The following Reveal.js plugins need to be installed to use Stpryrevealer
 features:
@@ -564,11 +574,42 @@ Reveal.js as a plugin):
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ...
+<!-- BEGIN STORYREVEALERJS -->
+<script src="node_modules/d3-collection/build/d3-collection.min.js"></script>
+<script src="node_modules/d3-dispatch/build/d3-dispatch.min.js"></script>
+<script src="node_modules/d3-dsv/build/d3-dsv.min.js"></script>
+<script src="node_modules/d3-request/build/d3-request.min.js"></script>
+<script src="node_modules/d3-selection/build/d3-selection.min.js"></script>
+
+
 <script src="node_modules/sanitize-html/dist/sanitize-html.js"></script>
 <script src="node_modules/mustache/mustache.js"></script>
+
+<script src="node_modules/chart.js/dist/Chart.js"></script>
+
+<script src="node_modules/chartist/dist/chartist.js"></script>
+<script src="node_modules/chartist-plugin-legend/chartist-plugin-legend.js"></script>
+
 <script src="node_modules/animejs/anime.js"></script>	
+
+<script src="js/storyrevealer.js"></script>
+<!-- END STORYREVEALERJS -->
 ...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Finally, the follow CSS files need loading.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+...
+<!-- BEGIN STORYREVEALERJS -->
+<link rel="stylesheet" href="node_modules/@bower_components/Reveal.js-Title-Footer/plugin/title-footer/title-footer.css">
+<link rel="stylesheet" href="css/moving-letters.css">
+<link rel="stylesheet" href="css/storyrevealer.css">
+<!-- END STORYREVEALERJS -->
+...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Storyrevealer.css is generated from storyrevealer.sccs throught a gulp task.
 
 ## Example Files
 

@@ -779,7 +779,8 @@
 			
 			if(newspaper.pages) {	// Just one story, add wrapping section for vertical navigation, does not count for nav
 				var config = Reveal.getConfig()
-				_horizontalNav = (typeof config.parallaxBackgroundImage != "undefined")
+				_horizontalNav = (typeof config.parallaxBackgroundImage != "undefined" && config.parallaxBackgroundImage != "")
+				console.log("_horizontalNav",_horizontalNav)
 				if(! _horizontalNav)
 					newspaper_elem = addSection(newspaper_elem, newspaper.cover, false)
 			}

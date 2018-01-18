@@ -26,10 +26,12 @@
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
 
+		<!-- BEGIN STORYREVEALERJS -->
 		<link rel="stylesheet" href="../node_modules/@bower_components/Reveal.js-Title-Footer/plugin/title-footer/title-footer.css">
-
-		<!-- Custom styling for "stories" -->
+		<link rel="stylesheet" href="../css/moving-letters.css">
 		<link rel="stylesheet" href="../css/storyrevealer.css">
+		<link rel="stylesheet" href="../css/storyrevealer-dev.css">
+		<!-- END STORYREVEALERJS -->
 
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -37,7 +39,6 @@
 	</head>
 
 	<body>
-
 		<div class="reveal">
 
 			<!-- Any section element inside of this container is displayed as a slide -->
@@ -52,21 +53,26 @@
 		<script src="../node_modules/reveal.js/lib/js/head.min.js"></script>
 		<script src="../node_modules/reveal.js/js/reveal.js"></script>
 
+		<!-- BEGIN STORYREVEALERJS -->
 		<script src="../node_modules/d3-collection/build/d3-collection.min.js"></script>
 		<script src="../node_modules/d3-dispatch/build/d3-dispatch.min.js"></script>
 		<script src="../node_modules/d3-dsv/build/d3-dsv.min.js"></script>
 		<script src="../node_modules/d3-request/build/d3-request.min.js"></script>
 		<script src="../node_modules/d3-selection/build/d3-selection.min.js"></script>
 
+
 		<script src="../node_modules/sanitize-html/dist/sanitize-html.js"></script>
 		<script src="../node_modules/mustache/mustache.js"></script>
+
+		<script src="../node_modules/chart.js/dist/Chart.js"></script>
+
 		<script src="../node_modules/chartist/dist/chartist.js"></script>
 		<script src="../node_modules/chartist-plugin-legend/chartist-plugin-legend.js"></script>
-		<script src="../node_modules/countup.js/countUp.js"></script>
-		<script src="../node_modules/holderjs/holder.js"></script>
-	
+
+		<script src="../node_modules/animejs/anime.js"></script>	
 
 		<script src="../js/storyrevealer.js"></script>
+		<!-- END STORYREVEALERJS -->
 
 		<script>
 
@@ -87,24 +93,23 @@
 				parallaxBackgroundHorizontal: 695,
 				parallaxBackgroundVertical: 0,
 			
+				storyrevealer: {
+					url: 'caboverde.json'
+				},
+
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
 					{ src: '../node_modules/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: '../node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
 					{ src: '../node_modules/@bower_components/reveal.js-menu/menu.js' },
-//					{ src: '../node_modules/@bower_components/reveal.js-elapsed-time-bar/plugin/elapsed-time-bar/elapsed-time-bar.js' },
-					{ src: '../node_modules/@bower_components/Reveal.js-Title-Footer/plugin/title-footer/title-footer.js',
-								async: true, callback: function() { title_footer.initialize(); }  },
-					{ src: '../js/storyrevealer-animation-plugin.js' },
-					{ src: '../node_modules/reveal.js/plugin/notes/notes.js', async: true }
-				]
-			});
-			
-			Storyrevealer.initialize({
-				// Data URL
-				url: 'caboverde.json'
-			})
 
+					{ src: '../node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
+					{ src: '../js/moving-letters.js' },
+					{ src: '../js/storyrevealer-animation-plugin.js' }
+				]
+			});			
+			
+			Storyrevealer.init()
+			
 		</script>
 
 	</body>

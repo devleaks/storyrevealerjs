@@ -985,7 +985,8 @@ div.col.border-left {
 .side-dot-navigation ul {
   list-style: none;
   margin: 0;
-  padding: 0; }
+  padding: 0 0 10px 10px;
+  background-color: rgba(0,0,0, 0.2);}
 
 .side-dot-navigation.side li {
   position: relative;

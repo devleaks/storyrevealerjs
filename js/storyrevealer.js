@@ -748,7 +748,13 @@
 	 */
 	function initialize(filename) {
 
-		d3.json(filename, function(error, newspaper) {	// There should only be one newspaper element at the root/top
+//		d3.json(filename, function(error, newspaper) {	// There should only be one newspaper element at the root/top
+
+//		d3.text(filename, function(error, yamlString) {	// There should only be one newspaper element at the root/top
+//			var newspaper = YAML.parse(yamlString);
+
+		YAML.load(filename, function(newspaper, error) {
+			
 			var newspaper_elem = d3.select("div.slides")
 			
 			if(! newspaper_elem) {

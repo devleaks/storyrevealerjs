@@ -3,7 +3,7 @@ Storyrevealer.js
 
  
 
-Simple, json-fed story teller engine based on [Reveal.js](http://revealjs.com).
+Simple, yaml-fed story teller engine based on [Reveal.js](http://revealjs.com).
 
 Inspired by the elegance and simplicity of [deltatre'
 SportTeller](http://www.deltatre.com/online-solutions/sportteller/) (with
@@ -26,50 +26,36 @@ Storyrevealer uses Reveal.js plugins, like the Anything plugin, to display and
 animate your content. (Anything plugin is so generic that you can really stick
 anything in a slide' section)
 
-It also uses some JS libraries like animate.js, mustache, d3 (request and
+It also uses some javascript libraries like animate.js, mustache, d3 (request and
 selection).
 
 Storyrevealer just started, so expect documentation, tests, and more examples in
 the following weeks.
 
- 
-
 Pierre M. - December 2017
 
+ 
 
-# IMPORTANT
-
-After completing a JSON-based basic framework (that works) I now rewrite this very same README
-using YAML rather than JSON.
-
-While JSON is easier to generate (and has better support to be generated) from computer program,
-Yaml is simpler to read and write for casual users.
-
-Did you know that Yaml is formally a "[superset](http://yaml.org/spec/1.2/spec.html#id2759572)" of JSON?
-
-
-JSON Data File Format
+YAML Data File Format
 ---------------------
 
  
 
-The JSON datafile handled by Storyrevealer may contain either
+The YAML datafile handled by Storyrevealer may contain either
 
 -   a single story, or
 
 -   a collection of stories, called a newspaper.
 
- 
+In YAML, **identation is important**, as it reflects the "structure" of the document.
 
 ### Newspaper
 
 A newspaper is made of an optional cover page and Stories.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-{
-    "cover": {{page}},
-    "stories": [ {{story-element}}+ ]
-}
+cover: {{page}},
+stories: [ {{story-element}}+ ]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The newspaper’s cover page is a regular, additional page.
@@ -81,10 +67,8 @@ The newspaper’s cover page is a regular, additional page.
 A story is made of an optional cover page and Pages
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-{
-    "cover": {{page}},
-    "pages": [ {{page}}+ ]
-}
+cover: {{page}},
+pages: [ {{page}}+ ]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The story’s cover page is a regular, additional page.
@@ -97,14 +81,12 @@ A page is made of one or more columns. In the latter case, it is an array of
 columns.
 
  
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"page": {{column}} || [ {{column}}{1,} ]
+page: {{column}} || [ {{column}}{1,} ]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  
-
-When a page is made of more than one column, decorating elements of the
+Note: When a page is made of more than one column, decorating elements of the
 **first** column are taken into account for decorating the entire page
 (background image, video, or additional classes.)
 
@@ -128,12 +110,12 @@ A content property is a ( content-type = content-value ) pair.
  
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"content-type": {{content-value}}
+content-type: {{content-value}}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- 
 
-Content-value is a valid JSON object and its form varies depending on the
+
+Content-value is a valid YAML object and its form varies depending on the
 content-type.
 
 If a page contains more than one content property, they are displayed in
@@ -161,7 +143,10 @@ Decoration properties mainly affect the appearance of the page.
 | video               | URL of video   | Displayed as background video. Plays automatically when page is shown                                                 |
 | class               | CSS class name | Single class name is added to the page’s parent element. A page-element may contain more than one class content type. |
 
- 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+background: url-path/to-image/image.jpg
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 #### Data Properties
 
@@ -171,11 +156,18 @@ Data properties are relayed to Reveal.js element entities.
 |------------------------|------------------|----------------------------------------|
 | data-background-color  | RGB(A) Color     | Background color                       |
 | data-background-iframe | URL to HTML page | Background HTML page (non-interactive) |
+| data-transistion       | transition name  | See Reveal.js possibilities            |
 
 Data elements are added to the parent element as data attributes.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-<section data-background-color="#ddd">
+data-background-color: #FF6347
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+will produce
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<section data-background-color="#FF6347">
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is possible to add Reveal.js specific data attributes to control transitions,
@@ -188,7 +180,7 @@ background transitions, or any other data attribute.  
 Text content is the simplest form of content laid over the background.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"text-content-type": {{string}} || [ {{string}}{1,} ]
+text-content-type: {{string}} || [ {{string}}{1,} ]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following text content elements are provided by Storyrevealer:
@@ -215,10 +207,16 @@ The mapped element can contain additional classes separated by dots.
 If content-type `title` is mapped to `h1.left` the generated HTML will be
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"title": "Hello"     =>    <h1 class="left">Hello</h1>
+title: Hello
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Mappings of content types to HTML elements can be provided as a Storyrevealer option.
+will produce
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<h1 class="left">Hello</h1>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Additional mappings of content types to HTML elements can be provided as a Storyrevealer option.
 
  
 
@@ -230,7 +228,11 @@ to its HTML parent element.
 For exemple, if the `title` content-type is mapped to the HTML element `H1`:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"title.huge.reverse": "Hello"   =>   <h1 class="huge reverse">Hello</h1>
+title.huge.reverse: Hello
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+produces
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<h1 class="huge reverse">Hello</h1>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
 
@@ -239,8 +241,8 @@ meaning:
 
 | **Class Name** | **Description**                                                                             |
 |----------------|---------------------------------------------------------------------------------------------|
-| fragment       | Reveal.js Frament element                                                                   |
-| html           | The provided text is HTML formatted. It will be sanitized and sent directly to the browser. |
+| fragment       | Reveal.js Frament element, added as a regular class name and handled by Reveal.js           |
+| html           | The provided text is HTML formatted. It will be sanitized and sent directly to the browser. It is a Storyrevealer.js feature. |
 
  
 
@@ -260,8 +262,9 @@ the SCSS file.
 | top-left       | Places text in bottom, left corner of page                  |
 | top-right      | Places text in bottom, left corner of page                  |
 | allcaps        | Transform text to uppercase                                 |
-| reverse        | Uses background color for text                              |
+| inverse        | Uses background color for text                              |
 | huge           | Increases font size to 150%                                 |
+| number         | Increases font size to 400%                                 |
 
 Additional class names can be provided as a Storyrevealer option.
 
@@ -272,26 +275,20 @@ The content-element `mustache` formats text and data from the famous templating
 engine:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"mustache": {
-    "template": "<table class='counter-table'>{{#skills}}<tr><td>{{name}}</td><td><span data-animation='countup' data-countup='0,{{value}},1,2000'>{{value}}</span></td></tr>{{/skills}}</table>",
-    "data": {
-       "name":"John Smith",
-       "skills":[
-          {
-             "name":"JavaScript",
-             "value":90
-          },
-          {
-             "name":"PHP",
-             "value":70
-          },
-          {
-             "name":"CSS",
-             "value":75
-          }
-       ]
-    }
-}
+mustache:
+  template: '<table class=''counter-table''>{{#skills}}<tr><td>{{name}}</td><td><span data-animation=''countup'' data-countup=''0,{{value}},1,2000''>{{value}}</span></td></tr>{{/skills}}</table>'
+  data:
+    name: 'John Smith'
+    skills:
+      -
+        name: JavaScript
+        value: 100
+      -
+        name: PHP
+        value: 80
+      -
+        name: Java
+        value: 20
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #### Animations
@@ -309,13 +306,12 @@ value, by increment (round), in a giving time. The counter starts when the page
 is displayed.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"counter": {
-    "name": "counter title",
-    "start": 20,
-    "end": 60,
-    "round": 0,
-    "time": 5000
-}
+counter:
+	name: 'counter title'
+	start: 20
+	end: 60
+	round: 0
+	time: 5000
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 or

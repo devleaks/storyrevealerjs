@@ -46,7 +46,30 @@
 				},
 				{
 					"byline": "Creating such a story is simple and straightforward.",
-					"title": "Writing stories"
+					"title": "Writing stories",
+					"text": [
+							"To write stories you need a single HTML page that loads all necessary javascript and CSS files,",
+							"and a JSON file that contains your story.",
+							"You also need all images, videos and animations you wish to include in your story."
+					]
+				},
+				{
+					"byline": "Writing stories",
+					"title": "JSON Story File",
+					"text": [
+							"To write stories you need a single HTML page that loads all necessary javascript and CSS files,",
+							"and a JSON file that contains your story.",
+							"You also need all images, videos and animations you wish to include in your story."
+					]
+				},
+				{
+					"byline": "Writing stories",
+					"title": "A Page",
+					"text": [
+							"To write stories you need a single HTML page that loads all necessary javascript and CSS files,",
+							"and a JSON file that contains your story.",
+							"You also need all images, videos and animations you wish to include in your story."
+					]
 				}
 			]
 		},

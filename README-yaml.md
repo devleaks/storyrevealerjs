@@ -26,8 +26,8 @@ Storyrevealer uses Reveal.js plugins, like the Anything plugin, to display and
 animate your content. (Anything plugin is so generic that you can really stick
 anything in a slide' section)
 
-It also uses some javascript libraries like animate.js, mustache, d3 (request and
-selection).
+It also uses some javascript libraries like animate.js, mustache, d3 (request
+and selection).
 
 Storyrevealer just started, so expect documentation, tests, and more examples in
 the following weeks.
@@ -47,7 +47,8 @@ The YAML datafile handled by Storyrevealer may contain either
 
 -   a collection of stories, called a newspaper.
 
-In YAML, **identation is important**, as it reflects the "structure" of the document.
+In YAML, **identation is important**, as it reflects the "structure" of the
+document.
 
 ### Newspaper
 
@@ -58,7 +59,8 @@ cover: {{page}},
 stories: [ {{story-element}}+ ]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The newspaper’s cover page is a regular, additional page.
+The newspaper’s cover page is a regular, additional page. Here is an example of
+a 2 story newspaper.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 cover:
@@ -91,8 +93,8 @@ stories:
         under-title: 'of second page of second story'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Plese note the careful and very important indentation and `-` characters used
-to separate content of the same type (arrays or list of content).
+Plese note the careful and very important indentation and `-` characters used to
+separate content of the same type (arrays or list of content).
 
 ### Story
 
@@ -105,59 +107,49 @@ pages: [ {{page}}+ ]
 
 The story’s cover page is a regular, additional page.
 
-
-
 ### Page
 
 A page is made of one or more columns. In the latter case, it is an array of
-columns.
+columns.  
+\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~
+page: {{column}} \|\| [ {{column}}{1,} ]
+\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~
 
- 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-page: {{column}} || [ {{column}}{1,} ]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
- 
-Note: When a page is made of more than one column, decorating elements of the
+  Note: When a page is made of more than one column, decorating elements of the
 **first** column are taken into account for decorating the entire page
 (background image, video, or additional classes.)
 
- 
-
-A column is an object with content properties.
+  A column is a list of content properties.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 column: { {{content}}* }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  If a column does not contain any content property, it is a blank page or
+column. Blank columns can be useful to control the horizontal layout of content.
  
 
-If a column does not contain any content property, it is a blank page or column.
-Blank columns can be useful to control the horizontal layout of content.  
+Content properties are displayed in the order they appear in the column.
 
 ### Content Properties
 
-A content property is a ( content-type = content-value ) pair.
-
- 
+A content property is a ( content-type , content-value ) pair.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 content-type: {{content-value}}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-
 Content-value is a valid YAML object and its form varies depending on the
 content-type.
 
-If a page contains more than one content property, they are displayed in
+If a column contains more than one content property, they are displayed in
 appearing order.
 
 Storyrevealer provides a set of content-type properties together with their
 representation. We make an artificial distinction between 3 types of
 content-type properties:
 
-1.  Decoration properties affect the page of column appearance,
+1.  Decoration properties affect the page or column appearance,
 
 2.  Data properties, and
 
@@ -178,7 +170,6 @@ Decoration properties mainly affect the appearance of the page.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 background: url-path/to-image/image.jpg
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 #### Data Properties
 
@@ -211,6 +202,8 @@ background transitions, or any other data attribute.  
 
 Text content is the simplest form of content laid over the background.
 
+Text content properties accept either a single string, or a list of strings.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 text-content-type: {{string}} || [ {{string}}{1,} ]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -229,14 +222,13 @@ The following text content elements are provided by Storyrevealer:
 | text             | Regular text                 |                                      |
 | quote            | Quoted text                  |                                      |
 
-
 ##### Text Content Type to Element HTML Mapping 
 
-Each text content element is mapped to an HTML element.
+Each text content element is directly mapped to an HTML element.
 
-The mapped element can contain additional classes separated by dots.
+The mapped element may contain additional classes separated by dots.
 
-If content-type `title` is mapped to `h1.left` the generated HTML will be
+If Storyrevealer content-type `title` is mapped to HTML element `h1.left`:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 title: Hello
@@ -248,7 +240,8 @@ will produce
 <h1 class="left">Hello</h1>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Additional mappings of content types to HTML elements can be provided as a Storyrevealer option.
+Additional mappings of Storyrevealer content types to HTML elements can be
+provided as a Storyrevealer option.
 
  
 
@@ -257,19 +250,21 @@ Additional mappings of content types to HTML elements can be provided as a Story
 The content-type name can contain additional CSS class names that must be added
 to its HTML parent element.
 
-For exemple, if the `title` content-type is mapped to the HTML element `H1`:
+For exemple, if the `title` content-type is mapped to the HTML element `h1`:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 title.huge.reverse: Hello
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 produces
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-<h1 class="huge reverse">Hello</h1>
+\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~
+
+Hello
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
 
-The following class names are intercepted by Storyrevealer and have special
-meaning:
+The following class names are intercepted by Storyrevealer and have special meaning:
 
 | **Class Name** | **Description**                                                                             |
 |----------------|---------------------------------------------------------------------------------------------|
@@ -298,30 +293,28 @@ the SCSS file.
 | huge           | Increases font size to 150%                                 |
 | number         | Increases font size to 400%                                 |
 
-Additional class names can be provided as a Storyrevealer option.
+Additional class names can be declared in the CSS file and used in Storyrevealer.
 
 
 ##### Mustache Templating
 
-The content-element `mustache` formats text and data from the famous templating
+The content-element `mustache` formats text and data from the Mustache templating
 engine:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-mustache:
-  template: '<table class=''counter-table''>{{#skills}}<tr><td>{{name}}</td><td><span data-animation=''countup'' data-countup=''0,{{value}},1,2000''>{{value}}</span></td></tr>{{/skills}}</table>'
-  data:
-    name: 'John Smith'
-    skills:
-      -
-        name: JavaScript
-        value: 100
-      -
-        name: PHP
-        value: 80
-      -
-        name: Java
-        value: 20
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mustache: template: '\<table class=''counter-table''\>{{\#skills}}
+
+{{name}}
+
+\<span data-animation=''countup'' data-countup=''0,{{value}},1,2000''\>{{value}}
+
+{{/skills}}
+
+' data: name: 'John Smith' skills: - name: JavaScript value: 100 - name: PHP
+value: 80 - name: Java value: 20
+\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~
+
+Please note the use of double `'` to use quotes inside a quoted string.
 
 #### Animations
 
@@ -339,11 +332,11 @@ is displayed.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 counter:
-	name: 'counter title'
-	start: 20
-	end: 60
-	round: 1
-	time: 5000
+    name: 'counter title'
+    start: 20
+    end: 60
+    round: 1
+    time: 5000
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 or
@@ -357,8 +350,9 @@ Note that rounding is used as in `Math.round(value * round) / round`.
 ##### Progress Bar
 
 A progress bar is a title, a subtitle and a cursor-like bar that runs from a
-starting value to an ending value, in a given time. The progress bar starts when
-the page is displayed.
+starting value to an ending value, in a given time. The value representing the
+maximum length of the progress bar can also be provided. The progress bar
+animation starts when the page is displayed.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 progress-bar:
@@ -378,7 +372,6 @@ It is possible to display several progress bar like so:
 mustache:
   template: '<div class=''progress-bar-table''>{{#skills}}<div data-animation=''progress-bar'' data-progress-bar-name=''{{name}}'' data-progress-bar-value=''{{value}}''><div class=''progress-bar-name''>{{name}}</div>{{#description}}<div class=''progress-bar-desc''>{{description}}</div>{{/description}}<span class=''progress-bar''></span></div>{{/skills}}</div>'
   data:
-    name: 'John Smith'
     skills:
       -
         name: JavaScript
@@ -388,10 +381,9 @@ mustache:
         name: PHP
         value: 80
       -
-        name: Java
-        value: 20
+        name: Python
+        value: 70
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 ##### Moving Letters
 
@@ -412,10 +404,13 @@ or event in a shorter form:
 made-with-love: 'Great Thursday'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In this latter case, it is not possible to control options like loop or separator (which defaults to `,`).
+In this latter case, it is not possible to control options like loop or
+separator (which defaults to `,`).
 
-When animation requires more than one string (like Signal and Noise in the example), strings are separated using the
-`separator` inside the `text` attribute. Loop indicates whether the animation should only play once, or loop forever.
+When animation requires more than one string (like Signal and Noise in the
+example, which requires 2 distinct strings), strings are separated using the
+`separator` inside the `text` attribute. Loop indicates whether the animation
+should only play once, or loop forever.
 
 [Valid animations](http://tobiasahlin.com/moving-letters/) are: thursday,
 slow-mornings, great-thinker, ready, signal-and-noise, beautiful-question,
@@ -516,9 +511,12 @@ pages:
         - [Thomas, 66, 68, 76, 72]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The second method uses the content-type « chart » (respectively « chartist »).
-Data need to be presented in the the way the graphing package expects it. This
-method allow to display any type of graph that the graphing package can display.
+It is not possible to control options, displays of axes, sizes, etc. with this
+method.
+
+The second method uses the content-type `chart` (respectively `chartist`). Data
+need to be presented in the the way the graphing package expects it. This method
+allow to display any type of graph that the graphing package can display.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 title: 'Mixed Chart'
@@ -567,7 +565,8 @@ Storyrevealer.initialize({
 })
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-## Storyrevealer Installation
+Storyrevealer Installation
+--------------------------
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 git clone https://github.com/devleaks/storyrevealerjs
@@ -585,41 +584,41 @@ Run the index.html file for brief explanations of this project.
 The following Reveal.js plugins need to be installed to use Stpryrevealer
 features:
 
-| **Plugin** | **Purpose**                                 | **Note** |
-|------------|---------------------------------------------|----------|
-| Anything   | Most Story revealer features, like Mustache |          |
+| **Plugin** | **Purpose**                                                       | **Note** |
+|------------|-------------------------------------------------------------------|----------|
+| Anything   | Used by most Storyrevealer features, like Mustache, animations... |          |
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // More info https://github.com/hakimel/reveal.js#configuration
 
 Reveal.initialize({
-	...
+    ...
 
-	// More info https://github.com/hakimel/reveal.js#dependencies
-	dependencies: [
-		...
+    // More info https://github.com/hakimel/reveal.js#dependencies
+    dependencies: [
+        ...
 
-		{ src: 'node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
-		{ src: 'js/moving-letters.js' },
-		{ src: 'js/storyrevealer-animation-plugin.js' },
+        { src: 'node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
+        { src: 'js/moving-letters.js' },
+        { src: 'js/storyrevealer-animation-plugin.js' },
 
-		...
-	],
-	
-	...
+        ...
+    ],
+    
+    ...
 })
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 In addition, the following JS scripts need to be added to your page (or to
 Reveal.js as a plugin):
 
-| **Plugin**    | **Purpose**                       | **Note** |
-|---------------|-----------------------------------|----------|
-| Mustache      | Easy templating                   |          |
-| Chartist      | SVG charting library              |          |
-| Chart.js      | Canvas-based charting library     |          |
-| sanitize-html |  Flexible HTML sanitazing library |          |
+| **Plugin**    | **Purpose**                                  | **Note** |
+|---------------|----------------------------------------------|----------|
+| Mustache      | Easy templating                              |          |
+| Chartist      | SVG charting library                         |          |
+| Chart.js      | Canvas-based charting library                |          |
+| sanitize-html |  Flexible HTML sanitazing library            |          |
+| yamljs        |  Standalone JavaScript YAML Parser & Encoder |          |
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ...
@@ -630,6 +629,7 @@ Reveal.js as a plugin):
 <script src="node_modules/d3-request/build/d3-request.min.js"></script>
 <script src="node_modules/d3-selection/build/d3-selection.min.js"></script>
 
+<script src="node_modules/yamljs/dist/yaml.js"></script>    
 
 <script src="node_modules/sanitize-html/dist/sanitize-html.js"></script>
 <script src="node_modules/mustache/mustache.js"></script>
@@ -639,76 +639,74 @@ Reveal.js as a plugin):
 <script src="node_modules/chartist/dist/chartist.js"></script>
 <script src="node_modules/chartist-plugin-legend/chartist-plugin-legend.js"></script>
 
-<script src="node_modules/animejs/anime.js"></script>	
+<script src="node_modules/animejs/anime.js"></script>   
 
 <script src="js/storyrevealer.js"></script>
 <!-- END STORYREVEALERJS -->
 ...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 Finally, the follow CSS files need loading.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-...
-<!-- BEGIN STORYREVEALERJS -->
-<link rel="stylesheet" href="node_modules/@bower_components/Reveal.js-Title-Footer/plugin/title-footer/title-footer.css">
-<link rel="stylesheet" href="css/moving-letters.css">
-<link rel="stylesheet" href="css/storyrevealer.css">
-<!-- END STORYREVEALERJS -->
-...
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~
+...      ...
+\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~
 
 Storyrevealer.css is generated from storyrevealer.sccs throught a gulp task.
 
-## Example Files
+Example Files
+-------------
 
 Please have a look at all JSON files in the tests directory.
 
-## Limits
+Limits
+------
 
-With the exception of pure text content, you can only have one content of a given type in a column.
-For example, there can only be one `mustache` element in a colum.
+With the exception of pure text content, you can only have one content of a
+given type in a column. For example, there can only be one `mustache` element in
+a colum.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 mustache:
-	template: ...
-	data: ...
-	
+    template: ...
+    data: ...
+    
 ## This is incorrect YAML
 ## There cannot be 2 mustache elements at the same level.
 mustache:
-	template: ...
-	data: ...
-
+    template: ...
+    data: ...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you need such element more than once, simply add them a non-existant class name like so:
+If you need such element more than once, simply add them a non-existant class
+name like so:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 mustache:
-	template: ...
-	data: ...
-	
+    template: ...
+    data: ...
+    
 mustache.more1:
-	template: ...
-	data: ...
+    template: ...
+    data: ...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Class `.more1` does not exist and will be affect the behavior or rendering of Storyrevealer.
+Class `.more1` does not exist and will not affect the behavior or rendering of
+Storyrevealer.
 
 ### Notes
 
-The origin of the project was to allow users of a couple of sport-related social networks (I once made)
-to create a simple story with just a few pictures (or videos) and some text attached to each picture or video.
-Text would be both provided by the user, and automagically generated from data (sports results) coming from the social network.
-It had to be simple to generate by computer (from statistics, result highlights, etc.) and presentation had to be great.
+The origin of the project was to allow users of a couple of sport-related social
+networks (I once made) to create a simple story with just a few pictures (or
+videos) and some text attached to each picture or video. Text would be both
+provided by the user, and automagically generated from data (sports results)
+coming from the social network. It had to be simple to generate by computer
+(from statistics, result highlights, etc.) and presentation had to be great.
 Hence the intermediate JSON structured document fed to Storyrevealer.
 
 With this tool, every user of the network is a potential story teller.
 
-Storyteller engine only takes care of the presentation.
-A full screen image with the story displayed on it.
-No more. No less.
+Storyteller engine only takes care of the presentation. A full screen image with
+the story displayed on it. No more. No less.
 
 And a few, very simple animations or graphs to break monotony of storytelling.
 

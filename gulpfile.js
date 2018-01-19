@@ -2,6 +2,8 @@
  
 var gulp = require('gulp');
 var sass = require('gulp-sass');
+var concat = require('gulp-concat');
+var concatCss = require('gulp-concat-css');
  
 gulp.task('sass', function () {
   return gulp.src('./css/storyrevealer.scss')
@@ -9,4 +11,37 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('./css'));
 });
 
+gulp.task('concatcss', function () {
+  return gulp.src([
+		"node_modules/reveal.js/css/reveal.css",
+		"css/moving-letters.css",
+		"css/storyrevealer.css"
+	])
+    .pipe(concatCss("storyrevealer.css", {rebaseUrls: true}))
+    .pipe(gulp.dest('./dist/css'));
+});
+
+gulp.task('concatjs', function() {
+  return gulp.src([
+		"node_modules/reveal.js/lib/js/head.min.js",
+		"node_modules/reveal.js/js/reveal.js",
+		"node_modules/d3-collection/build/d3-collection.min.js",
+		"node_modules/d3-dispatch/build/d3-dispatch.min.js",
+		"node_modules/d3-dsv/build/d3-dsv.min.js",
+		"node_modules/d3-request/build/d3-request.min.js",
+		"node_modules/d3-selection/build/d3-selection.min.js",
+		"node_modules/yamljs/dist/yaml.js",	
+		"node_modules/sanitize-html/dist/sanitize-html.js",
+		"node_modules/mustache/mustache.js",
+		"node_modules/chart.js/dist/Chart.js",
+		"node_modules/chartist/dist/chartist.js",
+		"node_modules/chartist-plugin-legend/chartist-plugin-legend.js",
+		"node_modules/animejs/anime.js",	
+		"js/storyrevealer.js"
+    ])
+    .pipe(concat('storyrevealer.js'))
+    .pipe(gulp.dest('./dist/js'));
+});
+
+gulp.task('dist', ['sass','concatcss', 'concatjs']);
 gulp.task('default', ['sass']);

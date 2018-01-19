@@ -528,6 +528,7 @@
 	 */
 	function addContent(elem, data) {
 		for (var content in data) {
+			console.log('>>>', content)
 		    if (data.hasOwnProperty(content)) {
 			
 				if( CONTENT_TYPE_DATA.indexOf(content) > -1 ) { // content type is in format data-attr and whitelisted in CONTENT_TYPE_DATA
@@ -620,6 +621,28 @@
 									.html(cleanHTML(data[content]))
 								break
 
+							case "ulist":
+							case "list":
+								var list = elem.append("ul")
+								data[content].forEach(function(item) {
+									var li = list.append("li")
+									if(typeof item == "object") {
+										console.log('item', item)
+										addContent(li, item)
+									} else {
+										li.html(item)
+									}
+								});
+								break
+
+							case "olist":
+								var list = elem.append("ol")
+								data[content].forEach(function(item) {
+									var li = list.append("li")
+									li.innerHTML = item
+								});
+								break
+
 							case "icon":
 								var icon = data[content]
 								var itag = elem.append("i")
@@ -700,6 +723,12 @@
 									.attr('class', 'chart')
 									.html('<!-- '+JSON.stringify(data[content])+' -->');
 								break
+								
+							case "raw":
+								addClasses(elem)		
+								elem.html(cleanHTML(data[content]))
+								break
+
 							case "chartist":
 							case "mustache":
 							default: // we add a generic div with class "content-type" for interception by anything plugin

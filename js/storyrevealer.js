@@ -779,7 +779,7 @@
 	 */
 	function initialize(filename) {	// There should only be one newspaper element at the root/top
 		//		d3.json(filename, function(error, newspaper) {
-		//		YAML.load(filename, function(newspaper, error) {
+		//		YAML.load(filename, function(newspaper) { var error = null;
 		d3.text(filename, function(error, filecontent) {	
 
 			// JSON is either an object or an array

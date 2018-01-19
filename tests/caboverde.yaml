@@ -36,11 +36,32 @@ pages:
         rowheader: true
         rowfooter: true
       data:
-        - [City, Municipality, Population]
-        - [Praia, Praia, '127832']
-        - [Mindelo, 'São Vicente', '70468']
-        - ['Santa Maria', Sal, '23839']
-        - [Assomada, 'Santa Catarina', '12026']
-        - ['Porto Novo', 'Porto Novo', '9430']
-        - ['Pedra Badejo', 'Santa Cruz', '9345']
+        -
+          - City
+          - Municipality
+          - Population
+        -
+          - Praia
+          - Praia
+          - '127832'
+        -
+          - Mindelo
+          - 'São Vicente'
+          - '70468'
+        -
+          - 'Santa Maria'
+          - Sal
+          - '23839'
+        -
+          - Assomada
+          - 'Santa Catarina'
+          - '12026'
+        -
+          - 'Porto Novo'
+          - 'Porto Novo'
+          - '9430'
+        -
+          - 'Pedra Badejo'
+          - 'Santa Cruz'
+          - '9345'
     text: ""

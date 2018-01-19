@@ -46,12 +46,37 @@ stories:
         under-title.fragment: 'Slide 2A Below Title'
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
       -
-        - {background: b.png, above-title: 'Slide 2BL Above Title', title: 'Simple slide 2BL', under-title: 'Slide 2BL Below Title', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'}
-        - {above-title: 'Slide 2BR Above Title', title: 'Simple slide 2BR', under-title: 'Slide 2BR Below Title', quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'}
+        -
+          background: b.png
+          above-title: 'Slide 2BL Above Title'
+          title: 'Simple slide 2BL'
+          under-title: 'Slide 2BL Below Title'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
+        -
+          above-title: 'Slide 2BR Above Title'
+          title: 'Simple slide 2BR'
+          under-title: 'Slide 2BR Below Title'
+          quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
       -
-        - {background: b.png, class: 'left lighter', above-title: 'Slide 2CL Above Title', title: 'Simple slide 2CL', under-title: 'Slide 2CL Below Title', text.red: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'}
-        - {class: leftsep, above-title: 'Slide 2CC Above Title', title.black: 'Simple slide 2CC', under-title: 'Slide 2CC Below Title', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'}
-        - {class: 'right lightest', above-title: 'Slide 2CR Above Title', title: 'Simple slide 2CR', text.inverse: 'Slide 2CR Below Title', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'}
+        -
+          background: b.png
+          class: 'left lighter'
+          above-title: 'Slide 2CL Above Title'
+          title: 'Simple slide 2CL'
+          under-title: 'Slide 2CL Below Title'
+          text.red: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
+        -
+          class: leftsep
+          above-title: 'Slide 2CC Above Title'
+          title.black: 'Simple slide 2CC'
+          under-title: 'Slide 2CC Below Title'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
+        -
+          class: 'right lightest'
+          above-title: 'Slide 2CR Above Title'
+          title: 'Simple slide 2CR'
+          text.inverse: 'Slide 2CR Below Title'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
   -
     cover:
       headline: 'Test for Table'
@@ -61,11 +86,15 @@ stories:
       -
         background: g.png
         class: lighter
-        table: {options: {columnheader: true, rowheader: true, rowfooter: true}, data: [["", R1, R2, R3, R4, TOT], [Tiger, 70, 71, 68, 66, 275], [Henrick, 72, 72, 66, 65, 275], [Phil, 71, 69, 72, 64, 276], [Sergio, 72, 71, 70, 68, 281], [Justin, 72, 70, 68, 72, 282], [Thomas, 66, 68, 76, 72, 282]]}
+        table:
+          options: {columnheader: true, rowheader: true, rowfooter: true}
+          data: [["", R1, R2, R3, R4, TOT], [Tiger, 70, 71, 68, 66, 275], [Henrick, 72, 72, 66, 65, 275], [Phil, 71, 69, 72, 64, 276], [Sergio, 72, 71, 70, 68, 281], [Justin, 72, 70, 68, 72, 282], [Thomas, 66, 68, 76, 72, 282]]
         under-title: 'Text under table'
       -
         background: g.png
-        mustache: {template: '<p>{{text}}</p></br><p class=''fragment visible current-fragment'' data-countup=''0,{{value}},0,2'' data-fragment-index=''0''></p>', data: {text: 'Some statistics', value: 144, maxvalue: 200, below-text: 'Some highlights...'}}
+        mustache:
+          template: '<p>{{text}}</p></br><p class=''fragment visible current-fragment'' data-countup=''0,{{value}},0,2'' data-fragment-index=''0''></p>'
+          data: {text: 'Some statistics', value: 144, maxvalue: 200, below-text: 'Some highlights...'}
         under-title: 'Text under table'
   -
     cover:
@@ -75,16 +104,19 @@ stories:
       -
         background: r.png
         above-title: 'Simple bar chart'
-        barchart: {data: [[Tiger, 70, 71, 68, 66], [Henrick, 72, 72, 66, 65], [Phil, 71, 69, 72, 64], [Sergio, 72, 71, 70, 68], [Justin, 72, 70, 68, 72], [Thomas, 66, 68, 76, 72]]}
+        barchart:
+          data: [[Tiger, 70, 71, 68, 66], [Henrick, 72, 72, 66, 65], [Phil, 71, 69, 72, 64], [Sergio, 72, 71, 70, 68], [Justin, 72, 70, 68, 72], [Thomas, 66, 68, 76, 72]]
       -
         background: r.png
         class: lighter
         above-title: 'Simple pie chart'
-        piechart: {data: [[Tiger, 50], [Henrick, 30], [Phil, 20]]}
+        piechart:
+          data: [[Tiger, 50], [Henrick, 30], [Phil, 20]]
       -
         background: r.png
         text.allcaps: 'Line Chart'
-        linechart: {data: [[Tiger, 70, 71, 68, 66], [Henrick, 72, 73, 66, 65], [Phil, 71, 69, 72, 64]]}
+        linechart:
+          data: [[Tiger, 70, 71, 68, 66], [Henrick, 72, 73, 66, 65], [Phil, 71, 69, 72, 64]]
   -
     cover:
       data-background-src.holderjs: holder.js/300x200
@@ -92,5 +124,10 @@ stories:
       bytitle: Chartist
     pages:
       -
-        - {background: r.png, text: 'Graph is in right column only'}
-        - {background: r.png, text.bottom-right: 'Introducing the chart...', chartist: {type: line, data: {labels: [Tiger, Henrick, Phil], series: [[50, 30, 20], [30, 50, 20]]}, options: {chartPadding: 30}}}
+        -
+          background: r.png
+          text: 'Graph is in right column only'
+        -
+          background: r.png
+          text.bottom-right: 'Introducing the chart...'
+          chartist: {type: line, data: {labels: [Tiger, Henrick, Phil], series: [[50, 30, 20], [30, 50, 20]]}, options: {chartPadding: 30}}

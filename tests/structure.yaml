@@ -1,0 +1,29 @@
+cover:
+  background: image.png
+  name: 'Cover page of newspaper'
+  copyright: '© Pierre M'
+stories:
+  -
+    cover:
+      background: cover1.jpg
+      title: 'Title of first story'
+    pages:
+      -
+        background: first.png
+        title: 'Title of first page of first story'
+      -
+        title.red: 'Title of second page of first story'
+      -
+        title.inverse: 'Video with Overlay'
+        video: mp4.mp4
+  -
+    cover:
+      title: 'Cover page of second story'
+    pages:
+      -
+        title: 'Title of first page of second story'
+      -
+## This is a comment. Made-with-love is a special "key word" to display
+## the following string with an animation
+        made-with-love: 'Animated Title'
+        under-title: 'of second page of second story'

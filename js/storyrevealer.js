@@ -52,6 +52,35 @@
 		"data-background-iframe"
 	]
 
+	var ANIMATIONS = [
+		"thursday",
+		"slow-mornings",
+		"great-thinker",
+		"ready",
+		"signal-and-noise",
+		"beautiful-question",
+		"reality-is-broken",
+		"hey",
+		"coffee-morning",
+		"domino-dreams",
+		"hello-goodbye",
+		"a-new-production",
+		"rising-strong",
+		"finding-your-element",
+		"out-now",
+		"made-with-love"
+	]
+
+	var CLEAN_HTML = {
+	  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'div', 'p', 'br', 'span', 'h1', 'h2', 'h3', 'h4', 'h5' ], // 'h6' added as Storyrevealer option for testing purpose
+	  allowedAttributes: {
+	    'a': [ 'href' ],
+//		'div': [ 'class', 'data-background-src' ],
+//		'p': [ 'class', 'data-countup', 'data-fragment-index' ],
+		'*': [ 'class', 'data-*' ]
+	  }
+	}
+	
 	var _COLORS = [
 		"#1abc9c",
 		"#2ecc71",
@@ -74,19 +103,10 @@
 		"#bdc3c7",
 		"#7f8c8d"
 	]
-	var COLORS = []
-	var TRANSPARENCY = 0.6
-	
-	var CLEAN_HTML = {
-	  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'div', 'p', 'br', 'span', 'h1', 'h2', 'h3', 'h4', 'h5' ], // 'h6' added as Storyrevealer option for testing purpose
-	  allowedAttributes: {
-	    'a': [ 'href' ],
-//		'div': [ 'class', 'data-background-src' ],
-//		'p': [ 'class', 'data-countup', 'data-fragment-index' ],
-		'*': [ 'class', 'data-*' ]
-	  }
-	}
+	var _TRANSPARENCY = 0.6
 
+	var _colors = []
+	
 	var _inited = false
 	var _config = {}
 	var _navigation = null
@@ -111,7 +131,7 @@
 		        b: parseInt(result[3], 16)
 		    } : null
 		}
-		COLORS = _COLORS.map(function(hex){ var c = hexToRgb(hex); return "rgba("+c.r+","+c.g+","+c.b+","+TRANSPARENCY+")" })
+		_colors = _COLORS.map(function(hex){ var c = hexToRgb(hex); return "rgba("+c.r+","+c.g+","+c.b+","+_TRANSPARENCY+")" })
 		
 		/*
 		* Recursively merge properties of two objects **without overwriting the first**.
@@ -388,7 +408,7 @@
 				data.forEach(function(line) {
 					categories.push(line.shift())
 					columns[counter] = line
-					colors.push(COLORS[(counter++) % COLORS.length])
+					colors.push(_colors[(counter++) % _colors.length])
 				})
 
 				chart.data.datasets = []
@@ -397,7 +417,7 @@
 					chart.data.datasets.push({
 						data: column,
 						label: categories[counter],
-						backgroundColor: COLORS[(counter) % COLORS.length]
+						backgroundColor: _colors[(counter) % _colors.length]
 					})
 					counter++
 				})
@@ -423,7 +443,7 @@
 					for(var i = 1; i < data[0].length; i++) {
 						columns[i-1] = columns[i-1] || []
 						columns[i-1].push(line[i])
-						colors.push(COLORS[(counter++) % COLORS.length])
+						colors.push(_colors[(counter++) % _colors.length])
 					}
 				})
 
@@ -434,7 +454,7 @@
 					chart.data.datasets.push({
 						data: column,
 						label: chart_data.labels ? chart_data.labels[counter-1] : 'Set '+counter,
-						backgroundColor: (chart.type == "pie") ? colors : COLORS[(counter) % COLORS.length]
+						backgroundColor: (chart.type == "pie") ? colors : _colors[(counter) % _colors.length]
 					})
 					counter++
 				})
@@ -513,6 +533,16 @@
 				if( CONTENT_TYPE_DATA.indexOf(content) > -1 ) { // content type is in format data-attr and whitelisted in CONTENT_TYPE_DATA
 
 					elem.attr(content, data[content])					
+
+				} else if ( ANIMATIONS.indexOf(content) > -1 ) {
+
+					var html = Mustache.render("<div class='moving-letters' data-moving-letters='{{animation}}' data-animation='moving-letters' data-animation-loop='{{loop}}'>{{text}}</div>", {
+						animation: content,
+						loop: true,
+						text: data[content],
+						sep: ','
+					})
+					elem.html(html)
 
 				} else { // content type is in format title.bold.reverse
 			
@@ -678,8 +708,9 @@
 									.html('<!-- '+JSON.stringify(data[content])+' -->')
 								// we add extra classes if provided
 								addClasses(generic)	
-							
-								console.log("Storyrevealer.addContent", "no element for content-type " + content_type + "; using default", data)
+								
+								if(["chartist","mustache"].indexOf(content_type) == -1)
+									console.log("Storyrevealer.addContent", "no element for content-type " + content_type + "; using default", data)
 								break
 						}
 						
@@ -746,14 +777,14 @@
 	/*	Loads stories and pages
 	 *
 	 */
-	function initialize(filename) {
+	function initialize(filename) {	// There should only be one newspaper element at the root/top
+		//		d3.json(filename, function(error, newspaper) {
+		//		YAML.load(filename, function(newspaper, error) {
+		d3.text(filename, function(error, filecontent) {	
 
-//		d3.json(filename, function(error, newspaper) {	// There should only be one newspaper element at the root/top
+			// JSON is either an object or an array
+			var newspaper = (filecontent[0] === '{' ||  filecontent[0] === '[') ? JSON.parse(filecontent) : YAML.parse(filecontent)
 
-//		d3.text(filename, function(error, yamlString) {	// There should only be one newspaper element at the root/top
-//			var newspaper = YAML.parse(yamlString);
-
-		YAML.load(filename, function(newspaper, error) {
 			
 			var newspaper_elem = d3.select("div.slides")
 			
@@ -786,7 +817,7 @@
 			if(newspaper.pages) {	// Just one story, add wrapping section for vertical navigation, does not count for nav
 				var config = Reveal.getConfig()
 				_horizontalNav = (typeof config.parallaxBackgroundImage != "undefined" && config.parallaxBackgroundImage != "")
-				console.log("_horizontalNav",_horizontalNav)
+				// console.log("_horizontalNav",_horizontalNav)
 				if(! _horizontalNav)
 					newspaper_elem = addSection(newspaper_elem, newspaper.cover, false)
 			}

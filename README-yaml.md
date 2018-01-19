@@ -60,7 +60,39 @@ stories: [ {{story-element}}+ ]
 
 The newspaper’s cover page is a regular, additional page.
 
- 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cover:
+  background: image.png
+  name: 'Cover page of newspaper'
+stories:
+  -
+    cover:
+      background: cover1.jpg
+      title: 'Title of first story'
+    pages:
+      -
+        background: first.png
+        title: 'Title of first page of first story'
+      -
+        title.red: 'Title of second page of first story'
+      -
+        title.inverse: 'Video with Overlay'
+        video: mp4.mp4
+  -
+    cover:
+      title: 'Cover page of second story'
+    pages:
+      -
+        title: 'Title of first page of second story'
+      -
+## This is a comment. Made-with-love is a special "key word" to display
+## the following string with an animation
+        made-with-love: 'Animated Title'
+        under-title: 'of second page of second story'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Plese note the careful and very important indentation and `-` characters used
+to separate content of the same type (arrays or list of content).
 
 ### Story
 
@@ -73,7 +105,7 @@ pages: [ {{page}}+ ]
 
 The story’s cover page is a regular, additional page.
 
- 
+
 
 ### Page
 
@@ -310,15 +342,17 @@ counter:
 	name: 'counter title'
 	start: 20
 	end: 60
-	round: 0
+	round: 1
 	time: 5000
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 or
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"counter": "300,100,1,3000"
+counter: 20,60,1,5000
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Note that rounding is used as in `Math.round(value * round) / round`.
 
 ##### Progress Bar
 
@@ -327,40 +361,35 @@ starting value to an ending value, in a given time. The progress bar starts when
 the page is displayed.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"progress-bar": {
-    "name": "progress bar title",
-    "description": "text under above progress bar title",
-    "show-value": true,
-    "start": 20,
-    "end": 60,
-    "max": 200,
-    "time": 5000
+progress-bar:
+    name: progress bar title
+    description: text under above progress bar title
+    show-value: true
+    start: 20
+    end: 60
+    max: 200
+    time: 5000
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is possible to display several progress bar like so:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"mustache": {
-	"template": "<div class='progress-bar-table'>{{#skills}}<div data-animation='progress-bar' data-progress-bar='0,{{value}},100,2000'><div class='progress-bar-name'>{{name}}</div><span class='progress-bar'></span></div>{{/skills}}</div>",	
-    "data": {
-       "name":"John Smith",
-       "skills":[
-          {
-             "name":"JavaScript",
-             "value":100
-          },
-          {
-             "name":"PHP",
-             "value":80
-          },
-          {
-             "name":"Java",
-             "value":20
-          }
-       ]
-    }
-}
+mustache:
+  template: '<div class=''progress-bar-table''>{{#skills}}<div data-animation=''progress-bar'' data-progress-bar-name=''{{name}}'' data-progress-bar-value=''{{value}}''><div class=''progress-bar-name''>{{name}}</div>{{#description}}<div class=''progress-bar-desc''>{{description}}</div>{{/description}}<span class=''progress-bar''></span></div>{{/skills}}</div>'
+  data:
+    name: 'John Smith'
+    skills:
+      -
+        name: JavaScript
+        description: 'The very best language indeed'
+        value: 100
+      -
+        name: PHP
+        value: 80
+      -
+        name: Java
+        value: 20
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -370,13 +399,20 @@ Storyrevealer adds a few animations for short text (typically title texts). To
 add a text animation, add a element like this one:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"moving-letters": {
-	"animation": "signal-and-noise",
-	"loop": "true",
-	"text": "Signal,Noise",
-	"separator": ","
-}
+moving-letters:
+  animation: made-with-love
+  loop: 'true'
+  text: 'Great Thursday'
+  separator: ','
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+or event in a shorter form:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+made-with-love: 'Great Thursday'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this latter case, it is not possible to control options like loop or separator (which defaults to `,`).
 
 When animation requires more than one string (like Signal and Noise in the example), strings are separated using the
 `separator` inside the `text` attribute. Loop indicates whether the animation should only play once, or loop forever.
@@ -404,19 +440,19 @@ Each row is represented by an Array; each element of the array is the table cell
 content.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"table": {
-    "options": {
-        "columnheader": true,
-        "rowheader": true,
-        "rowfooter": true
-    },
-    "data": [
-        ["", "R1", "R2", "R3", "R4", "TOT"],
-        ["Tiger", 70, 71, 68, 66, 275],
-        ["Henrick", 72, 72, 66, 65, 275],
-        ["Sergio", 72, 71, 70, 68, 281]
-    ]
-}
+table:
+  options:
+    columnheader: true
+    rowheader: true
+    rowfooter: true
+  data:
+    - ["", R1, R2, R3, R4, TOT]
+    - [Tiger, 70, 71, 68, 66, 275]
+    - [Henrick, 72, 72, 66, 65, 275]
+    - [Phil, 71, 69, 72, 64, 276]
+    - [Sergio, 72, 71, 70, 68, 281]
+    - [Justin, 72, 70, 68, 72, 282]
+    - [Thomas, 66, 68, 76, 72, 282]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  
@@ -448,30 +484,36 @@ a simple Storyrevealer way. No option can be changed. These types of graphs are
 suitable for most simple graphs.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"piechart": {
-    "data": [
-        ["Tiger", 50],
-        ["Henrick", 30],
-        ["Phil", 20]
-    ]
-}
-
-"linechart": {
-    "data": [
-        ["Tiger", 70, 71, 68, 66],
-        ["Henrick", 72, 72, 66, 65],
-        ["Phil", 71, 69, 72, 64]
-    ]
-}
-
-"barchart": {
-    "labels": ["R1", "R2", "R3", "R4"],
-    "data": [
-        ["Tiger", 70, 71, 68, 66],
-        ["Henrick", 72, 72, 66, 65],
-        ["Sergio", 72, 71, 70, 68]
-    ]
-}
+pages:
+  -
+    title: 'Simplified Pie Chart'
+    piechart:
+      data:
+        - [Tiger, 50]
+        - [Henrick, 30]
+        - [Phil, 20]
+  -
+    title: 'Simplified Line Chart'
+    linechart:
+      data:
+        - [Tiger, 70, 71, 68, 66]
+        - [Henrick, 72, 72, 66, 65]
+        - [Phil, 71, 69, 72, 64]
+  -
+    title: 'Simplified Bar Chart'
+    barchart:
+      labels:
+        - R1
+        - R2
+        - R3
+        - R4
+      data:
+        - [Tiger, 70, 71, 68, 66]
+        - [Henrick, 72, 72, 66, 65]
+        - [Phil, 71, 69, 72, 64]
+        - [Sergio, 72, 71, 70, 68]
+        - [Justin, 72, 70, 68, 72]
+        - [Thomas, 66, 68, 76, 72]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The second method uses the content-type « chart » (respectively « chartist »).
@@ -479,28 +521,26 @@ Data need to be presented in the the way the graphing package expects it. This
 method allow to display any type of graph that the graphing package can display.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"chart": {
-   "type": "horizontalBar",
-   "data": {
-      "labels": [ "Africa", "Asia", "Europe", "Latin America", "North America" ],
-      "datasets": [
-         {
-            "label": "Population (millions)",
-            "backgroundColor": [ "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850" ],
-            "data": [ 2478, 5267, 734, 784, 433 ]
-         }
-      ]
-   },
-   "options": {
-      "legend": {
-         "display": false
-      },
-      "title": {
-         "display": true,
-         "text": "Predicted world population (millions) in 2050"
-      }
-   }
-}
+title: 'Mixed Chart'
+chart:
+  type: bar
+  data:
+    labels:
+      - '1900'
+      - '1950'
+      - '1999'
+      - '2050'
+    datasets:
+      - {label: Europe, type: line, borderColor: '#8e5ea2', data: [408, 547, 675, 734], fill: false}
+      - {label: Africa, type: line, borderColor: '#3e95cd', data: [133, 221, 783, 2478], fill: false}
+      - {label: Europe, type: bar, backgroundColor: 'rgba(0,0,0,0.2)', data: [408, 547, 675, 734]}
+      - {label: Africa, type: bar, backgroundColor: 'rgba(0,0,0,0.2)', backgroundColorHover: '#3e95cd', data: [133, 221, 783, 2478]}
+  options:
+    title:
+      display: true
+      text: 'Population growth (millions): Europe & Africa'
+    legend:
+      display: false
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Storyrevealer Options
@@ -539,9 +579,6 @@ gulp
 Explore files in the `tests` directory.
 
 Run the index.html file for brief explanations of this project.
-
-Now go. Tell stories.
-
 
 ### Reveal.js Required Plugins
 
@@ -630,8 +667,34 @@ Please have a look at all JSON files in the tests directory.
 ## Limits
 
 With the exception of pure text content, you can only have one content of a given type in a column.
-To get around this limitation, you can insert direct HTML by adding .html class to any content-type
-and pass HTML elements directly for rendering.
+For example, there can only be one `mustache` element in a colum.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mustache:
+	template: ...
+	data: ...
+	
+## This is incorrect YAML
+## There cannot be 2 mustache elements at the same level.
+mustache:
+	template: ...
+	data: ...
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you need such element more than once, simply add them a non-existant class name like so:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mustache:
+	template: ...
+	data: ...
+	
+mustache.more1:
+	template: ...
+	data: ...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Class `.more1` does not exist and will be affect the behavior or rendering of Storyrevealer.
 
 ### Notes
 
@@ -647,7 +710,7 @@ Storyteller engine only takes care of the presentation.
 A full screen image with the story displayed on it.
 No more. No less.
 
-And a few, very simple animations or graphs to break monotony.
+And a few, very simple animations or graphs to break monotony of storytelling.
 
 Enjoy.
 

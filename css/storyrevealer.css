@@ -1065,8 +1065,16 @@ div.col.border-left {
 .darkest {
   background: rgba(43, 43, 43, 0.5); }
 
+h1.inverse,
 .inverse {
   color: #2b2b2b !important; }
+
+h1.invisible,
+.invisible {
+  color: transparent; }
+
+h1.number {
+  font-size: 600%; }
 
 /**/
 .rightsep {
@@ -1085,9 +1093,11 @@ div.col.border-left {
 .italic {
   font-style: italic; }
 
+h1.red,
 .red {
   color: red !important; }
 
+h1.green,
 .green {
   color: green !important; }
 
@@ -1172,24 +1182,3 @@ i.fa {
   border-radius: 60px;
   box-shadow: 0px 0px 2px #888;
   padding: 0.5em 0.6em; }
-
-h1.invisible,
-.invisible {
-  color: transparent; }
-
-h1.number {
-  font-size: 600%; }
-
-.top {
-	position: relative;
-	top: 0;
-}
-
-.middle {
-	position: relative;
-	top: 45%;
-}
-.bottom {
-	position: relative;
-	bottom: 0;
-}

@@ -365,20 +365,24 @@
 		for(var row = 0; row < data.length; row++) {
 			var rowcontainer = table
 			if(row == 0 && options.columnheader) { //@todo: make columnheader is the count of column headers?
-				rowcontainer = rowcontainer.append("thead")				
+				var thead = document.createElement("thead")
+				rowcontainer = rowcontainer.appendChild(thead)	
 			} else if ((row == (data.length - 1)) && options.columnfooter) {
-				rowcontainer = rowcontainer.append("tfoot")				
+				var tfoot = document.createElement("tfoot")
+				rowcontainer = rowcontainer.appendChild(tfoot)	
 			}
-			rowcontainer = rowcontainer.append("tr")
+			var tr = document.createElement("tr")
+			rowcontainer = rowcontainer.appendChild(tr)	
 			
 			for(var col = 0; col < data[row].length; col++) {
-				var colcontainer = rowcontainer.append('td')
+				var td = document.createElement("td")
+				var colcontainer = rowcontainer.appendChild(td)	
 				if(col == 0 && options.rowheader) {
-					colcontainer.classed("rowheader", true)				
+					colcontainer.classList.add("rowheader")				
 				} else if ((col == (data[row].length - 1)) && options.rowfooter) {
-					colcontainer.classed("rowfooter", true)				
+					colcontainer.classList.add("rowfooter")
 				}
-				colcontainer.text(data[row][col])
+				colcontainer.innerHTML = cleanHTML(data[row][col])
 			}			
 		}
 	}
@@ -460,11 +464,7 @@
 				break
 		}
 
-		//console.log(chart_data, chart)
-		container
-			.append('canvas')
-			.attr('class', 'chart')
-			.html('<!-- '+JSON.stringify(chart)+' -->');
+		return chart
 	}
 	
 	
@@ -473,10 +473,10 @@
 	 */
 	function generateChartist(chart_data, chart_type) {
 		//console.log("generateChartist::begin", chart_type, chart_data)
-		var ret = {}
-		ret.type = chart_type
-		ret.options = {}
-		var data = ret.data = {}
+		var chart = {}
+		chart.type = chart_type
+		chart.options = {}
+		var data = chart.data = {}
 		switch(chart_type) {
 			case "line":
 				data.labels = [];
@@ -488,7 +488,7 @@
 					data.labels.push(i++)
 					data.series.push(d)
 				})
-				ret.options["sr_legend_options"] = {
+				chart.options["sr_legend_options"] = {
 					legendNames: data.legend
 				}
 				break
@@ -515,10 +515,10 @@
 				})
 				break
 		}
-		ret.options["chartPadding"] = 30
+		chart.options["chartPadding"] = 30
 		
-		//console.log("generateChartist::end", chart_type, ret)
-		return ret;
+		//console.log("generateChartist::end", chart_type, chart)
+		return chart;
 	}
 
 
@@ -531,22 +531,26 @@
 			
 				if( CONTENT_TYPE_DATA.indexOf(content) > -1 ) { // content type is in format data-attr and whitelisted in CONTENT_TYPE_DATA
 
-					elem.attr(content, data[content])					
+					elem.setAttribute(content, data[content])
 
 				} else if ( ANIMATIONS.indexOf(content) > -1 ) {
-					var anim = elem.append("div")
-								   .attr("class", "moving-letters")
-								   .attr("data-animation", "moving-letters")
-								   .attr("data-moving-letters", content)
-								   .attr("data-animation-loop", true)
-								   .html(data[content])
+
+					var anim = document.createElement("div")
+					anim.classList.add("moving-letters")
+					anim.setAttribute
+					anim.setAttribute("data-animation", "moving-letters")
+					anim.setAttribute("data-moving-letters", content)
+					anim.setAttribute("data-animation-loop", true)
+					anim.innerHTML = data[content]
+					elem.appendChild(anim)
+
 				} else { // content type is in format title.bold.reverse
 			
 					var content_arr = content.split(".")
 					var content_type = content_arr.shift()
 					var addClasses = function (container) {
 						if(content_arr.length > 0) {
-							content_arr.forEach(function(c) { container.classed(c, true) })
+							content_arr.forEach(function(c) { container.classList.add(c) })
 						}
 					}
 
@@ -560,17 +564,18 @@
 						var str_arr = Array.isArray(data[content]) ? data[content] : [ data[content] ]
 					
 						str_arr.forEach(function(str) {
-							var container = elem.append(html_elem)
+							var container = document.createElement(html_elem)
+							elem.appendChild(container)
 							if(html_arr.length > 0) {
-								html_arr.forEach(function(c) { container.classed(c, true) })
+								html_arr.forEach(function(c) { container.classList.add(c) })
 							}
 
 							addClasses(container)		
 
 							if(content_arr.indexOf("html") > -1) {
-								container.html(cleanHTML(str))
+								container.innerHTML = cleanHTML(str)
 							} else {
-								container.text(str)
+								container.innerHTML = str
 							}
 						})
 							
@@ -582,107 +587,132 @@
 							case "content": // older structure for json, still works!
 								var page = data[content]
 								if(Array.isArray(page)) { // more than one column
-									var column_elem = elem.append("div")
-										                  .attr("class", "multicols")
+									var column_elem = document.createElement("div")
+									column_elem.classList.add("multicols")
 									page.forEach(function(column) {
-										var container = column_elem.append("div")
-														           .attr("class", "col")
+										var container = document.createElement("div")
+										container.classList.add("col")
+										column_elem.appendChild(container)
 										addContent(container, column, false)
 									})
+									elem.appendChild(column_elem)
 								} else {
 									addContent(elem, data[content])
 								}	
 								break
 
 							case "class":
-								elem.classed(data[content], true)
+								data[content].split(" ").forEach(function (c) {
+									elem.classList.add(c)
+								})
 								break
 
 							case "transition":
-								elem.attr('data-transition', data[content])
+								elem.setAttribute('data-transition', data[content])
 								break
 
 							case "image":
 							case "background":
-								elem.attr('data-background', data[content])
+								elem.setAttribute('data-background', data[content])
 								break
 
 							case "video":
-								elem.attr('data-background-video', data[content])
+								elem.setAttribute('data-background-video', data[content])
 								break
 
 							case "notes":
-								elem.append("aside")
-									.html(cleanHTML(data[content]))
+								var aside = document.createElement("aside")
+								aside.innerHTML = cleanHTML(data[content])
+								elem.appendChild(aside)
 								break
 
 							case "ulist":
 							case "list":
-								var list = elem.append("ul")
+								var list = document.createElement("ul")
 								data[content].forEach(function(item) {
-									var li = list.append("li")
+									var li = document.createElement
 									if(typeof item == "object") {
-										console.log('item', item)
 										addContent(li, item)
 									} else {
-										li.html(item)
+										li.innerHTML = cleanHTML(item)
 									}
+									list.appendChild(li)
 								});
+								elem.appendChild(list)
 								break
 
 							case "olist":
-								var list = elem.append("ol")
+								var list = document.createElement("ol")
 								data[content].forEach(function(item) {
-									var li = list.append("li")
-									li.innerHTML = item
+									var li = document.createElement
+									if(typeof item == "object") {
+										addContent(li, item)
+									} else {
+										li.innerHTML = cleanHTML(item)
+									}
+									list.appendChild(li)
 								});
+								elem.appendChild(list)
 								break
 
 							case "icon":
 								var icon = data[content]
-								var itag = elem.append("i")
-									.attr('class', 'fa fa-'+icon.glyph)
+								var itag = document.createElement("i")
+								itag.classList.add("fa")
+								itag.classList.add("fa-"+icon.glyph)
 								var sty = '';
 								["color","background-color"].forEach(function(s) {
 									if(icon[s]) sty += (s+':'+icon[s]+';')
 								});
-								if(sty != '') itag.attr('style', sty)
+								if(sty != '') itag.setAttribute('style', sty)
+								elem.appendChild(itag)
 								break
 
 							case "table":
-								var container = elem.append("div")
-									.attr("class", "table")
-									.append("table")
-								generateTable(container, data[content])
+								var div = document.createElement("div")
+								div.classList.add('table')
+								elem.appendChild(div)
+								var table = document.createElement("table")
+								div.appendChild(table)
+								
+								generateTable(table, data[content])
 								break
 								
 							case "barchartist": // Using Chartist
 							case "piechartist":
 							case "linechartist":
 								var json = generateChartist(data[content], content_type.substr(0, content_type.indexOf("chart")))
-								var container = elem.append("div")
-								    .classed("chartist", true)
-									.html('<!-- '+JSON.stringify(json)+' -->')
+								var container = elem.node()
+								var div = document.createElement("div")
+								div.classList.add("chartist")
+								div.innerHTML = '<!-- '+JSON.stringify(json)+' -->'
+								elem.appendChild(div)
 								break
 
 							case "barchart": // Using Chart.js
 							case "piechart":
 							case "linechart":
 							    data[content].type = data[content].type || content_type.substr(0, content_type.length - 5)
-								generateChart(elem, data[content])
+								var chart = generateChart(elem, data[content])
+								var canvas = document.createElement("canvas")
+								canvas.classList.add("chart")
+								canvas.innerHTML = '<!-- '+JSON.stringify(chart)+' -->';
+								elem.appendChild(canvas)
 								break
 
 							case "counter": // text, start, stop, time
 								var cntparams = (typeof data[content] == "object")
 								 					? ""+data[content].start+','+data[content].end+','+(data[content].round ? data[content].round : 1)+','+data[content].time
 													: data[content]
-								var counter = elem.append("p")
-									.attr('data-animation', 'countup')
-									.attr("data-countup", cntparams)
+
+								var counter = document.createElement("p")
+								counter.setAttribute('data-animation', 'countup')
+								counter.setAttribute("data-countup", cntparams)
 
 								if(content_arr.indexOf("fragment") > -1)
-										counter.classed("fragment", true)
+										counter.classList.add("fragment")
 
+								elem.appendChild(counter)
 								break
 								
 							case "progress-bar":
@@ -709,29 +739,29 @@
 								
 							case "moving-letters":
 								var html = Mustache.render("<div class='moving-letters' data-moving-letters='{{animation}}' data-animation='moving-letters' data-animation-loop='{{loop}}'>{{text}}</div>",data[content])
-								elem.html(html)
+								elem.innerHTML = html
 								break
 								
 							case "chart":
-								elem
-									.append('canvas')
-									.attr('class', 'chart')
-									.html('<!-- '+JSON.stringify(data[content])+' -->');
+								var canvas = document.createElement("canvas")
+								canvas.classList.add("chart")
+								canvas.innerHTML = '<!-- '+JSON.stringify(data[content])+' -->'
+								elem.appendChild(canvas)
 								break
 								
 							case "raw":
-								addClasses(elem)		
-								elem.html(cleanHTML(data[content]))
+								addClasses(elem)
+								elem.innerHTML = cleanHTML(data[content])
 								break
 
 							case "chartist":
 							case "mustache":
 							default: // we add a generic div with class "content-type" for interception by anything plugin
-								var generic = elem.append("div")
-								    .classed(content_type, true)
-									.html('<!-- '+JSON.stringify(data[content])+' -->')
-								// we add extra classes if provided
+								var generic = document.createElement("div")
+								generic.classList.add(content_type)
+								generic.innerHTML = '<!-- '+JSON.stringify(data[content])+' -->'
 								addClasses(generic)	
+								elem.append(generic)
 								
 								if(["chartist","mustache"].indexOf(content_type) == -1)
 									console.log("Storyrevealer.addContent", "no element for content-type " + content_type + "; using default", data)
@@ -748,16 +778,19 @@
 	 *
 	 */
 	function addSection(elem, data, add_content) {
-		var s = elem.append("section")
+		var s = document.createElement("section")
+		elem.appendChild(s)
 		_slideTitles[_slide_h] = _slideTitles[_slide_h] || []
 		var slideTitles = _slideTitles[_slide_h]
 		if(data) { // always adds background and class if present
 			var first = Array.isArray(data) ? data[0] : data;
 			if(first.background) {
-				s.attr("data-background", first.background)
+				s.setAttribute("data-background", first.background)
 			}
 			if(first.class) {
-				s.classed(first.class, true)
+				first.class.split(" ").forEach(function (c) {
+					s.classList.add(c)
+				})
 			}
 			var title = getTitle(data)
 			slideTitles[_slide_v] = title
@@ -786,11 +819,13 @@
 	function addPage(page, elem) {
 		if(Array.isArray(page)) { // more than one column
 			var page_elem = addSection(elem, page, false)
-			var column_elem = page_elem.append("div")
-				                       .attr("class", "multicols")
+			var column_elem = document.createElement("div")
+            column_elem.classList.add("multicols")
+			page_elem.appendChild(column_elem)
 			page.forEach(function(column) {
-				var container = column_elem.append("div")
-								           .attr("class", "col")
+				var container = document.createElement("div")
+	            container.classList.add("col")
+				column_elem.appendChild(container)
 				addContent(container, column, false)
 			})
 		} else {
@@ -811,7 +846,7 @@
 			var newspaper = (filecontent[0] === '{' ||  filecontent[0] === '[') ? JSON.parse(filecontent) : YAML.parse(filecontent)
 
 			
-			var newspaper_elem = d3.select("div.slides")
+			var newspaper_elem = document.querySelector("div.slides")
 			
 			if(! newspaper_elem) {
 				console.log("storyrevealer::load", "div.slides element not found")
@@ -834,7 +869,7 @@
 			}
 			
 			// clean previous newspaper or stories
-			newspaper_elem.selectAll('section').remove()
+			newspaper_elem.innerHTML = ''
 
 			_slide_h = 0
 			_slide_v = 0				

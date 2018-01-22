@@ -4,11 +4,17 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var concatCss = require('gulp-concat-css');
+var replace = require('gulp-replace');
  
 gulp.task('sass', function () {
   return gulp.src('./css/storyrevealer.scss')
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(gulp.dest('./css'));
+});
+
+gulp.task('copyfonts', function() {
+   gulp.src('css/fonts/**/*.{ttf,woff,eof,svg}')
+   .pipe(gulp.dest('./dist/css'));
 });
 
 gulp.task('concatcss', function () {
@@ -17,7 +23,7 @@ gulp.task('concatcss', function () {
 		"css/moving-letters.css",
 		"css/storyrevealer.css"
 	])
-    .pipe(concatCss("storyrevealer.css", {rebaseUrls: true}))
+    .pipe(concatCss("storyrevealer.css", {rebaseUrls: false}))
     .pipe(gulp.dest('./dist/css'));
 });
 
@@ -43,5 +49,17 @@ gulp.task('concatjs', function() {
     .pipe(gulp.dest('./dist/js'));
 });
 
-gulp.task('dist', ['sass','concatcss', 'concatjs']);
+gulp.task('templates', function() {
+  gulp.src(['tests/template.html'])
+    .pipe(replace('template.json', function() {
+      // Replaces instances of "template.json" with "file.txt"
+      // this.file is also available for regex replace
+      // See https://github.com/gulpjs/vinyl#instance-properties for details on available properties
+      return this.file.relative.substr(0, this.file.relative.lastIndexOf('.')) + '.yaml';
+    }))
+    .pipe(gulp.dest('dist/demos'));
+});
+
+
+gulp.task('dist', ['sass','concatcss', 'concatjs','copyfonts']);
 gulp.task('default', ['sass']);

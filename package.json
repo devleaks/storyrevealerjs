@@ -15,6 +15,7 @@
     "d3-selection": "^1.2.0",
     "d3-transition": "^1.1.1",
     "font-awesome": "^4.7.0",
+    "gulp-replace": "^0.6.1",
     "mustache": "^2.3.0",
     "reveal": "rajgoel/reveal.js-plugins#*",
     "reveal.js": "^3.6.0",

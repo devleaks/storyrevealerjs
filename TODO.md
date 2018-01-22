@@ -1,5 +1,3 @@
 # To Do
 
-add support for list
-
-add support for plain code (highlight.js)
+Review css (+ structure) for better control of vertical positioning (top/middle/bottom)

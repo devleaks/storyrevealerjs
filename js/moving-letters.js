@@ -627,11 +627,11 @@ var MovingLetters = window.MovingLetters || (function(){
 				}
 				if(animation_code) {
 					StoryrevealerAnimation.register(id, animation_code)
-					console.log('MovingLetters::install_animation: installed', animation)
+					//console.log('MovingLetters::install_animation: installed', animation)
 				}
 			} else {
 				StoryrevealerAnimation.play(id)
-				console.log('MovingLetters::install_animation: started', animation)
+				//console.log('MovingLetters::install_animation: started', animation)
 			}
 		}
 

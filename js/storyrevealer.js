@@ -265,12 +265,11 @@
 		}
 		
 
-		_inited = true;
-		console.log("Storyrevealer "+VERSION+" initialized")
+		_inited = true
+		console.log("Storyrevealer "+VERSION)
 		
 		if(_config.url) {
 			initialize(_config.url)
-			console.log("Storyrevealer::init", _config.url)
 		} else {
 			console.log("Storyrevealer::init: no url")
 		}
@@ -528,7 +527,6 @@
 	 */
 	function addContent(elem, data) {
 		for (var content in data) {
-			console.log('>>>', content)
 		    if (data.hasOwnProperty(content)) {
 			
 				if( CONTENT_TYPE_DATA.indexOf(content) > -1 ) { // content type is in format data-attr and whitelisted in CONTENT_TYPE_DATA
@@ -536,15 +534,12 @@
 					elem.attr(content, data[content])					
 
 				} else if ( ANIMATIONS.indexOf(content) > -1 ) {
-
-					var html = Mustache.render("<div class='moving-letters' data-moving-letters='{{animation}}' data-animation='moving-letters' data-animation-loop='{{loop}}'>{{text}}</div>", {
-						animation: content,
-						loop: true,
-						text: data[content],
-						sep: ','
-					})
-					elem.html(html)
-
+					var anim = elem.append("div")
+								   .attr("class", "moving-letters")
+								   .attr("data-animation", "moving-letters")
+								   .attr("data-moving-letters", content)
+								   .attr("data-animation-loop", true)
+								   .html(data[content])
 				} else { // content type is in format title.bold.reverse
 			
 					var content_arr = content.split(".")
@@ -679,7 +674,7 @@
 
 							case "counter": // text, start, stop, time
 								var cntparams = (typeof data[content] == "object")
-								 					? ""+data[content].start+','+data[content].end+','+data[content].round+','+data[content].time
+								 					? ""+data[content].start+','+data[content].end+','+(data[content].round ? data[content].round : 1)+','+data[content].time
 													: data[content]
 								var counter = elem.append("p")
 									.attr('data-animation', 'countup')
@@ -811,6 +806,7 @@
 		//		YAML.load(filename, function(newspaper) { var error = null;
 		d3.text(filename, function(error, filecontent) {	
 
+			//console.log("Storyrevealer::initialize", filename)
 			// JSON is either an object or an array
 			var newspaper = (filecontent[0] === '{' ||  filecontent[0] === '[') ? JSON.parse(filecontent) : YAML.parse(filecontent)
 

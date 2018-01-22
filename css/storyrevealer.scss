@@ -191,8 +191,16 @@ div.col.border-left {
 .darkest {
 	background: rgba($backgroundColor, 0.5);
 }
+h1.inverse,
 .inverse {
 	color: $backgroundColor ! important; 
+}
+h1.invisible,
+.invisible {
+	color: transparent;
+}
+h1.number {
+	font-size: 600%;
 }
 /**/
 .rightsep {
@@ -211,9 +219,11 @@ div.col.border-left {
 .italic {
 	font-style: italic;
 }
+h1.red,
 .red {
 	color: red ! important;
 }
+h1.green,
 .green {
 	color: green ! important;
 }
@@ -308,10 +318,4 @@ i.fa {
   border-radius: 60px;
   box-shadow: 0px 0px 2px #888;
   padding: 0.5em 0.6em;
-}
-.invisible {
-	color: transparent;
-}
-h1.number {
-	font-size: 600%;
 }

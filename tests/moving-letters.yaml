@@ -1,130 +1,50 @@
 cover:
-  mustache:
-    template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-    data:
-      animation: thursday
-      loop: 'true'
-      text: 'Moving Letters'
-      separator: ','
-  editor.html: 'Created by <a href=''https://github.com/devleaks''>Pierre M</a> and <a href=''http://tobiasahlin.com/moving-letters/''>Tobias Ahlin</a>'
+    background: thursday.jpg
+    title: Moving Letters
+    thursday: Thursday
 pages:
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: slow-mornings
-        loop: 'true'
-        text: 'Sunny Morning'
-        separator: ','
+    background: sunny-mornings.jpg
+    slow-mornings: Sunny Morning
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: great-thinker
-        loop: 'true'
-        text: 'Great Thinker'
-        separator: ','
+    background: great-thinker.jpg
+    great-thinker: Great Thinker
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: ready
-        loop: 'true'
-        text: 'Ready,Set,Go'
-        separator: ','
+    background: ready.jpg
+    ready: Ready,Set,Go
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: signal-and-noise
-        loop: 'true'
-        text: 'Signal,Noise'
-        separator: ','
+    background: signal-and-noise.jpg
+    signal-and-noise: Signal,Noise
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: beautiful-question
-        loop: 'true'
-        text: 'Beautiful Question'
-        separator: ','
+    background: beautiful-question.jpg
+    beautiful-question: Beautiful Question
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: reality-is-broken
-        loop: 'true'
-        text: 'Reality is broken'
-        separator: ','
+    background: reality-is-broken.jpg
+    reality-is-broken: Reality is broken
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: hey
-        loop: 'true'
-        text: 'Hey,!'
-        separator: ','
+    background: hey.jpg
+    hey: Hey,!
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: coffee-morning
-        loop: 'true'
-        text: 'Coffee Morning'
-        separator: ','
+    background: coffee-morning.jpg
+    coffee-morning: Coffee Morning
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: domino-dreams
-        loop: 'true'
-        text: 'Domino Dreams'
-        separator: ','
+    background: domino-dreams.jpg
+    domino-dreams: Domino Dreams
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: hello-goodbye
-        loop: 'true'
-        text: 'Hello Goodbye!'
-        separator: ','
+    background: hello-goodbye.jpg
+    hello-goodbye: Hello Goodbye!
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: a-new-production
-        loop: 'true'
-        text: 'A New Production'
-        separator: ','
+    background: a-new-production.jpg
+    a-new-production: A New Production
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: rising-strong
-        loop: 'true'
-        text: 'Rising Strong'
-        separator: ','
+    background: rising-strong.jpg
+    rising-strong: Rising Strong
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: finding-your-element
-        loop: 'true'
-        text: 'Finding Your Element'
-        separator: ','
+    background: finding-your-element.jpg
+    finding-your-element: Finding Your Element
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: out-now
-        loop: 'true'
-        text: 'Out,Now'
-        separator: ','
+    background: out-now.png
+    out-now: Out,Now
   -
-    mustache:
-      template: '<div class=''moving-letters'' data-animation=''moving-letters'' data-moving-letters=''{{animation}}'' data-animation-loop=''{{loop}}'' data-animation-separator=''{{separator}}''>{{text}}</div>'
-      data:
-        animation: made-with-love
-        loop: 'true'
-        text: 'Made with Love'
-        separator: ','
+    background: made-with-love.jpg
+    made-with-love: Made with Love

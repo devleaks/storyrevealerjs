@@ -26,8 +26,8 @@ Storyrevealer uses Reveal.js plugins, like the Anything plugin, to display and
 animate your content. (Anything plugin is so generic that you can really stick
 anything in a slide' section)
 
-It also uses some javascript libraries like animate.js, mustache, d3 (request
-and selection).
+It also uses some javascript libraries like animate.js, {{mustache}}, d3 (request
+and selection modules only).
 
 Storyrevealer just started, so expect documentation, tests, and more examples in
 the following weeks.
@@ -708,7 +708,10 @@ videos) and some text attached to each picture or video. Text would be both
 provided by the user, and automagically generated from data (sports results)
 coming from the social network. It had to be simple to generate by computer
 (from statistics, result highlights, etc.) and presentation had to be great.
-Hence the intermediate JSON structured document fed to Storyrevealer.
+Hence the intermediate JSON structured document fed to Storyrevealer at the start of the project.
+
+I discovered later that YAML somehow *includes* JSON format and is soooo much easier
+to read and write than JSON that I switched to YAML for "human" production.
 
 With this tool, every user of the network is a potential story teller.
 

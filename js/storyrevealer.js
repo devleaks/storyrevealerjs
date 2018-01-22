@@ -294,12 +294,12 @@
 		var title = null;
 		for (var content in data) {
 		    if (data.hasOwnProperty(content)) {
-				var content_arr = content.split(".")
-				var content_type = content_arr.shift()
+				var xtra_classes_arr = content.split(".")
+				var content_type = xtra_classes_arr.shift()
 				var pos = whereToLook.indexOf(content_type)
 				if(pos > -1 && pos < prec && data[content]) {
 					title = Array.isArray(data[content]) ? data[content].join('.') : data[content]
-					if(content_arr.indexOf('html') > -1) {
+					if(xtra_classes_arr.indexOf('html') > -1) { // extra clean html
 						title = sanitizeHtml(title, {allowedTags: [], allowedAttributes: {} })
 					}
 					prec = pos
@@ -523,6 +523,15 @@
 	}
 
 
+	/*
+	 *
+	 */
+	function addClasses(container, classes) {
+		var list = Array.isArray(classes) ? classes : classes.split(" ")
+		list.forEach(function(c) {
+			container.classList.add(c)
+		})
+	}
 	/*	Append HTML formatted data content to supplied element
 	 *
 	 */
@@ -547,15 +556,10 @@
 
 				} else { // content type is in format title.bold.reverse
 			
-					var content_arr = content.split(".")
-					var content_type = content_arr.shift()
-					var addClasses = function (container) {
-						if(content_arr.length > 0) {
-							content_arr.forEach(function(c) { container.classList.add(c) })
-						}
-					}
+					var xtra_classes_arr = content.split(".")
+					var content_type = xtra_classes_arr.shift()
 
-					if( CONTENT_TYPE_ELEM.hasOwnProperty(content_type) ) { // direct mapping first, eg: "title.class": "text"  ->  <h1 class="class">text</h1>
+					if( CONTENT_TYPE_ELEM.hasOwnProperty(content_type) ) { // direct mapping first, eg: title: h1.someclass ==> "title.otherclass": "text"  ==>  <h1 class="someclass otherclass">text</h1>
 				
 						var html_raw = CONTENT_TYPE_ELEM[content_type];
 						var html_arr = html_raw.split(".")
@@ -567,20 +571,16 @@
 						str_arr.forEach(function(str) {
 							var container = document.createElement(html_elem)
 							elem.appendChild(container)
-							if(html_arr.length > 0) {
-								html_arr.forEach(function(c) { container.classList.add(c) })
-							}
+							addClasses(container, html_arr)		
+							addClasses(container, xtra_classes_arr)		
 
-							addClasses(container)		
-
-							if(content_arr.indexOf("html") > -1) {
+							if(xtra_classes_arr.indexOf("html") > -1) {
 								container.innerHTML = cleanHTML(str)
 							} else {
 								container.innerHTML = str
 							}
 						})
 							
-
 					} else { // complex content
 
 						switch(content_type) {
@@ -683,7 +683,6 @@
 							case "piechartist":
 							case "linechartist":
 								var json = generateChartist(data[content], content_type.substr(0, content_type.indexOf("chart")))
-								var container = elem.node()
 								var div = document.createElement("div")
 								div.classList.add("chartist")
 								div.innerHTML = '<!-- '+JSON.stringify(json)+' -->'
@@ -710,7 +709,7 @@
 								counter.setAttribute('data-animation', 'countup')
 								counter.setAttribute("data-countup", cntparams)
 
-								if(content_arr.indexOf("fragment") > -1)
+								if(xtra_classes_arr.indexOf("fragment") > -1)
 										counter.classList.add("fragment")
 
 								elem.appendChild(counter)
@@ -726,10 +725,10 @@
 								}
 								var cursor = bar.append("span").attr("class", "progress-bar")								
 
-								var classes = ["fragment","right"]
-								classes.forEach(function(c) {
-									if(content_arr.indexOf(c) > -1)
-										bar.classed(c, true)
+								var ValidClasses = ["fragment","right"]
+								ValidClasses.forEach(function(c) {  // only add if in list of valid classes
+									if(xtra_classes_arr.indexOf(c) > -1)
+										bar.classList.add(c)
 								})
 
 								if(data[content]["show-value"]) {
@@ -751,7 +750,7 @@
 								break
 								
 							case "raw":
-								addClasses(elem)
+								addClasses(elem, xtra_classes_arr)
 								elem.innerHTML = cleanHTML(data[content])
 								break
 
@@ -761,19 +760,19 @@
 								var generic = document.createElement("div")
 								generic.classList.add(content_type)
 								generic.innerHTML = '<!-- '+JSON.stringify(data[content])+' -->'
-								addClasses(generic)	
+								addClasses(generic, xtra_classes_arr)	
 								elem.append(generic)
 								
 								if(["chartist","mustache"].indexOf(content_type) == -1)
 									console.log("Storyrevealer.addContent", "no element for content-type " + content_type + "; using default", data)
 								break
-						}
+						} // switch
 						
 					} // CONTENT_TYPE_ELEM.indexOf
 				} // CONTENT_TYPE_DATA.indexOf
 		    } // data.hasOwnProperty
 		} // for
-	}
+	} // function addContent
 	
 	/*	Add <section> to elem. Add background image and classes if present in first supplied page
 	 *
@@ -834,6 +833,24 @@
 		}	
 	}
 
+
+	function loadJSON(path, success, error) {
+	    var xhr = new XMLHttpRequest();
+	    xhr.onreadystatechange = function()
+	    {
+	        if (xhr.readyState === XMLHttpRequest.DONE) {
+	            if (xhr.status === 200) {
+	                if (success)
+	                    success(xhr.responseText);
+	            } else {
+	                if (error)
+	                    error(xhr);
+	            }
+	        }
+	    };
+	    xhr.open("GET", path, true);
+	    xhr.send();
+	}	
 	/*	Loads stories and pages
 	 *
 	 */
@@ -841,8 +858,9 @@
 		//		d3.json(filename, function(error, newspaper) {
 		//		YAML.load(filename, function(newspaper) { var error = null;
 		d3.text(filename, function(error, filecontent) {	
+		//		loadJSON(filename, function(filecontent) {	
 
-			//console.log("Storyrevealer::initialize", filename)
+			console.log("Storyrevealer::initialize", filename, filecontent)
 			// JSON is either an object or an array
 			var newspaper = (filecontent[0] === '{' ||  filecontent[0] === '[') ? JSON.parse(filecontent) : YAML.parse(filecontent)
 

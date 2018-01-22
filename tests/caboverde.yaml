@@ -1,35 +1,35 @@
 cover:
-  teaser: 'Testing parallax background'
-  name: 'Cabo Verde'
-  text: 'Use left and right arrow or swipe to walk through your story'
+  teaser: Testing parallax background
+  name: Cabo Verde
+  text: Use left and right arrow or swipe to walk through your story
 pages:
   -
-    above-title: 'Sea, sun, vocanoes, and wind'
-    title: 'Cabo Verde'
-    under-title: 'Volcanic backdrop, lush mountain ridges...'
-    text: 'A blend of mountains, beaches and peaceful seaside villages'
+    above-title: Sea, sun, vocanoes, and wind
+    title: Cabo Verde
+    under-title: Volcanic backdrop, lush mountain ridges...
+    text: A blend of mountains, beaches and peaceful seaside villages
   -
     transition: convex
-    above-title: 'Santo Antão'
-    title: 'Mountains and Volcanoes'
-    under-title: 'Piercing green valleys of flowers and sugar cane'
+    above-title: Santo Antão
+    title: Mountains and Volcanoes
+    under-title: Piercing green valleys of flowers and sugar cane
   -
-    above-title: 'São Vicente'
-    title: 'Culture & Morabeza'
-    under-title: 'Cultural capital of the islands'
-    text: 'Mindelo throbs with bars and music clubs'
+    above-title: São Vicente
+    title: Culture & Morabeza
+    under-title: Cultural capital of the islands
+    text: Mindelo throbs with bars and music clubs
   -
     -
-      above-title: 'Sal and Maio'
+      above-title: Sal and Maio
       title: Nature
-      text: 'Undulating windswept dunes merge with indigo-blue seas on unspoilt beaches of powdery white sand'
+      text: Undulating windswept dunes merge with indigo-blue seas on unspoilt beaches of powdery white sand
     -
-      above-title: 'Fogo and Brava'
+      above-title: Fogo and Brava
       title: Nature
-      text: 'From surreal volcanic landscapes, to sparkling bays framed by towering peaks'
+      text: From surreal volcanic landscapes, to sparkling bays framed by towering peaks
   -
     class: darker
-    above-title: 'Population for main cities'
+    above-title: Population for main cities
     table:
       options:
         columnheader: true
@@ -43,25 +43,24 @@ pages:
         -
           - Praia
           - Praia
-          - '127832'
+          - 127832
         -
           - Mindelo
-          - 'São Vicente'
-          - '70468'
+          - São Vicente
+          - 70468
         -
-          - 'Santa Maria'
+          - Santa Maria
           - Sal
-          - '23839'
+          - 23839
         -
           - Assomada
-          - 'Santa Catarina'
-          - '12026'
+          - Santa Catarina
+          - 12026
         -
-          - 'Porto Novo'
-          - 'Porto Novo'
-          - '9430'
+          - Porto Novo
+          - Porto Novo
+          - 9430
         -
-          - 'Pedra Badejo'
-          - 'Santa Cruz'
-          - '9345'
-    text: ""
+          - Pedra Badejo
+          - Santa Cruz
+          - 9345

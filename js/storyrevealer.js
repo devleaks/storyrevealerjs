@@ -103,6 +103,7 @@
 		"#bdc3c7",
 		"#7f8c8d"
 	]
+
 	var _TRANSPARENCY = 0.6
 
 	var _colors = []

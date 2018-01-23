@@ -19,26 +19,37 @@ stories. Stories in a newspaper are scrolled horizontally. A story is a list of
 pages scrolled vertically.
 
 A page is a background image, animation, or video, with content laid over it.
-The content of the page is a collection of information displayed as text, table,
-or graphics.
+The content of the page is a collection of information displayed as bold title texts,
+tables, lists, or graphics.
 
 Storyrevealer uses Reveal.js plugins, like the Anything plugin, to display and
 animate your content. (Anything plugin is so generic that you can really stick
-anything in a slide' section)
+anything in a slide' section.)
 
-It also uses some javascript libraries like animate.js, {{mustache}}, d3 (request
-and selection modules only).
-
-Storyrevealer just started, so expect documentation, tests, and more examples in
-the following weeks.
+It also uses some javascript libraries like yamljs, animate.js, {{mustache}} (js version),
+and d3-request.
 
 Pierre M. - December 2017
 
- 
+
+A Storyrevealer Newspaper
+-------------------------
+
+In its simple form, a Storyrevealer newspaper consists of a single HTML page,
+which loads necessary javascript libraries and style sheets, a Storyrevealer YAML 
+file which contains your newspaper, and of course, all images, animations, and
+videos you wish to include in your stories.
+
+The static HTML page does not need editing, and can be used as a template for
+all your newspapers.
+
+The only supplied file you might want to edit is the storyrevealer-specific
+style sheet (provided as a SCSS file), where you can all your custom styles, or load fonts.
+
+The format of your story YAML file is described below.
 
 YAML Data File Format
 ---------------------
-
  
 
 The YAML datafile handled by Storyrevealer may contain either
@@ -50,19 +61,21 @@ The YAML datafile handled by Storyrevealer may contain either
 In YAML, **identation is important**, as it reflects the "structure" of the
 document.
 
+You cannot use `TAB`s for indentation. You must use `SPACE`s.
+
 ### Newspaper
 
 A newspaper is made of an optional cover page and Stories.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 cover: {{page}},
 stories: [ {{story-element}}+ ]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 The newspaper’s cover page is a regular, additional page. Here is an example of
 a 2 story newspaper.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```yaml
 cover:
   background: image.png
   name: 'Cover page of newspaper'
@@ -91,67 +104,65 @@ stories:
 ## the following string with an animation
         made-with-love: 'Animated Title'
         under-title: 'of second page of second story'
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 Plese note the careful and very important indentation and `-` characters used to
-separate content of the same type (arrays or list of content).
+separate content of the same type (arrays or lists of things).
 
 ### Story
 
 A story is made of an optional cover page and Pages
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 cover: {{page}},
 pages: [ {{page}}+ ]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 The story’s cover page is a regular, additional page.
 
+
 ### Page
 
-A page is made of one or more columns. In the latter case, it is an array of
-columns.  
-\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~
-page: {{column}} \|\| [ {{column}}{1,} ]
-\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~
+A page is made of one or more columns. In the latter case, it is an *array of columns*.  
 
-  Note: When a page is made of more than one column, decorating elements of the
+```
+page: {{column}} \|\| [ {{column}}{1,} ]
+```
+
+Note: When a page is made of more than one column, decorating elements of the
 **first** column are taken into account for decorating the entire page
 (background image, video, or additional classes.)
 
-  A column is a list of content properties.
+A column is a list of content properties.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 column: { {{content}}* }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
   If a column does not contain any content property, it is a blank page or
 column. Blank columns can be useful to control the horizontal layout of content.
  
-
 Content properties are displayed in the order they appear in the column.
+
 
 ### Content Properties
 
 A content property is a ( content-type , content-value ) pair.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 content-type: {{content-value}}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 Content-value is a valid YAML object and its form varies depending on the
 content-type.
 
-If a column contains more than one content property, they are displayed in
-appearing order.
-
 Storyrevealer provides a set of content-type properties together with their
 representation. We make an artificial distinction between 3 types of
-content-type properties:
+content-type properties (although they all are treated the same way):
 
 1.  Decoration properties affect the page or column appearance,
 
-2.  Data properties, and
+2.  Data attribute properties, and
 
 3.  Content properties add content to the page.
 
@@ -167,31 +178,31 @@ Decoration properties mainly affect the appearance of the page.
 | video               | URL of video   | Displayed as background video. Plays automatically when page is shown                                                 |
 | class               | CSS class name | Single class name is added to the page’s parent element. A page-element may contain more than one class content type. |
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 background: url-path/to-image/image.jpg
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-#### Data Properties
+#### Data Attribute Properties
 
-Data properties are relayed to Reveal.js element entities.
+Data attribute properties are relayed to Reveal.js element entities.
 
 | **Content Type**       | **Value**        | **Note**                               |
 |------------------------|------------------|----------------------------------------|
 | data-background-color  | RGB(A) Color     | Background color                       |
 | data-background-iframe | URL to HTML page | Background HTML page (non-interactive) |
-| data-transistion       | transition name  | See Reveal.js possibilities            |
+| data-transition        | Transition name  | See Reveal.js possibilities            |
 
 Data elements are added to the parent element as data attributes.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 data-background-color: #FF6347
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 will produce
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```html
 <section data-background-color="#FF6347">
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 It is possible to add Reveal.js specific data attributes to control transitions,
 background transitions, or any other data attribute.  
@@ -204,9 +215,9 @@ Text content is the simplest form of content laid over the background.
 
 Text content properties accept either a single string, or a list of strings.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 text-content-type: {{string}} || [ {{string}}{1,} ]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 The following text content elements are provided by Storyrevealer:
 
@@ -230,15 +241,15 @@ The mapped element may contain additional classes separated by dots.
 
 If Storyrevealer content-type `title` is mapped to HTML element `h1.left`:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 title: Hello
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-will produce
+produces
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```html
 <h1 class="left">Hello</h1>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 Additional mappings of Storyrevealer content types to HTML elements can be
 provided as a Storyrevealer option.
@@ -247,21 +258,20 @@ provided as a Storyrevealer option.
 
 ##### Text Content Type Styling 
 
-The content-type name can contain additional CSS class names that must be added
+The content-type name can contain additional CSS class names that will be added
 to its HTML parent element.
 
 For exemple, if the `title` content-type is mapped to the HTML element `h1`:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 title.huge.reverse: Hello
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 produces
-\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~
 
-Hello
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```html
+<h1 class="huge reverse">Hello</h1>
+```
  
 
 The following class names are intercepted by Storyrevealer and have special meaning:
@@ -294,27 +304,40 @@ the SCSS file.
 | number         | Increases font size to 400%                                 |
 
 Additional class names can be declared in the CSS file and used in Storyrevealer.
+Any CSS class name available in the CSS can be passed to any Storyrevealer text content type.
 
 
-##### Mustache Templating
+#### Mustache Templating
 
 The content-element `mustache` formats text and data from the Mustache templating
 engine:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-mustache: template: '\<table class=''counter-table''\>{{\#skills}}
+```yaml
+mustache:
+  template: |
+			  <caption>Skills of {{name}}</caption>
+			  <table class="counter-table">
+				{{#skills}}
+				  <tr>
+					<td>{{name}}</td>
+					<td><span data-animation="countup" data-countup="0,{{value}},1,2000">{{value}}</span></td>
+				  </tr>
+				{{/skills}}
+			  </table>
+  data:
+    name: 'John Smith'
+    skills:
+      -
+        name: JavaScript
+        value: 80
+      -
+        name: PHP
+        value: 90
+      -
+        name: Python
+        value: 60
+```
 
-{{name}}
-
-\<span data-animation=''countup'' data-countup=''0,{{value}},1,2000''\>{{value}}
-
-{{/skills}}
-
-' data: name: 'John Smith' skills: - name: JavaScript value: 100 - name: PHP
-value: 80 - name: Java value: 20
-\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~\~
-
-Please note the use of double `'` to use quotes inside a quoted string.
 
 #### Animations
 
@@ -330,20 +353,20 @@ Count-Up changes the value of a counter from a starting value to an ending
 value, by increment (round), in a giving time. The counter starts when the page
 is displayed.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```yaml
 counter:
-    name: 'counter title'
+    name: 'Counter Title'
     start: 20
     end: 60
     round: 1
     time: 5000
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 or
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```yaml
 counter: 20,60,1,5000
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 Note that rounding is used as in `Math.round(value * round) / round`.
 
@@ -354,23 +377,38 @@ starting value to an ending value, in a given time. The value representing the
 maximum length of the progress bar can also be provided. The progress bar
 animation starts when the page is displayed.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```yaml
 progress-bar:
-    name: progress bar title
-    description: text under above progress bar title
+    name: Progress Bar Title
+    description: Text under above progress bar
     show-value: true
     start: 20
     end: 60
     max: 200
     time: 5000
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-It is possible to display several progress bar like so:
+It is possible to display several progress bars using for instance a {{mustache}} template like so:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```yaml
 mustache:
-  template: '<div class=''progress-bar-table''>{{#skills}}<div data-animation=''progress-bar'' data-progress-bar-name=''{{name}}'' data-progress-bar-value=''{{value}}''><div class=''progress-bar-name''>{{name}}</div>{{#description}}<div class=''progress-bar-desc''>{{description}}</div>{{/description}}<span class=''progress-bar''></span></div>{{/skills}}</div>'
+	template: |
+	  <div class="progress-bar-table">
+	    {{#stats}}
+	      <div class="right" data-animation="progress-bar" data-progress-bar="0,{{value}},{{max}},2000">
+	        <div class="progress-bar-name">{{name}}</div>
+	        {{#detail}}
+	          <div class="progress-bar-desc">
+	            {{detail}}<span class="progress-bar-value" style="font-size:30px;"></span>
+	          </div>
+	        {{/detail}}
+	        <div class="progress-bar-bg">
+	          <span class="progress-bar"></span>
+	        </div>
+	      </div>
+	    {{/stats}}
+	  </div>
   data:
     skills:
       -
@@ -383,34 +421,36 @@ mustache:
       -
         name: Python
         value: 70
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 ##### Moving Letters
 
 Storyrevealer adds a few animations for short text (typically title texts). To
 add a text animation, add a element like this one:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```yaml
 moving-letters:
   animation: made-with-love
   loop: 'true'
   text: 'Great Thursday'
   separator: ','
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 or event in a shorter form:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-made-with-love: 'Great Thursday'
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```yaml
+signal-and-noise: Peace,Love
+```
 
-In this latter case, it is not possible to control options like loop or
-separator (which defaults to `,`).
+In this latter case, it is not possible to control options like loop (which defaults to true)
+or separator (which defaults to `,`).
 
 When animation requires more than one string (like Signal and Noise in the
 example, which requires 2 distinct strings), strings are separated using the
 `separator` inside the `text` attribute. Loop indicates whether the animation
 should only play once, or loop forever.
+
+Please note that most animation terminates their loop by fading away (disappearing).
 
 [Valid animations](http://tobiasahlin.com/moving-letters/) are: thursday,
 slow-mornings, great-thinker, ready, signal-and-noise, beautiful-question,
@@ -424,17 +464,16 @@ The table structure contains two parts.
 
 The first part contains table options.
 
-The following options are accepted: rowheader, rowfooter, columnheader, column
-footer. They are all boolean and tells whether data contains such row or column
-header or footer.
+The following options are accepted: rowheader, rowfooter, columnheader, columnfooter.
+They are all boolean and tells whether data contains such row or column header or footer.
 
-The second part contains the data. Table data is an Array; each element of the
+The second part contains the data. Table data is an array; each element of the
 array represents a table row.
 
 Each row is represented by an Array; each element of the array is the table cell
 content.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```yaml
 table:
   options:
     columnheader: true
@@ -448,8 +487,9 @@ table:
     - [Sergio, 72, 71, 70, 68, 281]
     - [Justin, 72, 70, 68, 72, 282]
     - [Thomas, 66, 68, 76, 72, 282]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
+Alternatively, you could design a {{mustache}} template to generate a table from the array.
  
 
 #### Graphs
@@ -465,8 +505,7 @@ Storyrevealer uses 2 graphic packages
     which uses the HTML Canvas,
 
 2.  [Chartist](https://gionkunz.github.io/chartist-js/), which uses SVG, very
-    much like [C3](http://c3js.org) and D3 which could also be viable
-    alternatives.
+    much like [C3](http://c3js.org) and D3 which also are viable alternatives.
 
  
 
@@ -478,7 +517,7 @@ create standard bar, line and pie chart respectively. Data need to presented in
 a simple Storyrevealer way. No option can be changed. These types of graphs are
 suitable for most simple graphs.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```yaml
 pages:
   -
     title: 'Simplified Pie Chart'
@@ -509,16 +548,16 @@ pages:
         - [Sergio, 72, 71, 70, 68]
         - [Justin, 72, 70, 68, 72]
         - [Thomas, 66, 68, 76, 72]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 It is not possible to control options, displays of axes, sizes, etc. with this
-method.
+method. It produces simple, functional graphs at low cost.
 
 The second method uses the content-type `chart` (respectively `chartist`). Data
 need to be presented in the the way the graphing package expects it. This method
 allow to display any type of graph that the graphing package can display.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```yaml
 title: 'Mixed Chart'
 chart:
   type: bar
@@ -539,14 +578,14 @@ chart:
       text: 'Population growth (millions): Europe & Africa'
     legend:
       display: false
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 Storyrevealer Options
 ---------------------
 
 When created, the Storyrevealer object accepts the following options:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```javascript
 Storyrevealer.initialize({
 
     // Storyrevealer data URL
@@ -563,23 +602,23 @@ Storyrevealer.initialize({
     }
 
 })
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 Storyrevealer Installation
 --------------------------
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```unix
 git clone https://github.com/devleaks/storyrevealerjs
 cd storyrevealerjs
 yarn
 gulp
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 Explore files in the `tests` directory.
 
 Run the index.html file for brief explanations of this project.
 
-### Reveal.js Required Plugins
+# Reveal.js Required Plugins
 
 The following Reveal.js plugins need to be installed to use Stpryrevealer
 features:
@@ -588,7 +627,7 @@ features:
 |------------|-------------------------------------------------------------------|----------|
 | Anything   | Used by most Storyrevealer features, like Mustache, animations... |          |
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```javascript
 // More info https://github.com/hakimel/reveal.js#configuration
 
 Reveal.initialize({
@@ -607,7 +646,7 @@ Reveal.initialize({
     
     ...
 })
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 In addition, the following JS scripts need to be added to your page (or to
 Reveal.js as a plugin):
@@ -620,14 +659,13 @@ Reveal.js as a plugin):
 | sanitize-html |  Flexible HTML sanitazing library            |          |
 | yamljs        |  Standalone JavaScript YAML Parser & Encoder |          |
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```html
 ...
 <!-- BEGIN STORYREVEALERJS -->
 <script src="node_modules/d3-collection/build/d3-collection.min.js"></script>
 <script src="node_modules/d3-dispatch/build/d3-dispatch.min.js"></script>
 <script src="node_modules/d3-dsv/build/d3-dsv.min.js"></script>
 <script src="node_modules/d3-request/build/d3-request.min.js"></script>
-<script src="node_modules/d3-selection/build/d3-selection.min.js"></script>
 
 <script src="node_modules/yamljs/dist/yaml.js"></script>    
 
@@ -644,35 +682,34 @@ Reveal.js as a plugin):
 <script src="js/storyrevealer.js"></script>
 <!-- END STORYREVEALERJS -->
 ...
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 Finally, the follow CSS files need loading.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+```html
 ...
 <!-- BEGIN STORYREVEALERJS -->
-< link rel="stylesheet" href="node_modules/@bower_components/Reveal.js-Title-Footer/plugin/title-footer/title-footer.css">
+< link rel="stylesheet" href="Reveal.js-Title-Footer/plugin/title-footer/title-footer.css">
 < link rel="stylesheet" href="css/moving-letters.css">
 < link rel="stylesheet" href="css/storyrevealer.css">
 < link rel="stylesheet" href="css/storyrevealer-dev.css">
 <!-- END STORYREVEALERJS -->
 ...
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 Storyrevealer.css is generated from storyrevealer.sccs throught a gulp task.
 
-Example Files
--------------
+# Example Files
 
 Please have a look at all JSON files in the tests directory.
 
-Limits
-------
+# Limits
 
 With the exception of pure text content, you can only have one content of a
 given type in a column. For example, there can only be one `mustache` element in
 a colum.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```yaml
 mustache:
     template: ...
     data: ...
@@ -682,12 +719,12 @@ mustache:
 mustache:
     template: ...
     data: ...
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 If you need such element more than once, simply add them a non-existant class
 name like so:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```yaml
 mustache:
     template: ...
     data: ...
@@ -695,12 +732,12 @@ mustache:
 mustache.more1:
     template: ...
     data: ...
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 Class `.more1` does not exist and will not affect the behavior or rendering of
 Storyrevealer.
 
-### Notes
+# Notes
 
 The origin of the project was to allow users of a couple of sport-related social
 networks (I once made) to create a simple story with just a few pictures (or

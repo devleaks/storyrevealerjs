@@ -637,7 +637,7 @@ Reveal.initialize({
     dependencies: [
         ...
 
-        { src: 'node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
+        { src: 'node_modules/reveal.js-plugins/anything/anything.js' },
         { src: 'js/moving-letters.js' },
         { src: 'js/storyrevealer-animation-plugin.js' },
 
@@ -689,7 +689,7 @@ Finally, the follow CSS files need loading.
 ```html
 ...
 <!-- BEGIN STORYREVEALERJS -->
-< link rel="stylesheet" href="Reveal.js-Title-Footer/plugin/title-footer/title-footer.css">
+< link rel="stylesheet" href="node_modules/Reveal.js-Title-Footer/plugin/title-footer/title-footer.css">
 < link rel="stylesheet" href="css/moving-letters.css">
 < link rel="stylesheet" href="css/storyrevealer.css">
 < link rel="stylesheet" href="css/storyrevealer-dev.css">

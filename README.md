@@ -315,15 +315,15 @@ engine:
 ```yaml
 mustache:
   template: |
-			  <caption>Skills of {{name}}</caption>
-			  <table class="counter-table">
-				{{#skills}}
-				  <tr>
-					<td>{{name}}</td>
-					<td><span data-animation="countup" data-countup="0,{{value}},1,2000">{{value}}</span></td>
-				  </tr>
-				{{/skills}}
-			  </table>
+        <caption>Skills of {{name}}</caption>
+        <table class="counter-table">
+        {{#skills}}
+          <tr>
+          <td>{{name}}</td>
+          <td><span data-animation="countup" data-countup="0,{{value}},1,2000">{{value}}</span></td>
+          </tr>
+        {{/skills}}
+        </table>
   data:
     name: 'John Smith'
     skills:
@@ -393,22 +393,22 @@ It is possible to display several progress bars using for instance a {{mustache}
 
 ```yaml
 mustache:
-	template: |
-	  <div class="progress-bar-table">
-	    {{#stats}}
-	      <div class="right" data-animation="progress-bar" data-progress-bar="0,{{value}},{{max}},2000">
-	        <div class="progress-bar-name">{{name}}</div>
-	        {{#detail}}
-	          <div class="progress-bar-desc">
-	            {{detail}}<span class="progress-bar-value" style="font-size:30px;"></span>
-	          </div>
-	        {{/detail}}
-	        <div class="progress-bar-bg">
-	          <span class="progress-bar"></span>
-	        </div>
-	      </div>
-	    {{/stats}}
-	  </div>
+  template: |
+    <div class="progress-bar-table">
+      {{#stats}}
+        <div class="right" data-animation="progress-bar" data-progress-bar="0,{{value}},{{max}},2000">
+          <div class="progress-bar-name">{{name}}</div>
+          {{#detail}}
+            <div class="progress-bar-desc">
+              {{detail}}<span class="progress-bar-value" style="font-size:30px;"></span>
+            </div>
+          {{/detail}}
+          <div class="progress-bar-bg">
+            <span class="progress-bar"></span>
+          </div>
+        </div>
+      {{/stats}}
+    </div>
   data:
     skills:
       -

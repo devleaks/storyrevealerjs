@@ -5,9 +5,8 @@ Storyrevealer.js
 
 Simple, YAML-fed story teller engine based on [Reveal.js](http://revealjs.com).
 
-Inspired by the elegance and simplicity of [deltatre'
-SportTeller](http://www.deltatre.com/online-solutions/sportteller/) (with
-examples
+Inspired by the elegance and simplicity of [deltatre' SportTeller](http://www.deltatre.com/online-solutions/sportteller/)
+(with examples
 [here](http://www.europeantour.com/sportteller/us-open-day-4-in-numbers.html),
 [here](http://www.gaa.ie/sportteller-content/stories/1/1/55b33bda-d289-41a6-ba6e-a3e094201f36/index.html#Slide_2),
 and
@@ -741,7 +740,10 @@ Storyrevealer.
 
 The origin of the project was to allow users of a couple of sport-related social
 networks (I once made) to create a simple story with just a few pictures (or
-videos) and some text attached to each picture or video. Text would be both
+videos) and some text attached to each picture or video, very much like
+[deltatre' SportTeller](http://www.deltatre.com/online-solutions/sportteller/).
+
+Text would be both
 provided by the user, and automagically generated from data (sports results)
 coming from the social network. It had to be simple to generate by computer
 (from statistics, result highlights, etc.) and presentation had to be great.
@@ -752,9 +754,8 @@ to read and write than JSON that I switched to YAML for "human" production.
 
 With this tool, every user of the network is a potential story teller.
 
-Storyteller engine only takes care of the presentation. A full screen image with
-the story displayed on it. No more. No less.
-
+Storyrevealer engine only takes care of the presentation. A full screen image (or video)
+with the story displayed on it, in short, bold title fonts and sometimes small paragraphs of text.
 And a few, very simple animations or graphs to break monotony of storytelling.
 
 Enjoy.

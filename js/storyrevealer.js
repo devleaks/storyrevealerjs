@@ -212,8 +212,13 @@
 						    return obj1;
 						}
 						
+						var ctx = container.getContext("2d")
+						var gradient = ctx.createLinearGradient(0, 0, 0, 80)
+						gradient.addColorStop(0, 'rgba(20, 233, 252, 0.2)')  
+						gradient.addColorStop(1, 'rgba(0, 0, 32, 0.6)')
+						options.data.datasets[0].backgroundColor = gradient
 						if(options) {
-							container.chart = new Chart(container.getContext("2d"), options)
+							container.chart = new Chart(ctx, options)
 						}
 					})
 				},
@@ -359,33 +364,35 @@
 	/*	Generate <table> element and fill it 
 	 *
 	 */
-	function generateTable(table, table_data) {
+	function generateTable(table_data) {
+		var table = document.createElement("table")
 		var options = table_data.options || {}
 		var data = table_data.data
 		
 		for(var row = 0; row < data.length; row++) {
-			var rowcontainer = table
+			var tr;
 			if(row == 0 && options.columnheader) { //@todo: make columnheader is the count of column headers?
-				var thead = document.createElement("thead")
-				rowcontainer = rowcontainer.appendChild(thead)	
+				tr = document.createElement("thead")
 			} else if ((row == (data.length - 1)) && options.columnfooter) {
-				var tfoot = document.createElement("tfoot")
-				rowcontainer = rowcontainer.appendChild(tfoot)	
+				tr = document.createElement("tfoot")
+			} else {
+				tr = document.createElement("tr")
 			}
-			var tr = document.createElement("tr")
-			rowcontainer = rowcontainer.appendChild(tr)	
 			
 			for(var col = 0; col < data[row].length; col++) {
-				var td = document.createElement("td")
-				var colcontainer = rowcontainer.appendChild(td)	
-				if(col == 0 && options.rowheader) {
-					colcontainer.classList.add("rowheader")				
+				var td = (row == 0 && options.columnheader) ? document.createElement("th") : document.createElement("td")				
+				if (col == 0 && options.rowheader) {
+					td.classList.add("rowheader")				
 				} else if ((col == (data[row].length - 1)) && options.rowfooter) {
-					colcontainer.classList.add("rowfooter")
+					td.classList.add("rowfooter")
 				}
-				colcontainer.innerHTML = cleanHTML(data[row][col])
-			}			
+				td.innerHTML = cleanHTML(data[row][col])
+				tr.appendChild(td)	
+			}
+			
+			table.appendChild(tr)
 		}
+		return table
 	}
 
 
@@ -673,10 +680,8 @@
 								var div = document.createElement("div")
 								div.classList.add('table')
 								elem.appendChild(div)
-								var table = document.createElement("table")
+								var table = generateTable(data[content])
 								div.appendChild(table)
-								
-								generateTable(table, data[content])
 								break
 								
 							case "barchartist": // Using Chartist
@@ -860,9 +865,9 @@
 		d3.text(filename, function(error, filecontent) {	
 		//		loadJSON(filename, function(filecontent) {	
 
-			console.log("Storyrevealer::initialize", filename, filecontent)
+			console.log("Storyrevealer::initialize", filename)
 			// JSON is either an object or an array
-			var newspaper = (filecontent[0] === '{' ||  filecontent[0] === '[') ? JSON.parse(filecontent) : YAML.parse(filecontent)
+			var newspaper = (filecontent[0] === '{' ||  filecontent[0] === '[') ? JSON.parse(filecontent) : YAML.parse(filecontent) /*jsyaml.load(filecontent)*/
 
 			
 			var newspaper_elem = document.querySelector("div.slides")

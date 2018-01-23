@@ -77,32 +77,32 @@ a 2 story newspaper.
 ```yaml
 cover:
   background: image.png
-  name: 'Cover page of newspaper'
+  name: Cover page of newspaper
 stories:
   -
     cover:
       background: cover1.jpg
-      title: 'Title of first story'
+      title: Title of first story
     pages:
       -
         background: first.png
-        title: 'Title of first page of first story'
+        title: Title of first page of first story
       -
-        title.red: 'Title of second page of first story'
+        title.red: Title of second page of first story
       -
-        title.inverse: 'Video with Overlay'
+        title.inverse: Video with Overlay
         video: mp4.mp4
   -
     cover:
-      title: 'Cover page of second story'
+      title: Cover page of second story
     pages:
       -
-        title: 'Title of first page of second story'
+        title: Title of first page of second story
       -
 ## This is a comment. Made-with-love is a special "key word" to display
 ## the following string with an animation
-        made-with-love: 'Animated Title'
-        under-title: 'of second page of second story'
+        made-with-love: Animated Title
+        under-title: of second page of second story
 ```
 
 Plese note the careful and very important indentation and `-` characters used to
@@ -324,7 +324,7 @@ mustache:
         {{/skills}}
         </table>
   data:
-    name: 'John Smith'
+    name: John Smith
     skills:
       -
         name: JavaScript
@@ -354,7 +354,7 @@ is displayed.
 
 ```yaml
 counter:
-    name: 'Counter Title'
+    name: Counter Title
     start: 20
     end: 60
     round: 1
@@ -412,7 +412,7 @@ mustache:
     skills:
       -
         name: JavaScript
-        description: 'The very best language indeed'
+        description: The very best language indeed
         value: 100
       -
         name: PHP
@@ -430,8 +430,8 @@ add a text animation, add a element like this one:
 ```yaml
 moving-letters:
   animation: made-with-love
-  loop: 'true'
-  text: 'Great Thursday'
+  loop: true
+  text: Great Thursday
   separator: ','
 ```
 
@@ -519,21 +519,21 @@ suitable for most simple graphs.
 ```yaml
 pages:
   -
-    title: 'Simplified Pie Chart'
+    title: Simplified Pie Chart
     piechart:
       data:
         - [Tiger, 50]
         - [Henrick, 30]
         - [Phil, 20]
   -
-    title: 'Simplified Line Chart'
+    title: Simplified Line Chart
     linechart:
       data:
         - [Tiger, 70, 71, 68, 66]
         - [Henrick, 72, 72, 66, 65]
         - [Phil, 71, 69, 72, 64]
   -
-    title: 'Simplified Bar Chart'
+    title: Simplified Bar Chart
     barchart:
       labels:
         - R1
@@ -557,15 +557,15 @@ need to be presented in the the way the graphing package expects it. This method
 allow to display any type of graph that the graphing package can display.
 
 ```yaml
-title: 'Mixed Chart'
+title: Mixed Chart
 chart:
   type: bar
   data:
     labels:
-      - '1900'
-      - '1950'
-      - '1999'
-      - '2050'
+      - 1900
+      - 1950
+      - 1999
+      - 2050
     datasets:
       - {label: Europe, type: line, borderColor: '#8e5ea2', data: [408, 547, 675, 734], fill: false}
       - {label: Africa, type: line, borderColor: '#3e95cd', data: [133, 221, 783, 2478], fill: false}
@@ -606,7 +606,7 @@ Storyrevealer.initialize({
 Storyrevealer Installation
 --------------------------
 
-```unix
+```sh
 git clone https://github.com/devleaks/storyrevealerjs
 cd storyrevealerjs
 yarn
@@ -728,12 +728,12 @@ mustache:
     template: ...
     data: ...
     
-mustache.more1:
+mustache.beard1:
     template: ...
     data: ...
 ```
 
-Class `.more1` does not exist and will not affect the behavior or rendering of
+Class `.beard1` does not exist and will not affect the behavior or rendering of
 Storyrevealer.
 
 # Notes
@@ -745,7 +745,7 @@ videos) and some text attached to each picture or video, very much like
 
 Text would be both
 provided by the user, and automagically generated from data (sports results)
-coming from the social network. It had to be simple to generate by computer
+from the social network. It had to be simple to generate by computer
 (from statistics, result highlights, etc.) and presentation had to be great.
 Hence the intermediate JSON structured document fed to Storyrevealer at the start of the project.
 

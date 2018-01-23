@@ -236,6 +236,12 @@ h1.green,
 	color: orange;
 	font-weight: bolder;
 }
+tfoot td.rowheader,
+tfoot td.rowfooter,
+tfoot td {
+	color: red;
+	font-weight: bolder;
+}
 /* progress-bar elements */
 div.progress-bar-table {
 	margin: 20px;

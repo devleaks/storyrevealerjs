@@ -213,10 +213,12 @@
 						}
 						
 						var ctx = container.getContext("2d")
+						/*
 						var gradient = ctx.createLinearGradient(0, 0, 0, 80)
 						gradient.addColorStop(0, 'rgba(20, 233, 252, 0.2)')  
 						gradient.addColorStop(1, 'rgba(0, 0, 32, 0.6)')
 						options.data.datasets[0].backgroundColor = gradient
+						*/
 						if(options) {
 							container.chart = new Chart(ctx, options)
 						}
@@ -867,7 +869,7 @@
 
 			console.log("Storyrevealer::initialize", filename)
 			// JSON is either an object or an array
-			var newspaper = (filecontent[0] === '{' ||  filecontent[0] === '[') ? JSON.parse(filecontent) : YAML.parse(filecontent) /*jsyaml.load(filecontent)*/
+			var newspaper = (filecontent[0] === '{' ||  filecontent[0] === '[') ? JSON.parse(filecontent) : jsyaml.load(filecontent) /*YAML.parse(filecontent)*/
 
 			
 			var newspaper_elem = document.querySelector("div.slides")

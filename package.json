@@ -27,6 +27,7 @@
     "reveal.js-elapsed-time-bar": "tkrkt/reveal.js-elapsed-time-bar#*"
   },
   "devDependencies": {
+    "esprima": "^4.0.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-concat-css": "^3.0.0",

@@ -221,6 +221,15 @@
 					initialize: (function(container, options) {
 						var ctx = container.getContext("2d")
 						
+						function isValidColor(color) {
+						    if (color.charAt(0) === "#") {
+						        color = color.substring(1)
+						        return [3, 4, 6, 8].indexOf(color.length) > -1 && !isNaN(parseInt(color, 16))
+						    } else { // ^(#[0-9a-f]{3}|#(?:[0-9a-f]{2}){2,4}|(rgb|hsl)a?\((-?\d+%?[,\s]+){2,3}\s*[\d\.]+%?\))$
+						        return /^(rgb|hsl)a?\((\d+%?(deg|rad|grad|turn)?[,\s]+){2,3}[\s\/]*[\d\.]+%?\)$/i.test(color)
+						    }
+						}
+						
 						function makeGradient(data) {
 							var gradient = (data.type == "radial") ?
 								ctx.createRadialGradient(data.x0[0], data.x0[1], data.r0, data.x1[0], data.x1[1], data.r1)
@@ -229,8 +238,8 @@
 							data.stops.forEach(function(stop) {
 								gradient.addColorStop(stop.stop, stop.color)  
 							})
-							//console.log(data, gradient)
-							return gradient
+							//console.log(data, typeof gradient)
+							return gradient ? gradient : data
 						}
 						
 						function makePattern(data) {
@@ -242,8 +251,8 @@
 							} else { // patternomaly
 								patrn = pattern.draw(data.shape, data.color);
 							}
-							//console.log(data, patrn)
-							return patrn
+							//console.log(data, typeof patrn)
+							return patrn ? patrn : data
 						}
 						
 						// little function to loop through all options and replace some color with pattern or gradient

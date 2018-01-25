@@ -194,32 +194,80 @@
 				},
 				{
 					className: "chart",  
-					initialize: (function(container, options){
-						function mergeRecursive(obj1, obj2) {
-						    for (var p in obj2) {
-						        try {
-						            // Property in destination object set; update its value.
-						            if (obj1[p].constructor == Object && obj2[p].constructor == Object) {
-						                obj1[p] = mergeRecursive(obj1[p], obj2[p]);
-						            } else {
-						                obj1[p] = obj2[p];
-						            }
-						        } catch (e) {
-						            // Property in destination object not set; create it and set its value.
-						            obj1[p] = obj2[p];
-						        }
-						    }
-						    return obj1;
+					initialize: (function(container, options) {
+						var ctx = container.getContext("2d")
+						
+						function makeGradient(data) {
+							var gradient = (data.type == "radial") ?
+								ctx.createRadialGradient(data.x0[0], data.x0[1], data.r0, data.x1[0], data.x1[1], data.r1)
+								:
+								ctx.createLinearGradient(data.x0[0], data.x0[1], data.x1[0], data.x1[1])
+							data.stops.forEach(function(stop) {
+								gradient.addColorStop(stop.stop, stop.color)  
+							})
+							//console.log(data, gradient)
+							return gradient
 						}
 						
-						var ctx = container.getContext("2d")
-						/*
-						var gradient = ctx.createLinearGradient(0, 0, 0, 80)
-						gradient.addColorStop(0, 'rgba(20, 233, 252, 0.2)')  
-						gradient.addColorStop(1, 'rgba(0, 0, 32, 0.6)')
-						options.data.datasets[0].backgroundColor = gradient
-						*/
+						function makePattern(data) {
+							var patrn
+							if(data.image) {
+								var img = new Image();
+								img.src = data.image
+								patrn = ctx.createPattern(img, data.repetition)
+							} else { // patternomaly
+								patrn = pattern.draw(data.shape, data.color);
+							}
+							//console.log(data, patrn)
+							return patrn
+						}
+						
+						// little function to loop through all options and replace some color with pattern or gradient
+						function iterate(obj) {
+							var ValidColors = ["color","backgroundColor","fillColor"];
+					        for (var property in obj) {
+					            if (obj.hasOwnProperty(property)) {
+					                if (typeof obj[property] == "object") {
+										if(ValidColors.indexOf(property) > -1) { // object name appends to be "color"-like
+											if(Array.isArray(obj[property])) {
+												for(var i = 0; i < obj[property].length; i++) {
+													var color = obj[property][i]
+									                if (typeof color == "object") {
+														if(color.type) {
+															switch(color.type) {
+																case "gradient":
+																	obj[property][i] = makeGradient(color.data)
+																	break
+																case "pattern":
+																	obj[property][i] = makePattern(color.data)
+																	break
+															}
+														}
+									                }
+												}
+											} else {
+												var color = obj[property]
+												if(color.type) {
+													switch(color.type) {
+														case "gradient":
+															obj[property] = makeGradient(color.data)
+															break
+														case "pattern":
+															obj[property] = makePattern(color.data)
+															break
+													}
+												}
+											}
+										} else {// not a color, loop through it
+						                    iterate(obj[property]);
+										}
+									}
+					            }
+					        }
+					    }
+						
 						if(options) {
+							iterate(options)
 							container.chart = new Chart(ctx, options)
 						}
 					})
@@ -686,27 +734,6 @@
 								div.appendChild(table)
 								break
 								
-							case "barchartist": // Using Chartist
-							case "piechartist":
-							case "linechartist":
-								var json = generateChartist(data[content], content_type.substr(0, content_type.indexOf("chart")))
-								var div = document.createElement("div")
-								div.classList.add("chartist")
-								div.innerHTML = '<!-- '+JSON.stringify(json)+' -->'
-								elem.appendChild(div)
-								break
-
-							case "barchart": // Using Chart.js
-							case "piechart":
-							case "linechart":
-							    data[content].type = data[content].type || content_type.substr(0, content_type.length - 5)
-								var chart = generateChart(elem, data[content])
-								var canvas = document.createElement("canvas")
-								canvas.classList.add("chart")
-								canvas.innerHTML = '<!-- '+JSON.stringify(chart)+' -->';
-								elem.appendChild(canvas)
-								break
-
 							case "counter": // text, start, stop, time
 								var cntparams = (typeof data[content] == "object")
 								 					? ""+data[content].start+','+data[content].end+','+(data[content].round ? data[content].round : 1)+','+data[content].time
@@ -749,16 +776,37 @@
 								elem.innerHTML = html
 								break
 								
+							case "raw":
+								addClasses(elem, xtra_classes_arr)
+								elem.innerHTML = cleanHTML(data[content])
+								break
+
+							case "barchart": // Using Chart.js
+							case "piechart":
+							case "linechart":
+							    data[content].type = data[content].type || content_type.substr(0, content_type.length - 5)
+								var chart = generateChart(elem, data[content])
+								var canvas = document.createElement("canvas")
+								canvas.classList.add("chart")
+								canvas.innerHTML = '<!-- '+JSON.stringify(chart)+' -->';
+								elem.appendChild(canvas)
+								break
+
 							case "chart":
 								var canvas = document.createElement("canvas")
 								canvas.classList.add("chart")
 								canvas.innerHTML = '<!-- '+JSON.stringify(data[content])+' -->'
 								elem.appendChild(canvas)
 								break
-								
-							case "raw":
-								addClasses(elem, xtra_classes_arr)
-								elem.innerHTML = cleanHTML(data[content])
+
+							case "barchartist": // Using Chartist
+							case "piechartist":
+							case "linechartist":
+								var json = generateChartist(data[content], content_type.substr(0, content_type.indexOf("chart")))
+								var div = document.createElement("div")
+								div.classList.add("chartist")
+								div.innerHTML = '<!-- '+JSON.stringify(json)+' -->'
+								elem.appendChild(div)
 								break
 
 							case "chartist":
@@ -869,9 +917,8 @@
 
 			console.log("Storyrevealer::initialize", filename)
 			// JSON is either an object or an array
-			var newspaper = (filecontent[0] === '{' ||  filecontent[0] === '[') ? JSON.parse(filecontent) : jsyaml.load(filecontent) /*YAML.parse(filecontent)*/
+			var newspaper = (filecontent[0] === '{' ||  filecontent[0] === '[') ? JSON.parse(filecontent) : YAML.parse(filecontent) /*[YAML.parse,jsyaml.load](filecontent)*/
 
-			
 			var newspaper_elem = document.querySelector("div.slides")
 			
 			if(! newspaper_elem) {

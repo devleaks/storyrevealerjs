@@ -579,6 +579,75 @@ chart:
       display: false
 ```
 
+##### Chart.js YAML Enhancement
+
+I made the following little enhancement for Chart.js.
+For backgroundColor and fillColor, Chart.js allows for pattern and gradient.
+Unfortunately, those patterns and gradients need to be created and defined before they can be referenced in Chart.js.
+So I created two objects to create gradiants and partterns:
+
+Example of linear gradient:
+```yaml
+backgroundColor:
+  type: gradient
+  data:
+    type: linear
+    x0: [0,0]
+    x1: [0,300]
+    stops:
+      -
+        stop: 0
+        color: 'rgba(20, 233, 252, 0.2)'
+      -
+        stop: 1
+        color: 'rgba(0, 0, 32, 0.6)'                  
+```
+
+Example of radial gradient:
+```yaml
+backgroundColor:
+  type: gradient
+  data:
+    type: radial
+    x0: [300,300]
+    r0: 100
+    x1: [300,300]
+    r1: 400
+    stops:
+      -
+        stop: 0
+        color: 'rgba(20, 233, 252, 0.2)'
+      -
+        stop: 1
+        color: 'rgba(0, 0, 32, 0.6)'                  
+```
+
+Example of picture-based pattern:
+```yaml
+backgroundColor:
+  type: pattern
+  data:
+    image: pattern.png
+    repetition: repeat-x
+```
+Repetition is `CanvasRenderingContext2D.createPattern` second argument. Valid values are
+ - "repeat" (both directions)
+ - "repeat-x" (horizontal only)
+ - "repeat-y" (vertical only)
+ - "no-repeat" (neither)
+
+Example of [patternomaly](https://github.com/ashiguruma/patternomaly) pattern:
+```yaml
+backgroundColor:
+  type: pattern
+  data:
+    shape: zigzag
+    color: 'rgba(20, 233, 252, 0.2)'
+```
+Shape is a valid patternomaly pattern name.
+
+
+
 Storyrevealer Options
 ---------------------
 
@@ -647,16 +716,22 @@ Reveal.initialize({
 })
 ```
 
-In addition, the following JS scripts need to be added to your page (or to
-Reveal.js as a plugin):
+In addition, the following JS scripts need to be added to your page:
 
-| **Plugin**    | **Purpose**                                  | **Note** |
-|---------------|----------------------------------------------|----------|
-| Mustache      | Easy templating                              |          |
-| Chartist      | SVG charting library                         |          |
-| Chart.js      | Canvas-based charting library                |          |
-| sanitize-html |  Flexible HTML sanitazing library            |          |
-| yamljs        |  Standalone JavaScript YAML Parser & Encoder |          |
+| **Plugin**    | **Purpose**                                 | **Note** |
+|---------------|---------------------------------------------|----------|
+| Mustache      | Easy templating                             |          |
+| Chartist      | SVG charting library                        |          |
+| Chart.js      | Canvas-based charting library               |          |
+| sanitize-html | Flexible HTML sanitazing library            |          |
+| yamljs        | Standalone JavaScript YAML Parser & Encoder |          |
+| js-yaml       | Alternate JavaScript YAML Parser & Encoder  |          |
+| moment        | JavaScript Date and Time Parser & Encoder (used by Chart.js) |          |
+| patternomaly  | Canvas Pattern Generator (used by Chart.js) |          |
+
+Please feel free to replace packages I use by equivalent libraries.
+For instance [json5](https://github.com/json5/json5) is a *human readble*
+more permissive alternative to standard JSON.
 
 ```html
 ...
@@ -666,11 +741,15 @@ Reveal.js as a plugin):
 <script src="node_modules/d3-dsv/build/d3-dsv.min.js"></script>
 <script src="node_modules/d3-request/build/d3-request.min.js"></script>
 
-<script src="node_modules/yamljs/dist/yaml.js"></script>    
+<script src="../../node_modules/yamljs/dist/yaml.js"></script>	
+<script src="../../node_modules/esprima/dist/esprima.js"></script>	
+<script src="../../node_modules/js-yaml/dist/js-yaml.min.js"></script>	
 
-<script src="node_modules/sanitize-html/dist/sanitize-html.js"></script>
-<script src="node_modules/mustache/mustache.js"></script>
+<script src="../../node_modules/sanitize-html/dist/sanitize-html.js"></script>
+<script src="../../node_modules/mustache/mustache.js"></script>
 
+<script src="../../node_modules/patternomaly/dist/patternomaly.js"></script>
+<script src="../../node_modules/moment/moment.js"></script>
 <script src="node_modules/chart.js/dist/Chart.js"></script>
 
 <script src="node_modules/chartist/dist/chartist.js"></script>

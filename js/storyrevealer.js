@@ -52,6 +52,30 @@
 		"data-background-iframe"
 	]
 
+	var PATTERNS = [
+		"plus",
+		"cross",
+		"dash",
+		"cross-dash",
+		"dot",
+		"dot-dash",
+		"disc",
+		"ring",
+		"line",
+		"line-vertical",
+		"weave",
+		"zigzag",
+		"zigzag-vertical",
+		"diagonal",
+		"diagonal-right-left",
+		"square",
+		"box",
+		"triangle",
+		"triangle-inverted",
+		"diamond",
+		"diamond-box"
+	]
+
 	var ANIMATIONS = [
 		"thursday",
 		"slow-mornings",
@@ -688,7 +712,7 @@
 							case "list":
 								var list = document.createElement("ul")
 								data[content].forEach(function(item) {
-									var li = document.createElement
+									var li = document.createElement("li")
 									if(typeof item == "object") {
 										addContent(li, item)
 									} else {
@@ -750,14 +774,20 @@
 								break
 								
 							case "progress-bar":
-								var bar = elem.append("div")
-									.attr('data-animation', 'progress-bar')
-									.attr('data-progress-bar', data[content].start+','+data[content].end+','+data[content].max+','+data[content].time)
+							    var bar = document.createElement("div")
+								bar.setAttribute('data-animation', 'progress-bar')
+								bar.setAttribute('data-progress-bar', data[content].start+','+data[content].end+','+data[content].max+','+data[content].time)
 								
 								if(data[content].name) {
-									bar.append("div").attr("class", "progress-bar-name").text(data[content].name)
+									var barname = document.createElement("div")
+									barname.classList.add("progress-bar-name")
+									barname.innerHTML = data[content].name
+									bar.appendChild(barname)
 								}
-								var cursor = bar.append("span").attr("class", "progress-bar")								
+
+								var cursor = document.createElement("span")
+								cursor.classList.add("progress-bar")								
+								bar.appendChild(cursor)
 
 								var ValidClasses = ["fragment","right"]
 								ValidClasses.forEach(function(c) {  // only add if in list of valid classes
@@ -766,9 +796,12 @@
 								})
 
 								if(data[content]["show-value"]) {
-									cursor.append("span").attr("class", "progress-bar-value")
+									var barvalue = document.createElement("span")
+									barvalue.classList.add("progress-bar-value")
+									cursor.appendChild(barvalue)
 								}
 
+								elem.appendChild(bar)
 								break
 								
 							case "moving-letters":

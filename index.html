@@ -27,7 +27,7 @@
 		</script>
 
 		<!-- BEGIN STORYREVEALERJS -->
-		<link rel="stylesheet" href="node_modules/@bower_components/Reveal.js-Title-Footer/plugin/title-footer/title-footer.css">
+		<link rel="stylesheet" href="node_modules/Reveal.js-Title-Footer/plugin/title-footer/title-footer.css">
 		<link rel="stylesheet" href="css/moving-letters.css">
 		<link rel="stylesheet" href="css/storyrevealer.css">
 		<link rel="stylesheet" href="css/storyrevealer-dev.css">
@@ -57,10 +57,15 @@
 		<script src="node_modules/d3-request/build/d3-request.min.js"></script>
 		<script src="node_modules/d3-selection/build/d3-selection.min.js"></script>
 
+		<script src="node_modules/yamljs/dist/yaml.js"></script>	
+		<script src="node_modules/esprima/dist/esprima.js"></script>	
+		<script src="node_modules/js-yaml/dist/js-yaml.min.js"></script>	
 
 		<script src="node_modules/sanitize-html/dist/sanitize-html.js"></script>
 		<script src="node_modules/mustache/mustache.js"></script>
 
+		<script src="node_modules/patternomaly/dist/patternomaly.js"></script>
+		<script src="node_modules/moment/moment.js"></script>
 		<script src="node_modules/chart.js/dist/Chart.js"></script>
 
 		<script src="node_modules/chartist/dist/chartist.js"></script>
@@ -86,7 +91,7 @@
 				allottedTime: 3 * 60 * 1000, // 3 minutes
 				
 				storyrevealer: {
-					url: 'tests/data.json'
+					url: 'tests/data.yaml'
 				},
 
 				// More info https://github.com/hakimel/reveal.js#dependencies
@@ -94,7 +99,7 @@
 					{ src: 'node_modules/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'node_modules/reveal.js-menu/menu.js' },
 
-					{ src: 'node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
+					{ src: 'node_modules/reveal.js-plugins/anything/anything.js' },
 					{ src: 'js/moving-letters.js' },
 					{ src: 'js/storyrevealer-animation-plugin.js' }
 				]

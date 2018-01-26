@@ -121,7 +121,7 @@
 			for (var story in newspapers) {
 			    if (newspapers.hasOwnProperty(story)) {
 					var option = document.createElement("option")
-					option.setAttribute('value', story+'.json')
+					option.setAttribute('value', story+'.yaml')
 					option.innerHTML = newspapers[story]
 					root.appendChild(option)
 				}

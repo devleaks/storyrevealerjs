@@ -657,7 +657,7 @@ When created, the Storyrevealer object accepts the following options:
 Storyrevealer.initialize({
 
     // Storyrevealer data URL
-    url: 'dev.json',
+    url: 'dev.yaml',
 
     // Content-type to HMTL element mappings
     mappings: {

@@ -76,7 +76,7 @@
 		"diamond-box"
 	]
 
-	var ANIMATIONS = [
+	var MOVING_LETTERS = [
 		"thursday",
 		"slow-mornings",
 		"great-thinker",
@@ -146,7 +146,9 @@
 	 *
 	 */
 	function init(moreconfig) {
-		if(_inited && (moreconfig && !moreconfig.force)) return;
+		if (_inited && (moreconfig && !moreconfig.force)) {
+            return;
+        }
 		// Transparent colors
 		function hexToRgb(hex) {
 		    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
@@ -176,10 +178,14 @@
 				  console.log('Storyrevealer::init::mergeRecursive: warning non matching objects types', p)
 				}
 			  } else{
-		        if ( !obj1[p] ) obj1[p] = obj2[p]
+		        if (!obj1[p]) {
+                    obj1[p] = obj2[p];
+                }
 		      }
 		    } catch(e) { // Property in destination object not set; create it and set its value.
-		      if ( !obj1[p] ) obj1[p] = obj2[p]
+		      if (!obj1[p]) {
+                  obj1[p] = obj2[p];
+              }
 		    }
 		  }
 		  return obj1;
@@ -257,14 +263,14 @@
 						
 						// little function to loop through all options and replace some color with pattern or gradient
 						function iterate(obj) {
-							var ValidColors = ["color","backgroundColor","fillColor"];
-					        for (var property in obj) {
+							var ValidColors = ["color","backgroundColor","fillColor"], color;
+ 					        for (var property in obj) {
 					            if (obj.hasOwnProperty(property)) {
 					                if (typeof obj[property] == "object") {
 										if(ValidColors.indexOf(property) > -1) { // object name appends to be "color"-like
 											if(Array.isArray(obj[property])) {
-												for(var i = 0; i < obj[property].length; i++) {
-													var color = obj[property][i]
+												for(var i = 0; i < obj[property].length; i += 1) {
+													color = obj[property][i]
 									                if (typeof color == "object") {
 														if(color.type) {
 															switch(color.type) {
@@ -279,7 +285,7 @@
 									                }
 												}
 											} else {
-												var color = obj[property]
+												color = obj[property]
 												if(color.type) {
 													switch(color.type) {
 														case "gradient":
@@ -318,14 +324,14 @@
 							}
 							if(f) {
 								var o = options.options || {}
-								if(o["sr_legend_options"]) {
+								if(o.sr_legend_options) {
 									o.plugins = o.plugins || []
-									if(o["sr_legend_options"] === true) {
+									if(o.sr_legend_options === true) {
 										o.plugins.push(Chartist.plugins.legend())
 										console.log("chartist-plugin-legend installed")
 									} else {
-										o.plugins.push(Chartist.plugins.legend(o["sr_legend_options"]))
-										console.log("chartist-plugin-legend installed", o["sr_legend_options"])
+										o.plugins.push(Chartist.plugins.legend(o.sr_legend_options))
+										console.log("chartist-plugin-legend installed", o.sr_legend_options)
 									}
 								}
 								new f(
@@ -347,8 +353,9 @@
 		
 		_navigation = document.querySelector(".side-dot-navigation")
 		if(_navigation) {	// first make sure side or bottom style is present
-			if(! _navigation.classList.contains('bottom') && ! _navigation.classList.contains('side'))
-				_navigation.classList.add('side')
+			if (! _navigation.classList.contains('bottom') && ! _navigation.classList.contains('side')) {
+                _navigation.classList.add('side');
+            }
 			_navigation.appendChild(document.createElement("ul"))
 			_navigation = document.querySelector(".side-dot-navigation ul")
 		}
@@ -402,13 +409,15 @@
 	 *
 	 */
 	function resetDotNav(idx) {
-		if(!_navigation || isNaN(idx) || idx > _slideTitles.length || idx == _currentStory)
-			return
+		var li;
+		if (!_navigation || isNaN(idx) || idx > _slideTitles.length || idx == _currentStory) {
+            return;
+        }
 
 		_navigation.innerHTML = ''
 		if(_horizontalNav) {
-			for(var i = 0; i < _slideTitles.length; i++) {			
-				var li = document.createElement("li")
+			for(var i = 0; i < _slideTitles.length; i += 1) {			
+				li = document.createElement("li")
 				li.setAttribute("title", _slideTitles[i][0])
 				li.setAttribute("data-slide-h", i)
 				li.setAttribute("data-slide-v", 0)
@@ -416,8 +425,8 @@
 				_navigation.appendChild(li)
 			}
 		} else {
-			for(var i = 0; i < _slideTitles[idx].length; i++) {			
-				var li = document.createElement("li")
+			for(var i = 0; i < _slideTitles[idx].length; i += 1) {			
+				li = document.createElement("li")
 				li.setAttribute("title", _slideTitles[idx][i])
 				li.setAttribute("data-slide-h", idx)
 				li.setAttribute("data-slide-v", i)
@@ -435,7 +444,9 @@
 	 */
 	function navigate(e) {
 		var o = document.querySelector('.side-dot-navigation ul li.active')
-		if(o) o.classList.remove('active')
+		if (o) {
+            o.classList.remove('active');
+        }
 		e.currentTarget.classList.add('active')
 		var h = e.currentTarget.getAttribute("data-slide-h")
 		var v = e.currentTarget.getAttribute("data-slide-v")
@@ -452,7 +463,7 @@
 		var options = table_data.options || {}
 		var data = table_data.data
 		
-		for(var row = 0; row < data.length; row++) {
+		for(var row = 0; row < data.length; row += 1) {
 			var tr;
 			if(row == 0 && options.columnheader) { //@todo: make columnheader is the count of column headers?
 				tr = document.createElement("thead")
@@ -462,7 +473,7 @@
 				tr = document.createElement("tr")
 			}
 			
-			for(var col = 0; col < data[row].length; col++) {
+			for(var col = 0; col < data[row].length; col += 1) {
 				var td = (row == 0 && options.columnheader) ? document.createElement("th") : document.createElement("td")				
 				if (col == 0 && options.rowheader) {
 					td.classList.add("rowheader")				
@@ -484,6 +495,9 @@
 	 */
 	function generateChart(container, chart_data) {
 		var data = chart_data.data
+		var columns = []
+		var categories = []
+		var colors = []
 
 		var chart = {
 			type: chart_data.type,
@@ -495,14 +509,11 @@
 		
 		switch(chart.type) {
 			case "line":
-				var columns = []
-				var categories = []
-				var colors = []
 				chart.data.labels = chart.data.labels || []
 				data.forEach(function(line) {
 					categories.push(line.shift())
 					columns[counter] = line
-					colors.push(_colors[(counter++) % _colors.length])
+					colors.push(_colors[((counter += 1)) % _colors.length])
 				})
 
 				chart.data.datasets = []
@@ -513,14 +524,14 @@
 						label: categories[counter],
 						backgroundColor: _colors[(counter) % _colors.length]
 					})
-					counter++
+					counter += 1
 				})
 				
 				if(chart_data.labels) {
 					chart.data.labels = chart_data.labels
 				} else {
 					chart.data.labels = []
-					for(var i = 1; i <= chart.data.datasets[0].data.length; i++) {
+					for(var i = 1; i <= chart.data.datasets[0].data.length; i += 1) {
 						chart.data.labels.push('Set '+i)
 					}
 				}
@@ -528,16 +539,12 @@
 				break
 			case "pie":
 			case "bar":
-
-				var columns = []
-				var categories = []
-				var colors = []
 				data.forEach(function(line) { // need to "transpose" data array
 					categories.push(line[0])
-					for(var i = 1; i < data[0].length; i++) {
+					for(var i = 1; i < data[0].length; i += 1) {
 						columns[i-1] = columns[i-1] || []
 						columns[i-1].push(line[i])
-						colors.push(_colors[(counter++) % _colors.length])
+						colors.push(_colors[((counter += 1)) % _colors.length])
 					}
 				})
 
@@ -550,7 +557,7 @@
 						label: chart_data.labels ? chart_data.labels[counter-1] : 'Set '+counter,
 						backgroundColor: (chart.type == "pie") ? colors : _colors[(counter) % _colors.length]
 					})
-					counter++
+					counter += 1
 				})
 				break
 		}
@@ -576,10 +583,10 @@
 				var i = 1
 				chart_data.data.forEach(function(d) {
 					data.legend.push(d.shift())
-					data.labels.push(i++)
+					data.labels.push(i += 1)
 					data.series.push(d)
 				})
-				chart.options["sr_legend_options"] = {
+				chart.options.sr_legend_options = {
 					legendNames: data.legend
 				}
 				break
@@ -601,12 +608,12 @@
 					line.forEach(function(c) {
 						data.series[i] = data.series[i] || []
 						data.series[i].push(c)
-						i++
+						i += 1
 					})
 				})
 				break
 		}
-		chart.options["chartPadding"] = 30
+		chart.options.chartPadding = 30
 		
 		//console.log("generateChartist::end", chart_type, chart)
 		return chart;
@@ -622,6 +629,45 @@
 			container.classList.add(c)
 		})
 	}
+
+
+	/**
+	 * Get the closest matching element up the DOM tree.
+	 * @private
+	 * @param  {Element} elem     Starting element
+	 * @param  {String}  selector Selector to match against
+	 * @return {Boolean|Element}  Returns null if not match found
+	 */
+	var getClosest = function ( elem, selector ) {
+
+		// Element.matches() polyfill
+		if (!Element.prototype.matches) {
+			Element.prototype.matches =
+				Element.prototype.matchesSelector ||
+				Element.prototype.mozMatchesSelector ||
+				Element.prototype.msMatchesSelector ||
+				Element.prototype.oMatchesSelector ||
+				Element.prototype.webkitMatchesSelector ||
+				function(s) {
+					var matches = (this.document || this.ownerDocument).querySelectorAll(s),
+						i = matches.length;
+					while ((i -= 1) >= 0 && matches.item(i) !== this) {}
+					return i > -1;
+				};
+		}
+
+		// Get closest match
+		for ( ; elem && elem !== document; elem = elem.parentNode ) {
+			if (elem.matches( selector )) {
+				console.log("Storyrevealer::getClosest: found", elem)
+                return elem;
+            }
+		}
+
+		return null;
+
+	};
+
 	/*	Append HTML formatted data content to supplied element
 	 *
 	 */
@@ -633,7 +679,7 @@
 
 					elem.setAttribute(content, data[content])
 
-				} else if ( ANIMATIONS.indexOf(content) > -1 ) {
+				} else if ( MOVING_LETTERS.indexOf(content) > -1 ) {
 
 					var anim = document.createElement("div")
 					anim.classList.add("moving-letters")
@@ -699,26 +745,35 @@
 								break
 
 							case "transition":
-								elem.setAttribute('data-transition', data[content])
+								var closest = getClosest(elem, 'section')
+								if(closest) {
+									closest.setAttribute('data-transition', data[content])
+								}
 								break
 
 							case "image":
 							case "background":
-								elem.setAttribute('data-background', data[content])
+								var closest = getClosest(elem, 'section')
+								if(closest) {
+									closest.setAttribute('data-background', data[content])
+								}
 								break
 
 							case "video":
-								elem.setAttribute('data-background-video', data[content])
+								var closest = getClosest(elem, 'section')
+								if(closest) {
+									closest.setAttribute('data-background-video', data[content])
+								}
 								break
 
 							case "notes":
 								var aside = document.createElement("aside")
 								aside.innerHTML = cleanHTML(data[content])
-								elem.appendChild(aside)
+								elem.appendChild(aside) // elem should be section?
 								break
 
-							case "ulist":
 							case "list":
+							case "ulist":
 								var list = document.createElement("ul")
 								data[content].forEach(function(item) {
 									var li = document.createElement("li")
@@ -753,9 +808,13 @@
 								itag.classList.add("fa-"+icon.glyph)
 								var sty = '';
 								["color","background-color"].forEach(function(s) {
-									if(icon[s]) sty += (s+':'+icon[s]+';')
+									if (icon[s]) {
+                                        sty += (s+':'+icon[s]+';');
+                                    }
 								});
-								if(sty != '') itag.setAttribute('style', sty)
+								if (sty != '') {
+                                    itag.setAttribute('style', sty);
+                                }
 								elem.appendChild(itag)
 								break
 
@@ -776,8 +835,9 @@
 								counter.setAttribute('data-animation', 'countup')
 								counter.setAttribute("data-countup", cntparams)
 
-								if(xtra_classes_arr.indexOf("fragment") > -1)
-										counter.classList.add("fragment")
+								if (xtra_classes_arr.indexOf("fragment") > -1) {
+                                    counter.classList.add("fragment");
+                                }
 
 								elem.appendChild(counter)
 								break
@@ -800,8 +860,9 @@
 
 								var ValidClasses = ["fragment","right"]
 								ValidClasses.forEach(function(c) {  // only add if in list of valid classes
-									if(xtra_classes_arr.indexOf(c) > -1)
-										bar.classList.add(c)
+									if (xtra_classes_arr.indexOf(c) > -1) {
+                                        bar.classList.add(c);
+                                    }
 								})
 
 								if(data[content]["show-value"]) {
@@ -814,7 +875,9 @@
 								break
 								
 							case "moving-letters":
-								var html = Mustache.render("<div class='moving-letters' data-moving-letters='{{animation}}' data-animation='moving-letters' data-animation-loop='{{loop}}'>{{text}}</div>",data[content])
+								var html = Mustache.render(
+									"<div class='moving-letters' data-moving-letters='{{animation}}' data-animation='moving-letters' data-animation-loop='{{loop}}'>{{text}}</div>",
+									data[content])
 								elem.innerHTML = html
 								break
 								
@@ -825,7 +888,7 @@
 
 							case "barchart": // Using Chart.js
 							case "piechart":
-							case "linechart":
+							case "linechart": // copies the first few chars of content_type PIEchart, BARchart... into head of data if not present
 							    data[content].type = data[content].type || content_type.substr(0, content_type.length - 5)
 								var chart = generateChart(elem, data[content])
 								var canvas = document.createElement("canvas")
@@ -851,8 +914,8 @@
 								elem.appendChild(div)
 								break
 
-							case "chartist":
-							case "mustache":
+							//case "chartist":
+							//case "mustache":
 							default: // we add a generic div with class "content-type" for interception by anything plugin
 								var generic = document.createElement("div")
 								generic.classList.add(content_type)
@@ -860,8 +923,9 @@
 								addClasses(generic, xtra_classes_arr)	
 								elem.append(generic)
 								
-								if(["chartist","mustache"].indexOf(content_type) == -1)
-									console.log("Storyrevealer.addContent", "no element for content-type " + content_type + "; using default", data)
+								if (["chartist","mustache"].indexOf(content_type) == -1) {
+                                    console.log("Storyrevealer.addContent", "no element for content-type " + content_type + "; using default", data);
+                                }
 								break
 						} // switch
 						
@@ -937,11 +1001,13 @@
 	    {
 	        if (xhr.readyState === XMLHttpRequest.DONE) {
 	            if (xhr.status === 200) {
-	                if (success)
-	                    success(xhr.responseText);
+	                if (success) {
+                        success(xhr.responseText);
+                    }
 	            } else {
-	                if (error)
-	                    error(xhr);
+	                if (error) {
+                        error(xhr);
+                    }
 	            }
 	        }
 	    };
@@ -993,16 +1059,17 @@
 				var config = Reveal.getConfig()
 				_horizontalNav = (typeof config.parallaxBackgroundImage != "undefined" && config.parallaxBackgroundImage != "")
 				// console.log("_horizontalNav",_horizontalNav)
-				if(! _horizontalNav)
-					newspaper_elem = addSection(newspaper_elem, newspaper.cover, false)
+				if (! _horizontalNav) {
+                    newspaper_elem = addSection(newspaper_elem, newspaper.cover, false);
+                }
 			}
 			
 			if(newspaper.cover) {	// Add newspaper cover page
 				addSection(newspaper_elem, newspaper.cover, true)
 				if(newspaper.pages && !_horizontalNav) { // if only one story, we only have vertical nav
-					_slide_v++
+					_slide_v += 1
 				} else {
-					_slide_h++
+					_slide_h += 1
 				}
 				if(!_title_found && newspaper.cover.title) {
 					document.title = newspaper.cover.title
@@ -1021,17 +1088,17 @@
 
 					if(story.cover) {	// Add story cover page
 						addSection(story_elem, story.cover, true)
-						_slide_v++
+						_slide_v += 1
 					}
 
 					story.pages.forEach(function(page) {	// Add story pages
 
 						addPage(page, story_elem)
-						_slide_v++
+						_slide_v += 1
 
 					})
 					
-					_slide_h++
+					_slide_h += 1
 				})
 
 			} else {	// just one story
@@ -1042,16 +1109,15 @@
 
 					addPage(page, story_elem)
 
-					if(_horizontalNav)
-						_slide_h++
-					else
-						_slide_v++
+					if (_horizontalNav) {
+                        _slide_h += 1;
+                    } else {
+                        _slide_v += 1;
+                    }
 
 				})
 
 			}	// newspaper.stories
-			
-			//console.log("Storyrevealer::initialize:titles", _slideTitles)
 			
 		})	// d3.json		
 	}

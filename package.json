@@ -6,6 +6,7 @@
   "author": "Pierre M",
   "license": "WTFPL",
   "dependencies": {
+    "@emmetio/expand-abbreviation": "^0.5.9",
     "animejs": "^2.2.0",
     "chart.js": "^2.7.1",
     "chartist": "^0.11.0",

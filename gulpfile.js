@@ -7,19 +7,20 @@ var concatCss = require('gulp-concat-css');
 var replace = require('gulp-replace');
  
 gulp.task('sass', function () {
-  return gulp.src('./css/storyrevealer.scss')
-    .pipe(sass.sync().on('error', sass.logError))
-    .pipe(gulp.dest('./css'));
+	return  gulp.src('./css/storyrevealer.scss')
+				.pipe(sass.sync().on('error', sass.logError))
+				.pipe(gulp.dest('./css'));
 });
 
 gulp.task('copyfonts', function() {
-   gulp.src('css/fonts/**/*.{ttf,woff,eof,svg}')
-   .pipe(gulp.dest('./dist/css'));
+	gulp.src('css/fonts/**/*.{ttf,woff,eof,svg}')
+	    .pipe(gulp.dest('./dist/css'));
 });
 
 gulp.task('concatcss', function () {
-  return gulp.src([
+	return gulp.src([
 		"node_modules/reveal.js/css/reveal.css",
+		"node_modules/reveal.js/lib/css/zenburn.css",
 		"css/moving-letters.css",
 		"css/storyrevealer.css"
 	])
@@ -28,7 +29,7 @@ gulp.task('concatcss', function () {
 });
 
 gulp.task('concatjs', function() {
-  return gulp.src([
+	return gulp.src([
 		"node_modules/reveal.js/lib/js/head.min.js",
 		"node_modules/reveal.js/js/reveal.js",
 		"node_modules/d3-collection/build/d3-collection.min.js",
@@ -37,6 +38,7 @@ gulp.task('concatjs', function() {
 		"node_modules/d3-request/build/d3-request.min.js",
 		"node_modules/d3-selection/build/d3-selection.min.js",
 		"node_modules/yamljs/dist/yaml.js",	
+		"node_modules/@emmetio/expand-abbreviation/dist/expand-full.js",
 		"node_modules/sanitize-html/dist/sanitize-html.js",
 		"node_modules/mustache/mustache.js",
 		"node_modules/chart.js/dist/Chart.js",
@@ -62,4 +64,5 @@ gulp.task('templates', function() {
 
 
 gulp.task('dist', ['sass','concatcss', 'concatjs','copyfonts']);
+
 gulp.task('default', ['sass']);

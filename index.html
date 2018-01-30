@@ -60,6 +60,7 @@
 		<script src="node_modules/yamljs/dist/yaml.js"></script>	
 		<script src="node_modules/esprima/dist/esprima.js"></script>	
 		<script src="node_modules/js-yaml/dist/js-yaml.min.js"></script>	
+		<script src="node_modules/@emmetio/expand-abbreviation/dist/expand-full.js"></script>	
 
 		<script src="node_modules/sanitize-html/dist/sanitize-html.js"></script>
 		<script src="node_modules/mustache/mustache.js"></script>
@@ -100,6 +101,7 @@
 					{ src: 'node_modules/reveal.js-menu/menu.js' },
 
 					{ src: 'node_modules/reveal.js-plugins/anything/anything.js' },
+					{ src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'js/moving-letters.js' },
 					{ src: 'js/storyrevealer-animation-plugin.js' }
 				]

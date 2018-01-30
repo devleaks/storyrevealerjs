@@ -1102,18 +1102,18 @@ h1.green,
   color: green !important; }
 
 /* tables */
-.rowheader {
-  color: darkgreen;
-  font-weight: bolder; }
-
+.columnheader,
+.columnfooter,
+.rowheader,
 .rowfooter {
-  color: orange;
+  color: rgba(220, 220, 220, 0.8);
   font-weight: bolder; }
 
+thead th,
 tfoot td.rowheader,
 tfoot td.rowfooter,
 tfoot td {
-  color: red;
+  color: rgba(240, 200, 200, 0.8);
   font-weight: bolder; }
 
 /* progress-bar elements */

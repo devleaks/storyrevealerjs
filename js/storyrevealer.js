@@ -638,7 +638,7 @@
 	 * @param  {String}  selector Selector to match against
 	 * @return {Boolean|Element}  Returns null if not match found
 	 */
-	var getClosest = function ( elem, selector ) {
+	var getClosest = function (elem, selector) {
 
 		// Element.matches() polyfill
 		if (!Element.prototype.matches) {
@@ -659,7 +659,7 @@
 		// Get closest match
 		for ( ; elem && elem !== document; elem = elem.parentNode ) {
 			if (elem.matches( selector )) {
-				console.log("Storyrevealer::getClosest: found", elem)
+				//console.log("Storyrevealer::getClosest: found", elem)
                 return elem;
             }
 		}
@@ -677,7 +677,8 @@
 			
 				if( CONTENT_TYPE_DATA.indexOf(content) > -1 ) { // content type is in format data-attr and whitelisted in CONTENT_TYPE_DATA
 
-					elem.setAttribute(content, data[content])
+					var closest = getClosest(elem, 'section') || elem
+					closest.setAttribute(content, data[content])
 
 				} else if ( MOVING_LETTERS.indexOf(content) > -1 ) {
 
@@ -696,6 +697,12 @@
 					var content_type = xtra_classes_arr.shift()
 
 					if( CONTENT_TYPE_ELEM.hasOwnProperty(content_type) ) { // direct mapping first, eg: title: h1.someclass ==> "title.otherclass": "text"  ==>  <h1 class="someclass otherclass">text</h1>
+				
+						// if no {XXX}, append {XXX}
+						var html = emmet.parse(CONTENT_TYPE_ELEM[content_type])
+						//console.log("Storyrevealer::addContent:emmet", html.children[0])
+						// replace XXX by {{text}}
+						// use Mustache.parse(html, {text: data[content]})
 				
 						var html_raw = CONTENT_TYPE_ELEM[content_type];
 						var html_arr = html_raw.split(".")
@@ -755,7 +762,7 @@
 							case "background":
 								var closest = getClosest(elem, 'section')
 								if(closest) {
-									closest.setAttribute('data-background', data[content])
+									elem.setAttribute('data-background', data[content])
 								}
 								break
 
@@ -771,7 +778,17 @@
 								aside.innerHTML = cleanHTML(data[content])
 								elem.appendChild(aside) // elem should be section?
 								break
-
+								
+							case "code":
+								var pre = document.createElement("pre")
+								var code = document.createElement("code")
+								code.classList.add("hljs")
+								code.innerHTML = data[content]
+								addClasses(code, xtra_classes_arr)		
+								pre.appendChild(code)
+								elem.appendChild(pre)
+								break
+								
 							case "list":
 							case "ulist":
 								var list = document.createElement("ul")

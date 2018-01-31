@@ -12,6 +12,13 @@
 // Include specific fonts
 @import url(font/source-sans-pro/source-sans-pro.css);
 @import url(font/league-gothic/league-gothic.css);
+@import url(../node_modules/lato/lato.css);
+@import url(../node_modules/bitter/bitter.css);
+@import url(../node_modules/roboto/roboto.css);
+@import url(font/roboto-slab-fontfacekit/webfonts/robotoslab_bold_macroman/stylesheet.css);
+@import url(font/roboto-slab-fontfacekit/webfonts/robotoslab_light_macroman/stylesheet.css);
+@import url(font/roboto-slab-fontfacekit/webfonts/robotoslab_regular_macroman/stylesheet.css);
+@import url(font/roboto-slab-fontfacekit/webfonts/robotoslab_thin_macroman/stylesheet.css);
 
 // Background of the presentation
 $backgroundColor: #2b2b2b;
@@ -26,7 +33,7 @@ $blockMargin: 20px;
 
 // Headings
 $headingMargin: 0 0 $blockMargin 0;
-$headingFont: 'League Gothic', Impact, sans-serif;
+$headingFont: 'roboto_slabbold', Impact, sans-serif;
 $headingColor: #eee;
 $headingLineHeight: 1.2;
 $headingLetterSpacing: normal;

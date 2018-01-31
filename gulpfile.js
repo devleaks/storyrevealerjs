@@ -24,7 +24,7 @@ gulp.task('concatcss', function () {
 		"css/moving-letters.css",
 		"css/storyrevealer.css"
 	])
-    .pipe(concatCss("storyrevealer.css", {rebaseUrls: false}))
+    .pipe(concatCss("storyrevealer.css", {rebaseUrls: true}))
     .pipe(gulp.dest('./dist/css'));
 });
 

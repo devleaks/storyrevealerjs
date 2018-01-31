@@ -1,0 +1,175 @@
+cover:
+  above-title: 'A gentle introduction'
+  title: Storyrevealer
+  text.html: 'A YAML configured story telling engine based on <a href="https://revealjs.com">Reveal.js</a>'
+  editor.html: 'Created by <a href="https://github.com/devleaks">Pierre M</a>'
+stories:
+  -
+    cover:
+      byline: 'A « newspaper » is a collection of « stories »'
+      headline: Navigation
+      text:
+        - 'Use left and right arrow keys to jump from one story to another.'
+        - 'Use up and down keys to read a story.'
+        - 'Press the down key to learn more about Storyrevealer'
+        - 'Press the right key to discover Storyrevealer possibilities'
+    pages:
+      -
+        background: stories/i/audience.jpg
+        class: darkest
+        title: 'A picture is worth a thousand words'
+        under-title:
+          - 'A « page » of a « story » is a background image, animation, or video'
+          - 'And some text laid over it. No more. No less.'
+        text: 'Press down key to reveal more text'
+        text.fragment: 'It is as simple as that.'
+      -
+        transition: convex
+        class: lighter
+        byline.red: 'Text can easily be decorated.'
+        above-title: 'Transitions between pages varied'
+      -
+        class: darker
+        title: 'Here is a background video with simple text laid over'
+        under-title: 'Plays automagically on reveal...'
+        video: stories/i/mp4.mp4
+        static: stories/i/mp4.jpg
+      -
+        byline: 'Writing stories'
+        title: 'It is simple'
+        text:
+          - 'To write stories you need a single HTML page that loads all necessary javascript and CSS files,'
+          - 'and a YAML file that contains your story.'
+          - 'You also need all images, videos and animations you wish to include in your story.'
+      -
+        byline: 'Writing stories'
+        title: 'A Page'
+        text:
+          - 'A page is a simple list of keywords and texts.'
+          - 'A keyword, at the begining of a line indicates the purpose of the string.'
+          - 'Examples of keywords are: title, date, editor, headline, text, table...'
+          - 'Basically, the keyword indicates how the text that follows will be displayed:'
+          - 'In bold, all caps, with a large font, in red...'
+      -
+        -
+          byline: 'Writing stories'
+          title: 'A Sample Page'
+          code.yaml: |
+            above-title: The Masters 2019
+            title: 3-Hole Playoff decides outcome of Masters
+            text.red: After a solid 4th round, leader collapsed in last two holes
+          text: "Keyword on the left, with optional class indicators like «red»: Your text on the right."
+      -
+        -
+          text.left: You write this:
+          code.yaml: |
+            above-title: The Masters 2019
+            title: 3-Hole Playoff decides outcome of Masters
+            text.red: |
+              After a solid 4th round,
+              leader collapsed in last two holes
+          text.right: You see this:
+        -
+          background: stories/i/mp4.jpg
+          above-title: The Masters 2019
+          title: 3-Hole Playoff decides outcome of Masters
+          text.red: After a solid 4th round, leader collapsed in last two holes
+  -
+    cover:
+      byline: 'News 2 Byline'
+      headline: 'More Columns'
+      bytitle: 'One, Two, and Three Columns'
+    pages:
+      -
+        background: stories/i/b.png
+        class: left
+        above-title: 'Slide 2A Above Title'
+        title: 'Simple slide 2A'
+        under-title.fragment: 'Slide 2A Below Title'
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
+      -
+        -
+          background: stories/i/b.png
+          above-title: 'Slide 2BL Above Title'
+          title: 'Simple slide 2BL'
+          under-title: 'Slide 2BL Below Title'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
+        -
+          above-title: 'Slide 2BR Above Title'
+          title: 'Simple slide 2BR'
+          under-title: 'Slide 2BR Below Title'
+          quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
+      -
+        -
+          background: stories/i/b.png
+          class: 'left lighter'
+          above-title: 'Slide 2CL Above Title'
+          title: 'Simple slide 2CL'
+          under-title: 'Slide 2CL Below Title'
+          text.red: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
+        -
+          class: leftsep
+          above-title: 'Slide 2CC Above Title'
+          title.black: 'Simple slide 2CC'
+          under-title: 'Slide 2CC Below Title'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
+        -
+          class: 'right lightest'
+          above-title: 'Slide 2CR Above Title'
+          title: 'Simple slide 2CR'
+          text.inverse: 'Slide 2CR Below Title'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
+  -
+    cover:
+      headline: 'Test for Table'
+      data-background-color: '#bbb'
+      bytitle: 'Table header, footer, column header and footer as well'
+    pages:
+      -
+        background: stories/i/g.png
+        class: lighter
+        table:
+          options: {columnheader: true, rowheader: true, rowfooter: true, columnfooter: true}
+          data: [["", R1, R2, R3, R4, TOT], [Tiger, 70, 71, 68, 66, 275], [Henrick, 72, 72, 66, 65, 275], [Phil, 71, 69, 72, 64, 276], [Sergio, 72, 71, 70, 68, 281], [Justin, 72, 70, 68, 72, 282], [Thomas, 66, 68, 76, 72, 282], [Lowest,66,68,66,64,264]]
+        under-title: 'Text under table'
+      -
+        background: stories/i/g.png
+        mustache:
+          template: '<p>{{text}}</p></br><p><span class="fragment" data-animation="countup" data-countup="0,{{value}},1,2000"></span> / {{maxvalue}}</p>'
+          data: {text: 'Some statistics', value: 144, maxvalue: 200, below-text: 'Some highlights...'}
+        text: 'Text under countup animation'
+  -
+    cover:
+      headline: 'Tests for Charts'
+      bytitle: 'Bar charts, Pie charts...'
+    pages:
+      -
+        background: stories/i/r.png
+        above-title: 'Bar chart'
+        barchart:
+          data: [[Tiger, 70, 71, 68, 66], [Henrick, 72, 72, 66, 65], [Phil, 71, 69, 72, 64], [Sergio, 72, 71, 70, 68], [Justin, 72, 70, 68, 72], [Thomas, 66, 68, 76, 72]]
+      -
+        background: stories/i/g.png
+        class: lighter
+        above-title: 'Pie chart'
+        piechart:
+          data: [[Tiger, 50], [Henrick, 30], [Phil, 20]]
+      -
+        background: stories/i/b.png
+        above-title: 'Line Chart'
+        linechart:
+          data: [[Tiger, 70, 71, 68, 66], [Henrick, 72, 73, 66, 65], [Phil, 71, 69, 72, 64]]
+  -
+    cover:
+      data-background-src.holderjs: holder.js/300x200
+      headline: 'Experimental Charts'
+      bytitle: Chartist
+    pages:
+      -
+        -
+          background: stories/i/r.png
+          text: 'Graph is in right column only'
+        -
+          background: stories/i/r.png
+          text.bottom-right: 'Introducing the chart...'
+          chartist: {type: line, data: {labels: [Tiger, Henrick, Phil], series: [[50, 30, 20], [30, 50, 20]]}, options: {chartPadding: 30}}

@@ -15,7 +15,7 @@ stories:
         - 'Press the right key to discover Storyrevealer possibilities'
     pages:
       -
-        background: stories/i/audience.jpg
+        background: tests/audience.jpg
         class: darkest
         title: 'A picture is worth a thousand words'
         under-title:
@@ -32,8 +32,8 @@ stories:
         class: darker
         title: 'Here is a background video with simple text laid over'
         under-title: 'Plays automagically on reveal...'
-        video: stories/i/mp4.mp4
-        static: stories/i/mp4.jpg
+        video: tests/mp4.mp4
+        static: tests/mp4.jpg
       -
         byline: 'Writing stories'
         title: 'It is simple'
@@ -65,15 +65,15 @@ stories:
           code.yaml: |
             above-title: The Masters 2019
             title: 3-Hole Playoff decides outcome of Masters
-            text.red: |
+            text.red.left: |
               After a solid 4th round,
               leader collapsed in last two holes
           text.right: You see this:
         -
-          background: stories/i/mp4.jpg
+          background: tests/mp4.jpg
           above-title: The Masters 2019
           title: 3-Hole Playoff decides outcome of Masters
-          text.red: After a solid 4th round, leader collapsed in last two holes
+          text.red.left: After a solid 4th round, leader collapsed in last two holes
   -
     cover:
       byline: 'News 2 Byline'
@@ -81,7 +81,7 @@ stories:
       bytitle: 'One, Two, and Three Columns'
     pages:
       -
-        background: stories/i/b.png
+        background: tests/b.png
         class: left
         above-title: 'Slide 2A Above Title'
         title: 'Simple slide 2A'
@@ -89,7 +89,7 @@ stories:
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
       -
         -
-          background: stories/i/b.png
+          background: tests/b.png
           above-title: 'Slide 2BL Above Title'
           title: 'Simple slide 2BL'
           under-title: 'Slide 2BL Below Title'
@@ -101,7 +101,7 @@ stories:
           quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut.'
       -
         -
-          background: stories/i/b.png
+          background: tests/b.png
           class: 'left lighter'
           above-title: 'Slide 2CL Above Title'
           title: 'Simple slide 2CL'
@@ -126,14 +126,14 @@ stories:
       bytitle: 'Table header, footer, column header and footer as well'
     pages:
       -
-        background: stories/i/g.png
+        background: tests/g.png
         class: lighter
         table:
           options: {columnheader: true, rowheader: true, rowfooter: true, columnfooter: true}
           data: [["", R1, R2, R3, R4, TOT], [Tiger, 70, 71, 68, 66, 275], [Henrick, 72, 72, 66, 65, 275], [Phil, 71, 69, 72, 64, 276], [Sergio, 72, 71, 70, 68, 281], [Justin, 72, 70, 68, 72, 282], [Thomas, 66, 68, 76, 72, 282], [Lowest,66,68,66,64,264]]
         under-title: 'Text under table'
       -
-        background: stories/i/g.png
+        background: tests/g.png
         mustache:
           template: '<p>{{text}}</p></br><p><span class="fragment" data-animation="countup" data-countup="0,{{value}},1,2000"></span> / {{maxvalue}}</p>'
           data: {text: 'Some statistics', value: 144, maxvalue: 200, below-text: 'Some highlights...'}
@@ -144,18 +144,18 @@ stories:
       bytitle: 'Bar charts, Pie charts...'
     pages:
       -
-        background: stories/i/r.png
+        background: tests/r.png
         above-title: 'Bar chart'
         barchart:
           data: [[Tiger, 70, 71, 68, 66], [Henrick, 72, 72, 66, 65], [Phil, 71, 69, 72, 64], [Sergio, 72, 71, 70, 68], [Justin, 72, 70, 68, 72], [Thomas, 66, 68, 76, 72]]
       -
-        background: stories/i/g.png
+        background: tests/g.png
         class: lighter
         above-title: 'Pie chart'
         piechart:
           data: [[Tiger, 50], [Henrick, 30], [Phil, 20]]
       -
-        background: stories/i/b.png
+        background: tests/b.png
         above-title: 'Line Chart'
         linechart:
           data: [[Tiger, 70, 71, 68, 66], [Henrick, 72, 73, 66, 65], [Phil, 71, 69, 72, 64]]
@@ -167,9 +167,9 @@ stories:
     pages:
       -
         -
-          background: stories/i/r.png
+          background: tests/r.png
           text: 'Graph is in right column only'
         -
-          background: stories/i/r.png
+          background: tests/r.png
           text.bottom-right: 'Introducing the chart...'
           chartist: {type: line, data: {labels: [Tiger, Henrick, Phil], series: [[50, 30, 20], [30, 50, 20]]}, options: {chartPadding: 30}}

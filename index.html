@@ -15,6 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -92,7 +93,7 @@
 				allottedTime: 3 * 60 * 1000, // 3 minutes
 				
 				storyrevealer: {
-					url: 'tests/data.yaml'
+					url: 'tests/storyrevealer.yaml'
 				},
 
 				// More info https://github.com/hakimel/reveal.js#dependencies
@@ -101,7 +102,8 @@
 					{ src: 'node_modules/reveal.js-menu/menu.js' },
 
 					{ src: 'node_modules/reveal.js-plugins/anything/anything.js' },
-					{ src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'js/highlight/highlight.pack.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+//				{ src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'js/moving-letters.js' },
 					{ src: 'js/storyrevealer-animation-plugin.js' }
 				]

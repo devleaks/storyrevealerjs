@@ -5,15 +5,13 @@
 /***********************************************
  * Storyrevealer defaults for Reveal.js
  */
-@import url(font/source-sans-pro/source-sans-pro.css);
-@import url(font/league-gothic/league-gothic.css);
+@import url(fonts/source-sans-pro/source-sans-pro.css);
+@import url(fonts/league-gothic/league-gothic.css);
+@import url(fonts/roboto/roboto.css);
+@import url(fonts/roboto-slab/roboto-slab.css);
 @import url(../node_modules/lato/lato.css);
+@import url(../node_modules/open-sans-fontface/open-sans.css);
 @import url(../node_modules/bitter/bitter.css);
-@import url(../node_modules/roboto/roboto.css);
-@import url(font/roboto-slab-fontfacekit/webfonts/robotoslab_bold_macroman/stylesheet.css);
-@import url(font/roboto-slab-fontfacekit/webfonts/robotoslab_light_macroman/stylesheet.css);
-@import url(font/roboto-slab-fontfacekit/webfonts/robotoslab_regular_macroman/stylesheet.css);
-@import url(font/roboto-slab-fontfacekit/webfonts/robotoslab_thin_macroman/stylesheet.css);
 section.has-light-background, section.has-light-background h1, section.has-light-background h2, section.has-light-background h3, section.has-light-background h4, section.has-light-background h5, section.has-light-background h6 {
   color: #2b2b2b; }
 
@@ -29,7 +27,7 @@ body {
   background-color: #2b2b2b; }
 
 .reveal {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 30px;
   font-weight: normal;
   color: #eee; }
@@ -60,7 +58,7 @@ body {
 .reveal h6 {
   margin: 0 0 20px 0;
   color: #eee;
-  font-family: "roboto_slabbold", Impact, sans-serif;
+  font-family: "Roboto Slab", Impact, sans-serif;
   font-weight: normal;
   line-height: 1.2;
   letter-spacing: normal;

@@ -789,6 +789,18 @@
 								elem.appendChild(pre)
 								break
 								
+							case "columns":
+								var all_columns = document.createElement("div")
+					            all_columns.classList.add("multicols")
+								data[content].forEach(function(column) {
+									var column_container = document.createElement("div")
+						            column_container.classList.add("col")
+									addContent(column_container, column)
+									all_columns.appendChild(column_container)
+								})
+								elem.appendChild(all_columns)
+								break
+								
 							case "list":
 							case "ulist":
 								var list = document.createElement("ul")
@@ -955,8 +967,11 @@
 	/*	Add <section> to elem. Add background image and classes if present in first supplied page
 	 *
 	 */
-	function addSection(elem, data, add_content) {
+	function addSection(elem, data, add_content, is_cover) {
 		var s = document.createElement("section")
+		if(is_cover) {
+			s.classList.add("cover")
+		}
 		elem.appendChild(s)
 		_slideTitles[_slide_h] = _slideTitles[_slide_h] || []
 		var slideTitles = _slideTitles[_slide_h]
@@ -1082,7 +1097,7 @@
 			}
 			
 			if(newspaper.cover) {	// Add newspaper cover page
-				addSection(newspaper_elem, newspaper.cover, true)
+				addSection(newspaper_elem, newspaper.cover, true, true)
 				if(newspaper.pages && !_horizontalNav) { // if only one story, we only have vertical nav
 					_slide_v += 1
 				} else {
@@ -1104,7 +1119,7 @@
 					var story_elem = addSection(newspaper_elem, story.cover, false)
 
 					if(story.cover) {	// Add story cover page
-						addSection(story_elem, story.cover, true)
+						addSection(story_elem, story.cover, true, true)
 						_slide_v += 1
 					}
 

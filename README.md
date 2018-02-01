@@ -25,7 +25,7 @@ Storyrevealer uses Reveal.js plugins, like the Anything plugin, to display and
 animate your content. (Anything plugin is so generic that you can really stick
 anything in a slide' section.)
 
-It also uses some javascript libraries like yamljs, animate.js, {{mustache}} (js version),
+It also uses some javascript libraries like yamljs, animate.js, {{mustache}},
 and d3-request.
 
 Pierre M. - December 2017
@@ -43,7 +43,7 @@ The static HTML page does not need editing, and can be used as a template for
 all your newspapers.
 
 The only supplied file you might want to edit is the storyrevealer-specific
-style sheet (provided as a SCSS file), where you can all your custom styles, or load fonts.
+style sheet (provided as a SCSS file), where you can add your custom styles, or load fonts.
 
 The format of your story YAML file is described below.
 
@@ -117,7 +117,8 @@ cover: {{page}},
 pages: [ {{page}}+ ]
 ```
 
-The story’s cover page is a regular, additional page.
+The story’s cover page is a regular, additional page. It is optional.
+Its HTML section element receives an additional `cover` class if you wish to style cover pages differently.
 
 
 ### Page
@@ -130,7 +131,7 @@ page: {{column}} \|\| [ {{column}}{1,} ]
 
 Note: When a page is made of more than one column, decorating elements of the
 **first** column are taken into account for decorating the entire page
-(background image, video, or additional classes.)
+(background image, video, animation, or additional classes.)
 
 A column is a list of content properties.
 
@@ -138,7 +139,7 @@ A column is a list of content properties.
 column: { {{content}}* }
 ```
 
-  If a column does not contain any content property, it is a blank page or
+ If a column does not contain any content property, it is a blank page or
 column. Blank columns can be useful to control the horizontal layout of content.
  
 Content properties are displayed in the order they appear in the column.
@@ -191,7 +192,7 @@ Data attribute properties are relayed to Reveal.js element entities.
 | data-background-iframe | URL to HTML page | Background HTML page (non-interactive) |
 | data-transition        | Transition name  | See Reveal.js possibilities            |
 
-Data elements are added to the parent element as data attributes.
+Data elements are added to the parent `section` element as data attributes.
 
 ```
 data-background-color: #FF6347
@@ -338,6 +339,40 @@ mustache:
 ```
 
 
+#### Table
+
+The table structure contains two parts.
+
+The first part contains table options.
+
+The following options are accepted: rowheader, rowfooter, columnheader, columnfooter.
+They are all boolean and tells whether data contains such row or column header or footer.
+
+The second part contains the data. Table data is an array; each element of the
+array represents a table row.
+
+Each row is represented by an Array; each element of the array is the table cell
+content.
+
+```yaml
+table:
+  options:
+    columnheader: true
+    rowheader: true
+    rowfooter: true
+  data:
+    - ["", R1, R2, R3, R4, TOT]
+    - [Tiger, 70, 71, 68, 66, 275]
+    - [Henrick, 72, 72, 66, 65, 275]
+    - [Phil, 71, 69, 72, 64, 276]
+    - [Sergio, 72, 71, 70, 68, 281]
+    - [Justin, 72, 70, 68, 72, 282]
+    - [Thomas, 66, 68, 76, 72, 282]
+```
+
+Alternatively, you could design a {{mustache}} template to generate a table from the array.
+ 
+
 #### Animations
 
 Storyrevealers adds simple animations.
@@ -345,6 +380,9 @@ Storyrevealers adds simple animations.
 Animations are added because of their simplicity and beauty.
 
 The following animations are currently available:
+- Countup
+- Progress bar
+- Moving Letters
 
 ##### Countup
 
@@ -368,6 +406,7 @@ counter: 20,60,1,5000
 ```
 
 Note that rounding is used as in `Math.round(value * round) / round`.
+So normal rounding should be a power of ten like 1, 10, 100, etc.
 
 ##### Progress Bar
 
@@ -375,6 +414,7 @@ A progress bar is a title, a subtitle and a cursor-like bar that runs from a
 starting value to an ending value, in a given time. The value representing the
 maximum length of the progress bar can also be provided. The progress bar
 animation starts when the page is displayed.
+The progress bar value can also be added to the bar.
 
 ```yaml
 progress-bar:
@@ -457,39 +497,6 @@ reality-is-broken, hey, coffee-morning, domino-dreams, hello-goodbye,
 a-new-production, rising-strong, finding-your-element, out-now, and
 made-with-love.
 
-#### Table
-
-The table structure contains two parts.
-
-The first part contains table options.
-
-The following options are accepted: rowheader, rowfooter, columnheader, columnfooter.
-They are all boolean and tells whether data contains such row or column header or footer.
-
-The second part contains the data. Table data is an array; each element of the
-array represents a table row.
-
-Each row is represented by an Array; each element of the array is the table cell
-content.
-
-```yaml
-table:
-  options:
-    columnheader: true
-    rowheader: true
-    rowfooter: true
-  data:
-    - ["", R1, R2, R3, R4, TOT]
-    - [Tiger, 70, 71, 68, 66, 275]
-    - [Henrick, 72, 72, 66, 65, 275]
-    - [Phil, 71, 69, 72, 64, 276]
-    - [Sergio, 72, 71, 70, 68, 281]
-    - [Justin, 72, 70, 68, 72, 282]
-    - [Thomas, 66, 68, 76, 72, 282]
-```
-
-Alternatively, you could design a {{mustache}} template to generate a table from the array.
- 
 
 #### Graphs
 
@@ -703,13 +710,23 @@ Reveal.initialize({
 
     // More info https://github.com/hakimel/reveal.js#dependencies
     dependencies: [
-        ...
+			{ src: 'node_modules/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      ...
 
-        { src: 'node_modules/reveal.js-plugins/anything/anything.js' },
-        { src: 'js/moving-letters.js' },
-        { src: 'js/storyrevealer-animation-plugin.js' },
+			// add menu plugin if you like
+			{ src: 'node_modules/reveal.js-menu/menu.js' },
 
-        ...
+			// swiss army knife of content plugin
+      { src: 'node_modules/reveal.js-plugins/anything/anything.js' },
+
+			// custom highlight.js pack which includes the language Yaml
+			{ src: 'js/highlight/highlight.pack.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+			// Storyrevealer plugins for animation
+      { src: 'js/moving-letters.js' },
+      { src: 'js/storyrevealer-animation-plugin.js' },
+
+      ...
     ],
     
     ...
@@ -730,8 +747,6 @@ In addition, the following JS scripts need to be added to your page:
 | patternomaly  | Canvas Pattern Generator (used by Chart.js) |          |
 
 Please feel free to replace packages I use by equivalent libraries.
-For instance [json5](https://github.com/json5/json5) is a *human readble*
-more permissive alternative to standard JSON.
 
 ```html
 ...
@@ -742,7 +757,6 @@ more permissive alternative to standard JSON.
 <script src="node_modules/d3-request/build/d3-request.min.js"></script>
 
 <script src="../../node_modules/yamljs/dist/yaml.js"></script>	
-<script src="../../node_modules/esprima/dist/esprima.js"></script>	
 <script src="../../node_modules/js-yaml/dist/js-yaml.min.js"></script>	
 
 <script src="../../node_modules/sanitize-html/dist/sanitize-html.js"></script>
@@ -762,7 +776,19 @@ more permissive alternative to standard JSON.
 ...
 ```
 
-Finally, the follow CSS files need loading.
+
+Will soon be replaced by a simpler, gulp-concatenated file:
+
+```html
+...
+<!-- BEGIN STORYREVEALERJS -->
+<script src="js/storyrevealer.js"></script>
+<!-- END STORYREVEALERJS -->
+...
+```
+
+
+Finally, the following CSS files need loading.
 
 ```html
 ...
@@ -775,11 +801,24 @@ Finally, the follow CSS files need loading.
 ...
 ```
 
+Will soon be replaced by a simpler, gulp-concatenated file:
+
+```html
+...
+<!-- BEGIN STORYREVEALERJS -->
+< link rel="stylesheet" href="css/storyrevealer.css">
+<!-- END STORYREVEALERJS -->
+...
+```
+
+
 Storyrevealer.css is generated from storyrevealer.sccs throught a gulp task.
+
 
 # Example Files
 
-Please have a look at all JSON files in the tests directory.
+Please have a look at files in the tests directory.
+
 
 # Limits
 
@@ -836,6 +875,8 @@ With this tool, every user of the network is a potential story teller.
 Storyrevealer engine only takes care of the presentation. A full screen image (or video)
 with the story displayed on it, in short, bold title fonts and sometimes small paragraphs of text.
 And a few, very simple animations or graphs to break monotony of storytelling.
+
+Oh, and by the way, you can still create Reveal.js presentation with it as well.
 
 Enjoy.
 

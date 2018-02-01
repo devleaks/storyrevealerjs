@@ -5,7 +5,8 @@ var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var concatCss = require('gulp-concat-css');
 var replace = require('gulp-replace');
- 
+var rewriteCSS = require('gulp-rewrite-css');
+
 gulp.task('sass', function () {
 	return  gulp.src('./css/storyrevealer.scss')
 				.pipe(sass.sync().on('error', sass.logError))
@@ -13,19 +14,21 @@ gulp.task('sass', function () {
 });
 
 gulp.task('copyfonts', function() {
-	gulp.src('css/fonts/**/*.{ttf,woff,eof,svg}')
-	    .pipe(gulp.dest('./dist/css'));
+	gulp.src('css/fonts/**/*.{css,woff}')
+	    .pipe(gulp.dest('./dist/css/fonts'));
 });
 
 gulp.task('concatcss', function () {
+	var dest = './dist/css';
 	return gulp.src([
 		"node_modules/reveal.js/css/reveal.css",
 		"node_modules/reveal.js/lib/css/zenburn.css",
 		"css/moving-letters.css",
 		"css/storyrevealer.css"
 	])
-    .pipe(concatCss("storyrevealer.css", {rebaseUrls: true}))
-    .pipe(gulp.dest('./dist/css'));
+    .pipe(rewriteCSS({destination:dest}))
+    .pipe(concat("storyrevealer.css"))
+    .pipe(gulp.dest(dest));
 });
 
 gulp.task('concatjs', function() {

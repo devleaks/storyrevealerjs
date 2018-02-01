@@ -854,6 +854,15 @@ mustache.beard1:
 Class `.beard1` does not exist and will not affect the behavior or rendering of
 Storyrevealer.
 
+## Layout Control
+
+Horizontal layout control can be done by creating multiple columns and leaving some empty.
+
+Vertical layout control can be done either by including "empty" text elements
+or by adding the `.invisible` class to the text content element.
+The `.invisible` class make the `color: transparent;`.
+
+
 # Notes
 
 The origin of the project was to allow users of a couple of sport-related social

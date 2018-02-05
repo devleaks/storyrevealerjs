@@ -1121,31 +1121,35 @@
 						_slide_v += 1
 					}
 
-					story.pages.forEach(function(page) {	// Add story pages
+					if(story.pages) {
+						story.pages.forEach(function(page) {	// Add story pages
 
-						addPage(page, story_elem)
-						_slide_v += 1
+							addPage(page, story_elem)
+							_slide_v += 1
 
-					})
-					
-					_slide_h += 1
+						})
+
+						_slide_h += 1
+					}
 				})
 
 			} else {	// just one story
 
 				var story_elem = newspaper_elem
 				
-				newspaper.pages.forEach(function(page) {	// For each page in the story
+				if(newspaper.pages) {
+					newspaper.pages.forEach(function(page) {	// For each page in the story
 
-					addPage(page, story_elem)
+						addPage(page, story_elem)
 
-					if (_horizontalNav) {
-                        _slide_h += 1;
-                    } else {
-                        _slide_v += 1;
-                    }
+						if (_horizontalNav) {
+	                        _slide_h += 1;
+	                    } else {
+	                        _slide_v += 1;
+	                    }
 
-				})
+					})
+				}	// newspaper.pages
 
 			}	// newspaper.stories
 			

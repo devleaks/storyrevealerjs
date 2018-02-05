@@ -1,8 +1,11 @@
 cover:
     background: thursday.jpg
-    title: Moving Letters
-    thursday: Thursday
+    rising-strong: Moving Letters
+    text: Scroll down for sample animations
 pages:
+  -
+    background: thursday.jpg
+    thursday: Thursday
   -
     background: sunny-mornings.jpg
     slow-mornings: Sunny Morning

@@ -7,6 +7,8 @@ var concatCss = require('gulp-concat-css');
 var replace = require('gulp-replace');
 var rewriteCSS = require('gulp-rewrite-css');
 
+var dest = './dist';
+
 gulp.task('sass', function () {
 	return  gulp.src('./css/storyrevealer.scss')
 				.pipe(sass.sync().on('error', sass.logError))
@@ -15,11 +17,23 @@ gulp.task('sass', function () {
 
 gulp.task('copyfonts', function() {
 	gulp.src('css/fonts/**/*.{css,woff}')
-	    .pipe(gulp.dest('./dist/css/fonts'));
+	    .pipe(gulp.dest(dest+'/css/fonts'));
+});
+
+gulp.task('copyjs', function() {
+	gulp.src([
+		'node_modules/reveal.js/lib/js/classList.js',
+		'node_modules/reveal.js-menu/menu.js',
+		'node_modules/reveal.js-menu/menu.css',
+		'node_modules/reveal.js-plugins/anything/anything.js',
+		'js/highlight/highlight.pack.js',
+		'js/moving-letters.js',
+		'js/storyrevealer-animation-plugin.js'
+	])
+    .pipe(gulp.dest(dest+'/js/plugins'));
 });
 
 gulp.task('concatcss', function () {
-	var dest = './dist/css';
 	return gulp.src([
 		"node_modules/reveal.js/css/reveal.css",
 		"node_modules/reveal.js/lib/css/zenburn.css",
@@ -27,9 +41,11 @@ gulp.task('concatcss', function () {
 		"css/moving-letters.css",
 		"css/storyrevealer.css"
 	])
-    .pipe(rewriteCSS({destination:dest}))
+    .pipe(rewriteCSS({
+		destination: dest+'/css'
+	}))
     .pipe(concat("storyrevealer.css"))
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest(dest+'/css'));
 });
 
 gulp.task('concatjs', function() {
@@ -54,7 +70,7 @@ gulp.task('concatjs', function() {
 		"js/storyrevealer.js"
     ])
     .pipe(concat('storyrevealer.js'))
-    .pipe(gulp.dest('./dist/js'));
+    .pipe(gulp.dest(dest+'/js'));
 });
 
 gulp.task('templates', function() {
@@ -65,10 +81,10 @@ gulp.task('templates', function() {
       // See https://github.com/gulpjs/vinyl#instance-properties for details on available properties
       return this.file.relative.substr(0, this.file.relative.lastIndexOf('.')) + '.yaml';
     }))
-    .pipe(gulp.dest('dist/demos'));
+    .pipe(gulp.dest(dest+'/demos'));
 });
 
 
-gulp.task('dist', ['sass','concatcss', 'concatjs','copyfonts']);
+gulp.task('default', ['sass', 'concatcss', 'concatjs', 'copyfonts', 'copyjs']);
 
-gulp.task('default', ['sass']);
+gulp.task('css', ['sass']);

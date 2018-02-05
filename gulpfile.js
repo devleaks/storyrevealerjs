@@ -23,6 +23,7 @@ gulp.task('concatcss', function () {
 	return gulp.src([
 		"node_modules/reveal.js/css/reveal.css",
 		"node_modules/reveal.js/lib/css/zenburn.css",
+		"node_modules/font-awesome/css/font-awesome.css",
 		"css/moving-letters.css",
 		"css/storyrevealer.css"
 	])
@@ -44,6 +45,8 @@ gulp.task('concatjs', function() {
 		"node_modules/@emmetio/expand-abbreviation/dist/expand-full.js",
 		"node_modules/sanitize-html/dist/sanitize-html.js",
 		"node_modules/mustache/mustache.js",
+		"node_modules/patternomaly/dist/patternomaly.js",
+		"node_modules/moment/moment.js",
 		"node_modules/chart.js/dist/Chart.js",
 		"node_modules/chartist/dist/chartist.js",
 		"node_modules/chartist-plugin-legend/chartist-plugin-legend.js",

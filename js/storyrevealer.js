@@ -28,22 +28,20 @@
 	var VERSION = '1.0.0'
 	
 	var CONTENT_TYPE_ELEM = {
-		"above-title": "h3.allcaps",
-		"below-title": "h4",
-		"byline": "h6",
-		"bytitle": "h3",
-		"date": "p",
-		"editor": "h6",
-		"headline": "h1",
-		"name": "h1",
-		"quote": "q",
-		"teaser": "h3.red",
-		"text": "p",
-		"text1": "p",
-		"text2": "p",
-		"text3": "p",
 		"title": "h1",
+		"headline": "h1",
+		"name": "h2",
+		"subtitle": "h2",
+		"bytitle": "h3",
+		"above-title": "h3.allcaps",
+		"teaser": "h3.red",
+		"below-title": "h4",
 		"under-title": "h4",
+		"byline": "h5",
+		"editor": "h6",
+		"quote": "q",
+		"text": "p",
+		"date": "p.smaller",
 		"copyright": "small"
 	}
 

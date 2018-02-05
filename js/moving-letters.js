@@ -59,6 +59,7 @@ var MovingLetters = window.MovingLetters || (function(){
 			if(! StoryrevealerAnimation.exists(id)) {
 				var animation_code = null
 				install_template(container, animation, sep)
+				var this_anim_sel = '#'+id+' ';
 
 				switch(animation) {
 					case 'thursday':
@@ -71,10 +72,10 @@ var MovingLetters = window.MovingLetters || (function(){
 						</span>
 					</h1>
 					*/
-						isolateLetters('.ml1 .letters')
+						isolateLetters(this_anim_sel+'.ml1 .letters')
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml1 .letter',
+						    targets: this_anim_sel+'.ml1 .letter',
 						    scale: [0.3,1],
 						    opacity: [0,1],
 						    translateZ: 0,
@@ -84,7 +85,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return 70 * (i+1)
 						    }
 						  }).add({
-						    targets: '.ml1 .line',
+						    targets: this_anim_sel+'.ml1 .line',
 						    scaleX: [0,1],
 						    opacity: [0.5,1],
 						    easing: "easeOutExpo",
@@ -94,7 +95,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return 80 * (l - i);
 						    }
 						  }).add({
-						    targets: '.ml1',
+						    targets: this_anim_sel+'.ml1',
 						    opacity: 0,
 						    duration: 1000,
 						    easing: "easeOutExpo",
@@ -107,10 +108,10 @@ var MovingLetters = window.MovingLetters || (function(){
 					/*
 					<h1 class="ml2">Sunny mornings</h1>
 					*/
-						isolateLetters('.ml2')
+						isolateLetters(this_anim_sel+'.ml2')
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml2 .letter',
+						    targets: this_anim_sel+'.ml2 .letter',
 						    scale: [4,1],
 						    opacity: [0,1],
 						    translateZ: 0,
@@ -120,7 +121,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return 70*i;
 						    }
 						  }).add({
-						    targets: '.ml2',
+						    targets: this_anim_sel+'.ml2',
 						    opacity: 0,
 						    duration: 1000,
 						    easing: "easeOutExpo",
@@ -133,10 +134,10 @@ var MovingLetters = window.MovingLetters || (function(){
 					/*
 					<h1 class="ml3">Great Thinkers</h1>
 					*/
-						isolateLetters('.ml3')
+						isolateLetters(this_anim_sel+'.ml3')
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml3 .letter',
+						    targets: this_anim_sel+'.ml3 .letter',
 						    opacity: [0,1],
 						    easing: "easeInOutQuad",
 						    duration: 2250,
@@ -144,7 +145,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return 150 * (i+1)
 						    }
 						  }).add({
-						    targets: '.ml3',
+						    targets: this_anim_sel+'.ml3',
 						    opacity: 0,
 						    duration: 1000,
 						    easing: "easeOutExpo",
@@ -171,43 +172,43 @@ var MovingLetters = window.MovingLetters || (function(){
 
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml4 .letters-1',
+						    targets: this_anim_sel+'.ml4 .letters-1',
 						    opacity: ml4.opacityIn,
 						    scale: ml4.scaleIn,
 						    duration: ml4.durationIn
 						  }).add({
-						    targets: '.ml4 .letters-1',
+						    targets: this_anim_sel+'.ml4 .letters-1',
 						    opacity: 0,
 						    scale: ml4.scaleOut,
 						    duration: ml4.durationOut,
 						    easing: "easeInExpo",
 						    delay: ml4.delay
 						  }).add({
-						    targets: '.ml4 .letters-2',
+						    targets: this_anim_sel+'.ml4 .letters-2',
 						    opacity: ml4.opacityIn,
 						    scale: ml4.scaleIn,
 						    duration: ml4.durationIn
 						  }).add({
-						    targets: '.ml4 .letters-2',
+						    targets: this_anim_sel+'.ml4 .letters-2',
 						    opacity: 0,
 						    scale: ml4.scaleOut,
 						    duration: ml4.durationOut,
 						    easing: "easeInExpo",
 						    delay: ml4.delay
 						  }).add({
-						    targets: '.ml4 .letters-3',
+						    targets: this_anim_sel+'.ml4 .letters-3',
 						    opacity: ml4.opacityIn,
 						    scale: ml4.scaleIn,
 						    duration: ml4.durationIn
 						  }).add({
-						    targets: '.ml4 .letters-3',
+						    targets: this_anim_sel+'.ml4 .letters-3',
 						    opacity: 0,
 						    scale: ml4.scaleOut,
 						    duration: ml4.durationOut,
 						    easing: "easeInExpo",
 						    delay: ml4.delay
 						  }).add({
-						    targets: '.ml4',
+						    targets: this_anim_sel+'.ml4',
 						    opacity: 0,
 						    duration: 500,
 						    delay: 500
@@ -229,13 +230,13 @@ var MovingLetters = window.MovingLetters || (function(){
 					*/
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml5 .line',
+						    targets: this_anim_sel+'.ml5 .line',
 						    opacity: [0.5,1],
 						    scaleX: [0, 1],
 						    easing: "easeInOutExpo",
 						    duration: 700
 						  }).add({
-						    targets: '.ml5 .line',
+						    targets: this_anim_sel+'.ml5 .line',
 						    duration: 600,
 						    easing: "easeOutExpo",
 						    translateY: function(e, i, l) {
@@ -243,28 +244,28 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return offset + "em";
 						    }
 						  }).add({
-						    targets: '.ml5 .ampersand',
+						    targets: this_anim_sel+'.ml5 .ampersand',
 						    opacity: [0,1],
 						    scaleY: [0.5, 1],
 						    easing: "easeOutExpo",
 						    duration: 600,
 						    offset: '-=600'
 						  }).add({
-						    targets: '.ml5 .letters-left',
+						    targets: this_anim_sel+'.ml5 .letters-left',
 						    opacity: [0,1],
 						    translateX: ["0.5em", 0],
 						    easing: "easeOutExpo",
 						    duration: 600,
 						    offset: '-=300'
 						  }).add({
-						    targets: '.ml5 .letters-right',
+						    targets: this_anim_sel+'.ml5 .letters-right',
 						    opacity: [0,1],
 						    translateX: ["-0.5em", 0],
 						    easing: "easeOutExpo",
 						    duration: 600,
 						    offset: '-=600'
 						  }).add({
-						    targets: '.ml5',
+						    targets: this_anim_sel+'.ml5',
 						    opacity: 0,
 						    duration: 1000,
 						    easing: "easeOutExpo",
@@ -281,10 +282,10 @@ var MovingLetters = window.MovingLetters || (function(){
 					  </span>
 					</h1>
 					*/
-						isolateLetters('.ml6 .letters')
+						isolateLetters(this_anim_sel+'.ml6 .letters')
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml6 .letter',
+						    targets: this_anim_sel+'.ml6 .letter',
 						    translateY: ["1.2em", 0],
 						    translateZ: 0,
 						    duration: 750,
@@ -292,7 +293,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return 50 * i;
 						    }
 						  }).add({
-						    targets: '.ml6',
+						    targets: this_anim_sel+'.ml6',
 						    opacity: 0,
 						    duration: 1000,
 						    easing: "easeOutExpo",
@@ -309,10 +310,10 @@ var MovingLetters = window.MovingLetters || (function(){
 					  </span>
 					</h1>
 					*/
-						isolateLetters('.ml7 .letters')
+						isolateLetters(this_anim_sel+'.ml7 .letters')
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml7 .letter',
+						    targets: this_anim_sel+'.ml7 .letter',
 						    translateY: ["1.1em", 0],
 						    translateX: ["0.55em", 0],
 						    translateZ: 0,
@@ -323,7 +324,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return 50 * i;
 						    }
 						  }).add({
-						    targets: '.ml7',
+						    targets: this_anim_sel+'.ml7',
 						    opacity: 0,
 						    duration: 1000,
 						    easing: "easeOutExpo",
@@ -346,37 +347,37 @@ var MovingLetters = window.MovingLetters || (function(){
 					*/
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml8 .circle-white',
+						    targets: this_anim_sel+'.ml8 .circle-white',
 						    scale: [0, 3],
 						    opacity: [1, 0],
 						    easing: "easeInOutExpo",
 						    rotateZ: 360,
 						    duration: 1100
 						  }).add({
-						    targets: '.ml8 .circle-container',
+						    targets: this_anim_sel+'.ml8 .circle-container',
 						    scale: [0, 1],
 						    duration: 1100,
 						    easing: "easeInOutExpo",
 						    offset: '-=1000'
 						  }).add({
-						    targets: '.ml8 .circle-dark',
+						    targets: this_anim_sel+'.ml8 .circle-dark',
 						    scale: [0, 1],
 						    duration: 1100,
 						    easing: "easeOutExpo",
 						    offset: '-=600'
 						  }).add({
-						    targets: '.ml8 .letters-left',
+						    targets: this_anim_sel+'.ml8 .letters-left',
 						    scale: [0, 1],
 						    duration: 1200,
 						    offset: '-=550'
 						  }).add({
-						    targets: '.ml8 .bang',
+						    targets: this_anim_sel+'.ml8 .bang',
 						    scale: [0, 1],
 						    rotateZ: [45, 15],
 						    duration: 1200,
 						    offset: '-=1000'
 						  }).add({
-						    targets: '.ml8',
+						    targets: this_anim_sel+'.ml8',
 						    opacity: 0,
 						    duration: 1000,
 						    easing: "easeOutExpo",
@@ -384,7 +385,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						  })
 
 						anime({
-						  targets: '.ml8 .circle-dark-dashed',
+						  targets: this_anim_sel+'.ml8 .circle-dark-dashed',
 						  rotateZ: 360,
 						  duration: 8000,
 						  easing: "linear",
@@ -401,10 +402,10 @@ var MovingLetters = window.MovingLetters || (function(){
 					  </span>
 					</h1>
 					*/
-						isolateLetters('.ml9 .letters')
+						isolateLetters(this_anim_sel+'.ml9 .letters')
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml9 .letter',
+						    targets: this_anim_sel+'.ml9 .letter',
 						    scale: [0, 1],
 						    duration: 1500,
 						    elasticity: 600,
@@ -412,7 +413,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return 45 * (i+1)
 						    }
 						  }).add({
-						    targets: '.ml9',
+						    targets: this_anim_sel+'.ml9',
 						    opacity: 0,
 						    duration: 1000,
 						    easing: "easeOutExpo",
@@ -429,17 +430,17 @@ var MovingLetters = window.MovingLetters || (function(){
 					  </span>
 					</h1>
 					*/
-						isolateLetters('.ml10 .letters')
+						isolateLetters(this_anim_sel+'.ml10 .letters')
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml10 .letter',
+						    targets: this_anim_sel+'.ml10 .letter',
 						    rotateY: [-90, 0],
 						    duration: 1300,
 						    delay: function(el, i) {
 						      return 45 * i;
 						    }
 						  }).add({
-						    targets: '.ml10',
+						    targets: this_anim_sel+'.ml10',
 						    opacity: 0,
 						    duration: 1000,
 						    easing: "easeOutExpo",
@@ -451,24 +452,24 @@ var MovingLetters = window.MovingLetters || (function(){
 					case "hello-goodbye":
 					/*
 					*/
-						isolateLetters('.ml11 .letters')
+						isolateLetters(this_anim_sel+'.ml11 .letters')
 						//console.log("width", document.querySelector(".ml11 .letters").getBoundingClientRect() )
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml11 .line',
+						    targets: this_anim_sel+'.ml11 .line',
 						    scaleY: [0,1],
 						    opacity: [0.5,1],
 						    easing: "easeOutExpo",
 						    duration: 700
 						  })
 						  .add({	// see: https://stackoverflow.com/questions/21990857/d3-js-how-to-get-the-computed-width-and-height-for-an-arbitrary-element
-						    targets: '.ml11 .line',
+						    targets: this_anim_sel+'.ml11 .line',
 						    translateX: [0,document.querySelector(".ml11 .letters").getBoundingClientRect().width],
 						    easing: "easeOutExpo",
 						    duration: 700,
 						    delay: 100
 						  }).add({
-						    targets: '.ml11 .letter',
+						    targets: this_anim_sel+'.ml11 .letter',
 						    opacity: [0,1],
 						    easing: "easeOutExpo",
 						    duration: 600,
@@ -477,7 +478,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return 34 * (i+1)
 						    }
 						  }).add({
-						    targets: '.ml11',
+						    targets: this_anim_sel+'.ml11',
 						    opacity: 0,
 						    duration: 1000,
 						    easing: "easeOutExpo",
@@ -489,10 +490,10 @@ var MovingLetters = window.MovingLetters || (function(){
 					case "a-new-production":
 					/*
 					*/
-						isolateLetters('.ml12')
+						isolateLetters(this_anim_sel+'.ml12')
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml12 .letter',
+						    targets: this_anim_sel+'.ml12 .letter',
 						    translateX: [40,0],
 						    translateZ: 0,
 						    opacity: [0,1],
@@ -502,7 +503,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return 500 + 30 * i;
 						    }
 						  }).add({
-						    targets: '.ml12 .letter',
+						    targets: this_anim_sel+'.ml12 .letter',
 						    translateX: [0,-30],
 						    opacity: [1,0],
 						    easing: "easeInExpo",
@@ -517,10 +518,10 @@ var MovingLetters = window.MovingLetters || (function(){
 					case "rising-strong":
 					/*
 					*/
-						isolateLetters('.ml13')
+						isolateLetters(this_anim_sel+'.ml13')
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml13 .letter',
+						    targets: this_anim_sel+'.ml13 .letter',
 						    translateY: [100,0],
 						    translateZ: 0,
 						    opacity: [0,1],
@@ -530,7 +531,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return 300 + 30 * i;
 						    }
 						  }).add({
-						    targets: '.ml13 .letter',
+						    targets: this_anim_sel+'.ml13 .letter',
 						    translateY: [0,-100],
 						    opacity: [1,0],
 						    easing: "easeInExpo",
@@ -545,16 +546,16 @@ var MovingLetters = window.MovingLetters || (function(){
 					case "finding-your-element":
 					/*
 					*/
-						isolateLetters('.ml14 .letters')
+						isolateLetters(this_anim_sel+'.ml14 .letters')
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml14 .line',
+						    targets: this_anim_sel+'.ml14 .line',
 						    scaleX: [0,1],
 						    opacity: [0.5,1],
 						    easing: "easeInOutExpo",
 						    duration: 900
 						  }).add({
-						    targets: '.ml14 .letter',
+						    targets: this_anim_sel+'.ml14 .letter',
 						    opacity: [0,1],
 						    translateX: [40,0],
 						    translateZ: 0,
@@ -566,7 +567,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return 150 + 25 * i;
 						    }
 						  }).add({
-						    targets: '.ml14',
+						    targets: this_anim_sel+'.ml14',
 						    opacity: 0,
 						    duration: 1000,
 						    easing: "easeOutExpo",
@@ -580,7 +581,7 @@ var MovingLetters = window.MovingLetters || (function(){
 					*/
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml15 .word',
+						    targets: this_anim_sel+'.ml15 .word',
 						    scale: [14,1],
 						    opacity: [0,1],
 						    easing: "easeOutCirc",
@@ -589,7 +590,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return 800 * i;
 						    }
 						  }).add({
-						    targets: '.ml15',
+						    targets: this_anim_sel+'.ml15',
 						    opacity: 0,
 						    duration: 1000,
 						    easing: "easeOutExpo",
@@ -600,10 +601,10 @@ var MovingLetters = window.MovingLetters || (function(){
 					case "made-with-love":
 					/*
 					*/
-						isolateLetters('.ml16')
+						isolateLetters(this_anim_sel+'.ml16')
 						animation_code = anime.timeline({loop: loop})
 						  .add({
-						    targets: '.ml16 .letter',
+						    targets: this_anim_sel+'.ml16 .letter',
 						    translateY: [-100,0],
 						    easing: "easeOutExpo",
 						    duration: 1400,
@@ -611,7 +612,7 @@ var MovingLetters = window.MovingLetters || (function(){
 						      return 30 * i;
 						    }
 						  }).add({
-						    targets: '.ml16',
+						    targets: this_anim_sel+'.ml16',
 						    opacity: 0,
 						    duration: 1000,
 						    easing: "easeOutExpo",

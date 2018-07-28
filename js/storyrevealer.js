@@ -41,6 +41,7 @@
 		"editor": "h6",
 		"quote": "q",
 		"text": "p",
+		"corner": "div.partial-corner",
 		"date": "p.smaller",
 		"copyright": "small"
 	}
@@ -718,7 +719,12 @@
 							if(xtra_classes_arr.indexOf("html") > -1) {
 								container.innerHTML = cleanHTML(str)
 							} else {
-								container.innerHTML = str
+								console.log(xtra_classes_arr)
+								if(html_arr.indexOf("partial-corner") > -1) {
+									container.innerHTML = "<span>"+str+"</span>"
+								} else {
+									container.innerHTML = str
+								}
 							}
 						})
 							

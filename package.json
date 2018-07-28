@@ -19,6 +19,7 @@
     "lato": "FontFaceKit/lato",
     "moment": "^2.20.1",
     "mustache": "^2.3.0",
+    "node-sass": "^4.9.2",
     "open-sans-fontface": "FontFaceKit/open-sans",
     "patternomaly": "^1.3.0",
     "reveal.js": "^3.6.0",

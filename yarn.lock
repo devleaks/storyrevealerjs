@@ -453,7 +453,7 @@ chalk@^2.3.0, chalk@^2.4.1:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chart.js@^2.7.1:
+chart.js@^2.7.2:
   version "2.7.2"
   resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.7.2.tgz#3c9fde4dc5b95608211bdefeda7e5d33dffa5714"
   dependencies:
@@ -826,7 +826,7 @@ escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.3, escape-string-regexp@^
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
-esprima@^4.0.0:
+esprima@^4.0.0, esprima@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-4.0.1.tgz#13b04cdb3e6c5d19df91ab6987a8695619b0aa71"
 
@@ -1208,7 +1208,7 @@ graceful-fs@~1.2.0:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-1.2.3.tgz#15a4806a57547cb2d2dbf27f42e89a8c3451b364"
 
-gulp-concat-css@^3.0.0:
+gulp-concat-css@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/gulp-concat-css/-/gulp-concat-css-3.1.0.tgz#392567a9c50d409c3dae5c0f2f5b71d54ce60c99"
   dependencies:
@@ -1657,7 +1657,7 @@ js-base64@^2.1.8:
   version "2.4.8"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.8.tgz#57a9b130888f956834aa40c5b165ba59c758f033"
 
-js-yaml@^3.10.0:
+js-yaml@^3.12.0:
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.12.0.tgz#eaed656ec8344f10f527c6bfa1b6e2244de167d1"
   dependencies:
@@ -2030,7 +2030,7 @@ mixin-deep@^1.2.0:
   dependencies:
     minimist "0.0.8"
 
-moment@^2.10.2, moment@^2.20.1:
+moment@^2.10.2, moment@^2.22.2:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
@@ -2577,13 +2577,13 @@ reveal.js-plugins@rajgoel/reveal.js-plugins#*:
   version "0.0.0"
   resolved "https://codeload.github.com/rajgoel/reveal.js-plugins/tar.gz/c0c39fd9e369ba2bb6fbef57423eb9c105e9809a"
 
-reveal.js-toolbar@^0.1.3:
+reveal.js-toolbar@^0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/reveal.js-toolbar/-/reveal.js-toolbar-0.1.5.tgz#5e71cf8b3e2cdda085b5ff45088c1c6e75428c6c"
 
-reveal.js@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/reveal.js/-/reveal.js-3.6.0.tgz#ce0e64f30cbebd6e5ce885c2f384085c5e5821e8"
+reveal.js@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/reveal.js/-/reveal.js-3.7.0.tgz#7afaf72fd963000381289d58f3aa54c0c46b150c"
 
 rework-import@^2.0.0:
   version "2.1.0"
@@ -2649,9 +2649,9 @@ safe-regex@^1.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
 
-sanitize-html@^1.16.3:
-  version "1.18.2"
-  resolved "https://registry.yarnpkg.com/sanitize-html/-/sanitize-html-1.18.2.tgz#61877ba5a910327e42880a28803c2fbafa8e4642"
+sanitize-html@^1.18.3:
+  version "1.18.3"
+  resolved "https://registry.yarnpkg.com/sanitize-html/-/sanitize-html-1.18.3.tgz#d190ecfcdf8c78bd2306c5f370c86b705191e00c"
   dependencies:
     chalk "^2.3.0"
     htmlparser2 "^3.9.0"
